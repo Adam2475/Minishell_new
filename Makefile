@@ -49,6 +49,7 @@ $(NAME): $(OBJ)
 		@echo "$(GREEN)$(NAME) compilata con successo❗️ 📁$(DEFAULT)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+		@mkdir -p $(dir $@)
 		$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

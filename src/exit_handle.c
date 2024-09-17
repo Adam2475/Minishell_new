@@ -12,6 +12,24 @@
 
 #include "../inc/minishell.h"
 
+// serve salvarsi la posizione del puntatore originale
+
+void	free_list(t_token *head)
+{
+	t_token	*tmp;
+
+	while (head != NULL)
+	{
+		tmp = head;
+		head = head->next;
+		if (tmp->value)
+			free(tmp->value);
+		tmp->value = NULL;
+		free(tmp);
+		tmp = NULL;
+	}
+}
+
 void	free_exit(t_data **data)
 {
 	free((*data)->input);

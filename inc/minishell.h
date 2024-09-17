@@ -64,11 +64,12 @@ typedef struct s_data
 
 // structural functions
 void	free_exit(t_data **data);
+void	free_list(t_token *head);
 int		init_data(t_data **data, int argc, char **argv, t_token **tokens);
 // tokenizer
 void	tokenizer(t_data **data, t_token **tokens);
 int		whitespace_case(char *buffer, char *end, t_token **tokens);
-int		special_cases_lexer(t_data **data, char *buffer, t_token **tokens);
+int		special_cases_lexer(t_data **data, char *buffer, t_token **tokens, char *end);
 // builtins
 
 #endif

@@ -12,6 +12,18 @@
 
 #include "../inc/minishell.h"
 
+static	void	print_tokens(t_token *tokens)
+{
+	t_token	*temp;
+
+	temp = tokens;
+	while (temp)
+	{
+		printf("Type: %d, Value: %s\n", temp->type, temp->value);
+		temp = temp->next;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
@@ -30,7 +42,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!data->input)
 			free_exit(&data);
 		tokenizer(&data, &tokens);
-		//ft_printf("%s\n", data->input);
+		print_tokens(tokens);
+		free_list(tokens);
 		free_exit(&data);
 	}
 }
