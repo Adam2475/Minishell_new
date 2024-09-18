@@ -117,8 +117,35 @@ void		handle_heredoc(char *delimiter, t_data **data);
 // Executer
 void		execute_command_single(char **command, t_data **data,
 				char **envp, t_token **token);
+// tokenizer
+void		tokenizer(t_data **data, t_token **tokens);
+int			whitespace_case(char *buffer, char *end, t_token **tokens);
+int			special_cases_lexer(t_data **data, char *buffer,
+				t_token **tokens, char *end);
+t_token		*token_reformatting_command(t_token *current);
+// env_list
+t_env_list	*lstlast_env(t_env_list *lst);
+void		add_back_env(t_env_list **lst, t_env_list *new);
+void		split_var_env(t_env_list **node);
+t_env_list	*new_node_env(char *content);
+int			gen_list_env(t_data **data, char **envp);
+// signals
+void		set_signal(void);
+// expander
+int			check_quotes(t_token **tokens);
+char		*expand_err_state(char *tmp);
+int			expand_doll(t_token **current, t_data **data);
+int			expand_var(t_token **tkn_lst, t_data **data);
+char		*tmp_set(char *val);
 // builtins
 char		*find_cmd(char *cmd, t_data **data);
 void		free_char_array(char **array);
+// chdir
+void		chpwd(t_data **data, char *new_path);
+int			cd_cmd(t_data **data, t_token **tkn);
+// echo
+int	echo_cmd(t_data **data, t_token **tkn);
+// free functions
+void		ft_free_null(void *null);
 
 #endif
