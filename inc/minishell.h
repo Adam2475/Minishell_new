@@ -58,8 +58,8 @@ typedef enum cmd
 
 typedef struct s_token_list
 {
-	t_token		*head;
-	struct s_token_list *next;
+	t_token					*head;
+	struct s_token_list		*next;
 }	t_token_list;
 
 typedef struct s_env_list
@@ -82,6 +82,8 @@ typedef struct s_data
 	char			*cmd;
 	int				redirect_state;
 	int				fd;
+	int				total;
+	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
 	t_cmd			cmd;
@@ -98,9 +100,9 @@ int			init_data(t_data **data, int argc, char **argv, t_token **tokens);
 void		tokenizer(t_data **data, t_token **tokens);
 int			whitespace_case(char *buffer, char *end, t_token **tokens);
 int			special_cases_lexer(t_data **data, char *buffer,
-			t_token **tokens, char *end);
+				t_token **tokens, char *end);
 t_token		*token_reformatting_command(t_token *current);
-t_token		*copy_token_list(t_token *tokens);
+t_token		*copy_token_list(t_data **data, t_token *tokens);
 t_token		*token_reformatting_pipe(t_token *current);
 t_token		*token_reformatting_special(t_token *current);
 // Parser
@@ -113,7 +115,8 @@ int			parser_case_herdoc(t_token *current, t_data **data);
 // Redireciton
 void		handle_heredoc(char *delimiter, t_data **data);
 // Executer
-void	execute_command_single(char **command, t_data **data, char **envp, t_token **token);
+void		execute_command_single(char **command, t_data **data,
+				char **envp, t_token **token);
 // builtins
 char		*find_cmd(char *cmd, t_data **data);
 void		free_char_array(char **array);

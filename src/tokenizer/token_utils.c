@@ -12,22 +12,21 @@
 
 #include "../../inc/minishell.h"
 
-t_token *copy_token(t_token *token)
+t_token	*copy_token(t_token *token)
 {
+	t_token	*new_token;
+
 	if (!token)
 		return (NULL);
-
-	t_token *new_token = (t_token *)ft_calloc(sizeof(t_token), 1);
+	new_token = (t_token *)ft_calloc(sizeof(t_token), 1);
 	if (!new_token)
 		return (NULL);
-
 	new_token->type = token->type;
 	if (token->value)
 		new_token->value = ft_strndup(token->value, ft_strlen(token->value));
 	else
 		new_token->value = NULL;
 	new_token->next = NULL;
-
 	return (new_token);
 }
 
@@ -42,46 +41,28 @@ t_token	*token_reformatting_special(t_token *current)
 	return (current);
 }
 
-t_token	*token_reformatting_pipe(t_token *current)
+t_token	*copy_token_list(t_data **data, t_token *tokens)
 {
-	current = current->next;
-	while (current->type == TOKEN_WHITESPACE)
-		current = current->next;
-	if (current && current->type == TOKEN_WORD)
-		current->type = TOKEN_COMMAND;
-	while (current->type == TOKEN_WHITESPACE)
-		current = current->next;
-	current = current->next;
-	if (current && current->type == TOKEN_WORD)
-	{
-		current->type = TOKEN_APPENDICE;
-		if (current && current->next)
-			current = current->next;
-	}
-	return (current);
-}
+	t_token		*new_list;
+	t_token		*last_copied;
+	t_token		*current;
+	int			i;
 
-t_token *copy_token_list(t_token *tokens)
-{
 	if (!tokens)
-		return NULL;
-
-	int i = 0;
-	t_token *new_list = NULL;
-	t_token *last_copied = NULL;
-	t_token *current = tokens;
-	int total = ft_lstsize_token(tokens);
-
-	while (current && i < (total))
+		return (NULL);
+	i = 0;
+	new_list = NULL;
+	last_copied = NULL;
+	current = tokens;
+	(*data)->total = ft_lstsize_token(tokens);
+	while (current && (i < (*data)->total))
 	{
-		t_token *new_token = copy_token(current);
-
+		(*data)->new_token = copy_token(current);
 		if (!new_list)
-			new_list = new_token;
+			new_list = (*data)->new_token;
 		else
-			last_copied->next = new_token;
-
-		last_copied = new_token;
+			last_copied->next = (*data)->new_token;
+		last_copied = (*data)->new_token;
 		current = current->next;
 		i++;
 	}

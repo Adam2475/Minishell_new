@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils.c                                           :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,13 +19,13 @@ int	init_execution(t_data **data, int *i, char **command)
 	(*data)->cmd = find_cmd(command[0], data);
 }
 
-void free_char_array(char **array)
+void	free_char_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (array == NULL)
-		return;
+		return ;
 	while (array[i] != NULL)
 	{
 		free(array[i]);

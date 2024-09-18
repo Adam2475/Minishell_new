@@ -14,8 +14,9 @@
 
 int	piper(t_token **tokens)
 {
-	t_token *current = *tokens;
+	t_token	*current;
 
+	current = *tokens;
 	while (current->type != TOKEN_EOF)
 	{
 		if (current->type == TOKEN_PIPE)

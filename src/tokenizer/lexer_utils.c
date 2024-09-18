@@ -12,6 +12,25 @@
 
 #include "../../inc/minishell.h"
 
+t_token	*token_reformatting_pipe(t_token *current)
+{
+	current = current->next;
+	while (current->type == TOKEN_WHITESPACE)
+		current = current->next;
+	if (current && current->type == TOKEN_WORD)
+		current->type = TOKEN_COMMAND;
+	while (current->type == TOKEN_WHITESPACE)
+		current = current->next;
+	current = current->next;
+	if (current && current->type == TOKEN_WORD)
+	{
+		current->type = TOKEN_APPENDICE;
+		if (current && current->next)
+			current = current->next;
+	}
+	return (current);
+}
+
 t_token	*token_reformatting_command(t_token *current)
 {
 	current->type = TOKEN_COMMAND;

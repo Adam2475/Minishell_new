@@ -39,8 +39,8 @@ static	void	token_reformatting(t_token **tokens)
 static	int	find_special(char c)
 {
 	if (c && c != WHITESPACE && c != REDIRECT_LEFT
-			&& c != PIPE && c != REDIRECT_RIGHT && c != '$'
-			&& c != DOUBLE_QUOTES && c != SINGLE_QUOTES)
+		&& c != PIPE && c != REDIRECT_RIGHT && c != '$'
+		&& c != DOUBLE_QUOTES && c != SINGLE_QUOTES)
 		return (0);
 	else
 		return (1);
@@ -99,7 +99,7 @@ void	tokenizer(t_data **data, t_token **tokens)
 	if (init_state(data, tokens, tmp) > 0)
 	{
 		free(tmp);
-		free_exit(data, NULL, NULL);
+		free_exit(data, *tokens);
 	}
 	buffer = tmp;
 	end = buffer;

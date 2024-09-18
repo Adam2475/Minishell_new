@@ -16,7 +16,7 @@ void	exit_from_parser(t_data **data, t_token *tokens)
 {
 	free((*data)->command[3]);
 	free_char_array((*data)->command);
-	free_exit(data, tokens, NULL);
+	free_exit(data, tokens);
 }
 
 int	parser_case_redo(t_token *current, t_data **data)
@@ -26,7 +26,7 @@ int	parser_case_redo(t_token *current, t_data **data)
 	if (current->type == TOKEN_APPENDICE)
 		(*data)->fd = open(current->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	else
-		return(1);
+		return (1);
 	return (0);
 }
 
@@ -37,7 +37,7 @@ int	parser_case_redi(t_token *current, t_data **data)
 	if (current->type == TOKEN_APPENDICE)
 		(*data)->fd = open(current->value, O_RDONLY);
 	else
-		return(1);
+		return (1);
 	return (0);
 }
 
@@ -48,7 +48,7 @@ int	parser_case_append(t_token *current, t_data **data)
 	if (current->type == TOKEN_APPENDICE)
 		(*data)->fd = open(current->value, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else
-		return(1);
+		return (1);
 	return (0);
 }
 
@@ -58,6 +58,6 @@ int	parser_case_herdoc(t_token *current, t_data **data)
 	if (current->type == TOKEN_APPENDICE)
 		handle_heredoc(current->value, data);
 	else
-		return(1);
+		return (1);
 	return (0);
 }

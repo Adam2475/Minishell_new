@@ -12,26 +12,23 @@
 
 #include "../../inc/minishell.h"
 
-void handle_heredoc(char *delimiter, t_data **data)
+void	handle_heredoc(char *delimiter, t_data **data)
 {
-	char *line;
-	int heredoc_fd;
-	char *tempfile = "/tmp/minishell_heredoc.tmp";
+	char		*line;
+	int			heredoc_fd;
+	char		*tempfile;
 
+	tempfile = "/tmp/minishell_heredoc.tmp";
 	heredoc_fd = open(tempfile, O_CREAT | O_RDWR | O_TRUNC, 0600);
 	if (heredoc_fd < 0)
-	{
-		perror("Failed to open heredoc temporary file");
-		return;
-	}
-
+		return (perror("Failed to open heredoc temporary file"));
 	while (1)
 	{
 		line = readline("> ");
 		if (!line || ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(heredoc_fd, line, strlen(line));
 		write(heredoc_fd, "\n", 1);
@@ -42,7 +39,7 @@ void handle_heredoc(char *delimiter, t_data **data)
 	if (heredoc_fd < 0)
 	{
 		perror("Failed to reopen heredoc temporary file");
-		return;
+		return ;
 	}
 	(*data)->fd = heredoc_fd;
 	if (dup2((*data)->fd, STDIN_FILENO) < 0)
