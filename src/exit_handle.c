@@ -42,7 +42,7 @@ void	free_exit(t_data **data, t_token *tokens)
 		free_char_array((*data)->command);
 	}
 	if ((*data)->cmd)
-		free((*data)->cmd);
+		free((*data)->cmd2);
 	if ((*data)->cmd)
 		free_char_array((*data)->cmd_args);
 	free((*data)->input);

@@ -79,7 +79,7 @@ typedef struct s_data
 	char			**my_paths;
 	char			**command;
 	char			**cmd_args;
-	char			*cmd;
+	char			*cmd2;
 	int				redirect_state;
 	int				fd;
 	int				total;
@@ -140,12 +140,21 @@ char		*tmp_set(char *val);
 // builtins
 char		*find_cmd(char *cmd, t_data **data);
 void		free_char_array(char **array);
+// unset
+int			unset_env(t_env_list **env, char *var_name);
+int			is_numeric(char *str);
+// export
+int			export_cmd(t_data **data, t_token **tkn);
 // chdir
 void		chpwd(t_data **data, char *new_path);
 int			cd_cmd(t_data **data, t_token **tkn);
 // echo
-int	echo_cmd(t_data **data, t_token **tkn);
+int			echo_cmd(t_token **tkn);
 // free functions
 void		ft_free_null(void *null);
+int			env_cmd(t_data **data);
+void		cmd_exit(char **args, t_data *data);
+int			pwd_cmd(t_data **data);
+int			init_execution(t_data **data, int *i, char **command);
 
 #endif

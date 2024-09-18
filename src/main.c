@@ -34,8 +34,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!data->input)
 			free_exit(&data, tokens);
 		tokenizer(&data, &tokens);
-		data->tmp = copy_token_list(data, tokens);
-		data->tokens = copy_token_list(data, tokens);
+		data->tmp = copy_token_list(&data, tokens);
+		data->tokens = copy_token_list(&data, tokens);
 		if (piper(&tokens) == 0)
 			token_parser(&tokens, &data, envp);
 		else

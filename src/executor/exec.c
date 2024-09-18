@@ -28,7 +28,7 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 		}
 	}
 	if ((*data)->cmd && cmd_args)
-		execve((*data)->cmd, cmd_args, envp);
+		execve((*data)->cmd2, cmd_args, envp);
 	else
 		exit(0);
 	return (EXIT_SUCCESS);
@@ -64,16 +64,14 @@ static	int	parent_process(void)
 
 static	int	manual_cmd(char **cmd_args, t_data **data)
 {
-	int		i;
 	t_data	*tmp;
 
 	tmp = (*data);
-	i = 0;
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	if (tmp->cmd == CH_DIR)
 		return (cd_cmd(data, &tmp->tokens));
 	if (tmp->cmd == ECHO)
-		return (echo_cmd(data, &tmp->tokens));
+		return (echo_cmd(&tmp->tokens));
 	if (tmp->cmd == EXPORT)
 		return (export_cmd(data, &tmp->tokens));
 	if (tmp->cmd == UNSET)
@@ -109,7 +107,7 @@ void	execute_command_single(char **command, t_data **data,
 	free(tmp);
 	parent = fork();
 	if (parent < 0)
-		free_exit((*data)->cmd_args, *tokens);
+		free_exit(data, *tokens);
 	if (!parent)
 		child_process(command, data, envp);
 	else

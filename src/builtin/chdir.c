@@ -12,14 +12,15 @@
 
 #include "../../inc/minishell.h"
 
-static int	ft_err_chdir(int errno, char *val)
+static int	ft_err_chdir(int err, char *val)
 {
-	if (errno == ENOENT)
-		return (g_err_state = errno,
+	if (err == ENOENT)
+		return (g_err_state = err,
 		ft_printf("bash: cd: %s: No such file or directory\n", val));
-	else if (errno == ENOTDIR)
-		return (g_err_state = errno,
+	else if (err == ENOTDIR)
+		return (g_err_state = err,
 		ft_printf("bash: cd: %s: Not a directory\n", val));
+	return (0);
 }
 
 void	ft_free_null(void *null)
@@ -74,7 +75,7 @@ int	cd_cmd(t_data **data, t_token **tkn)
 		current->value = ft_strndup(node->value, ft_strlen(node->value));
 	}
 	if (chdir(current->value) != 0)
-		return (ft_err_chdir(errno, current->value));
+		return (ft_err_chdir((int)errno, current->value));
 	chpwd(data, current->value);
 	return (g_err_state = 0, 1);
 }

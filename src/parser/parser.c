@@ -78,7 +78,7 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 		current = head;
 		if (current->type == 12)
 		{
-			if (call_for_command(data, &current, envp, tokens) > 0)
+			if (call_for_command(tokens, data, &current, envp) > 0)
 				exit_from_parser(data, *tokens);
 		}
 		current = current->next;

@@ -13,7 +13,7 @@
 #include "../../inc/minishell.h"
 
 
-static	int	is_numeric(char *str)
+int	is_numeric(char *str)
 {
 	int i = 0;
 

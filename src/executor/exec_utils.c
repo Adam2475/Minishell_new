@@ -15,8 +15,9 @@
 int	init_execution(t_data **data, int *i, char **command)
 {
 	*i = 1;
-	(*data)->cmd = NULL;
-	(*data)->cmd = find_cmd(command[0], data);
+	(*data)->cmd2 = NULL;
+	(*data)->cmd2 = find_cmd(command[0], data);
+	return (0);
 }
 
 void	free_char_array(char **array)

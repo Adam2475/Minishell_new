@@ -16,7 +16,7 @@ char	*expand_err_state(char *tmp)
 {
 	tmp = ft_strtrim(tmp, "=");
 	tmp = ft_strtrim(tmp, "?");
-	tmp = ft_strjoin(ft_itoa(err_state), tmp);
+	tmp = ft_strjoin(ft_itoa(g_err_state), tmp);
 	return (tmp);
 }
 

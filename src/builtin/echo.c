@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int	echo_cmd(t_data **data, t_token **tkn)
+int	echo_cmd(t_token **tkn)
 {
 	t_token	*node;
 
@@ -36,4 +36,6 @@ int	echo_cmd(t_data **data, t_token **tkn)
 		if ((int)node->type == 7)
 			return (g_err_state = 0, ft_printf("\n"));
 	}
+	g_err_state = 0;
+	return (1);
 }
