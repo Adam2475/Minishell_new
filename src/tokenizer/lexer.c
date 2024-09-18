@@ -12,36 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-static	t_token	*token_reformatting_special(t_token *current)
-{
-	current = current->next;
-	while (current->type == TOKEN_WHITESPACE)
-		current = current->next;
-	if (current && current->type == 0)
-		current->type = TOKEN_APPENDICE;
-	current = current->next;
-	return (current);
-}
-
-static	t_token	*token_reformatting_pipe(t_token *current)
-{
-	current = current->next;
-	while (current->type == TOKEN_WHITESPACE)
-		current = current->next;
-	if (current && current->type == TOKEN_WORD)
-		current->type = TOKEN_COMMAND;
-	while (current->type == TOKEN_WHITESPACE)
-		current = current->next;
-	current = current->next;
-	if (current && current->type == TOKEN_WORD)
-	{
-		current->type = TOKEN_APPENDICE;
-		if (current && current->next)
-			current = current->next;
-	}
-	return (current);
-}
-
 static	void	token_reformatting(t_token **tokens)
 {
 	t_token		*head;
@@ -68,6 +38,16 @@ static	void	token_reformatting(t_token **tokens)
 	current = head;
 }
 
+static	int	find_special(char c)
+{
+	if (c && c != WHITESPACE && c != REDIRECT_LEFT
+			&& c != PIPE && c != REDIRECT_RIGHT && c != '$'
+			&& c != DOUBLE_QUOTES && c != SINGLE_QUOTES)
+		return (0);
+	else
+		return (1);
+}
+
 static	void	recognizer(char *buffer, t_token **tokens,
 		char *end, t_data **data)
 {
@@ -87,9 +67,7 @@ static	void	recognizer(char *buffer, t_token **tokens,
 			continue ;
 		}
 		end = buffer;
-		while (*end && *end != WHITESPACE && *end != REDIRECT_LEFT
-			&& *end != PIPE && *end != REDIRECT_RIGHT && *end != '$'
-			&& *end != DOUBLE_QUOTES && *end != SINGLE_QUOTES)
+		while (*end && find_special(*end) < 1)
 			end++;
 		if (*buffer == '-')
 			ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_OPTION,
@@ -100,7 +78,7 @@ static	void	recognizer(char *buffer, t_token **tokens,
 		buffer = end;
 	}
 	ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_EOF,
-					ft_strndup(buffer, *buffer)));
+			ft_strndup(buffer, *buffer)));
 }
 
 static	int	init_state(t_data **data, t_token **tokens, char *tmp)
@@ -123,7 +101,7 @@ void	tokenizer(t_data **data, t_token **tokens)
 	if (init_state(data, tokens, tmp) > 0)
 	{
 		free(tmp);
-		free_exit(data);
+		free_exit(data, NULL, NULL);
 	}
 	buffer = tmp;
 	end = buffer;

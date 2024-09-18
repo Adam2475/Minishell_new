@@ -44,6 +44,24 @@
 
 extern int	g_err_state;
 
+typedef enum cmd
+{
+	NONE,
+	CH_DIR,
+	ECHO,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+	PWD
+}	t_cmd;
+
+typedef struct s_token_list
+{
+	t_token		*head;
+	struct s_token_list *next;
+}	t_token_list;
+
 typedef struct s_env_list
 {
 	char				*var;
@@ -59,9 +77,40 @@ typedef struct s_data
 	char			*my_line;
 	char			*path_from_envp;
 	char			**my_paths;
+	char			**command;
+	int				redirect_state;
+	int				fd;
+	t_token			*tokens;
+	t_cmd			cmd;
+	t_token_list	*token_list;
 	t_env_list		*env_list;
 }	t_data;
 
+// Structural functions
+void		free_exit(t_data **data, t_token *tokens, t_token *tmp);
+void		exit_from_parser(t_data **data, t_token *tokens);
+void		free_list(t_token *head);
+int			init_data(t_data **data, int argc, char **argv, t_token **tokens);
+// Tokenizer
+void		tokenizer(t_data **data, t_token **tokens);
+int			whitespace_case(char *buffer, char *end, t_token **tokens);
+int			special_cases_lexer(t_data **data, char *buffer,
+			t_token **tokens, char *end);
+t_token		*token_reformatting_command(t_token *current);
+t_token		*copy_token_list(t_token *tokens);
+t_token		*token_reformatting_pipe(t_token *current);
+t_token		*token_reformatting_special(t_token *current);
+// Parser
+int			piper(t_token **tokens);
+int			token_parser(t_token **tokens, t_data **data, char **envp);
+int			parser_case_redo(t_token *current, t_data **data);
+int			parser_case_redi(t_token *current, t_data **data);
+int			parser_case_append(t_token *current, t_data **data);
+int			parser_case_herdoc(t_token *current, t_data **data);
+// Redireciton
+void		handle_heredoc(char *delimiter, t_data **data);
+// Executer
+void		execute_command_single(char **command, t_data **data, char **envp);
 // structural functions
 void		free_exit(t_data **data);
 void		free_list(t_token *head);
@@ -85,6 +134,8 @@ int			expand_doll(t_token **current, t_data **data);
 int			expand_var(t_token **tkn_lst, t_data **data);
 char		*tmp_set(char *val);
 // builtins
+char		*find_cmd(char *cmd, t_data **data);
+void		free_char_array(char **array);
 // chdir
 void		chpwd(t_data **data, char *new_path);
 int			cd_cmd(t_data **data, t_token **tkn);
