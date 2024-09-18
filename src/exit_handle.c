@@ -30,8 +30,17 @@ void	free_list(t_token *head)
 	}
 }
 
-void	free_exit(t_data **data)
+void	free_exit(t_data **data, t_token *tokens, t_token *tmp)
 {
+	if (tokens)
+		free_list(tokens);
+	if (tmp)
+		free_list(tmp);
+	if ((*data)->command)
+	{
+		free((*data)->command[3]);
+		free_char_array((*data)->command);
+	}
 	free((*data)->input);
 	free(*data);
 	exit(1);
