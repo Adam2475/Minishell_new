@@ -11,3 +11,14 @@
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	pwd_cmd(t_data **data)
+{
+	t_env_list	*node;
+
+	node = (*data)->env_list;
+	while (ft_strncmp(node->var, "PWD=", 4))
+		node = node->next;
+	ft_printf("%s\n", node->value);
+	return (g_err_state = 0, 1);
+}

@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/01 13:09:06 by adapassa         ###   ########.fr       */
+/*   Created: 2024/08/18 21:08:15 by marco             #+#    #+#             */
+/*   Updated: 2024/09/15 17:55:29 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-int	init_data(t_data **data, int argc, char **argv, t_token **tokens)
+int	env_cmd(t_data **data)
 {
-	*data = malloc(sizeof(t_data) * 1);
-	if (!argc)
-		return (1);
-	*argv = NULL;
-	(*tokens) = NULL;
-	g_err_state = 0;
-	if (data)
+	t_env_list	*node;
+
+	node = (*data)->env_list;
+	while (node != NULL)
 	{
-		(*data)->my_line = NULL;
-		(*data)->my_paths = NULL;
-		(*data)->path_from_envp = NULL;
-		(*data)->env_list = NULL;
-		(*data)->input = NULL;
+		ft_printf("%s\n", node->content);
+		node = node->next;
 	}
-	else
-		return (1);
-	return (0);
+	return (g_err_state = 0, 1);
 }

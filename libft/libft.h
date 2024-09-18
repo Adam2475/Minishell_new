@@ -55,7 +55,7 @@ typedef enum type
 	TOKEN_WHITESPACE,
 	TOKEN_COMMAND,
 	TOKEN_APPENDICE,
-	TOKEN_NEUTRO
+	TOKEN_WORD_QT
 }	t_token_type;
 
 ////////////////////////////////////////////////

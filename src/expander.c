@@ -80,14 +80,14 @@ static t_token	*ft_set_zero(t_token *current, int flag)
 	while ((int)current->type != 7 && flag == 0
 			&& (int)current->type != 10)
 	{
-		current->type = TOKEN_WORD;
+		current->type = TOKEN_WORD_QT;
 		current = current->next;
 	}
 	while ((int)current->type != 7 && (int)current->type != 9
 			&& flag == 1)
 	{
 		if ((int)current->type != 8)
-			current->type = TOKEN_WORD;
+			current->type = TOKEN_WORD_QT;
 		else if ((int)current->type == 8
 			&& (int)current->next->type == 13)
 			current = current->next;

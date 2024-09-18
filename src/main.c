@@ -27,8 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 	if (!envp)
 		return (1);
-	err_state = 0;
 	gen_list_env(&data, envp);
+	set_signal();
 	while (1)
 	{
 		data->input = readline("myprompt$ ");
@@ -41,6 +41,6 @@ int	main(int argc, char **argv, char **envp)
 			token_parser(&tokens, &data, envp);
 		else
 			printf("found a pipe\n");
-		free_exit(&data, tokens, tmp);
+		free_exit(&data, tokens);
 	}
 }

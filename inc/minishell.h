@@ -111,10 +111,6 @@ int			parser_case_herdoc(t_token *current, t_data **data);
 void		handle_heredoc(char *delimiter, t_data **data);
 // Executer
 void		execute_command_single(char **command, t_data **data, char **envp);
-// structural functions
-void		free_exit(t_data **data);
-void		free_list(t_token *head);
-int			init_data(t_data **data, int argc, char **argv, t_token **tokens);
 // tokenizer
 void		tokenizer(t_data **data, t_token **tokens);
 int			whitespace_case(char *buffer, char *end, t_token **tokens);
@@ -126,7 +122,9 @@ t_env_list	*lstlast_env(t_env_list *lst);
 void		add_back_env(t_env_list **lst, t_env_list *new);
 void		split_var_env(t_env_list **node);
 t_env_list	*new_node_env(char *content);
-void		gen_list_env(t_data **data, char **envp);
+int			gen_list_env(t_data **data, char **envp);
+// signals
+void		set_signal(void);
 // expander
 int			check_quotes(t_token **tokens);
 char		*expand_err_state(char *tmp);
@@ -139,6 +137,8 @@ void		free_char_array(char **array);
 // chdir
 void		chpwd(t_data **data, char *new_path);
 int			cd_cmd(t_data **data, t_token **tkn);
+// echo
+int	echo_cmd(t_data **data, t_token **tkn);
 // free functions
 void		ft_free_null(void *null);
 

@@ -84,7 +84,7 @@ t_env_list	*new_node_env(char *content)
 	return (new);
 }
 
-void	gen_list_env(t_data **data, char **envp)
+int	gen_list_env(t_data **data, char **envp)
 {
 	int			i;
 	t_env_list	*node;
@@ -101,4 +101,5 @@ void	gen_list_env(t_data **data, char **envp)
 		i++;
 	}
 	(*data)->env_list = head;
+	return (0);
 }

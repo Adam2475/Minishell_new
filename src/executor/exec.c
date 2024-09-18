@@ -71,11 +71,11 @@ static	int	manual_cmd(char **cmd_args, t_data **data)
 	i = 0;
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	if (tmp->cmd == CH_DIR)
-		return (cd_cmd(cmd_args, data));
+		return (cd_cmd(data, &tmp->tokens));
 	if (tmp->cmd == ECHO)
 		return (echo_cmd(data, &tmp->tokens));
 	if (tmp->cmd == EXPORT)
-		return (export_cmd(cmd_args, data));
+		return (export_cmd(data, &tmp->tokens));
 	if (tmp->cmd == UNSET)
 		return (unset_env(&tmp->env_list, cmd_args[1]));
 	if (tmp->cmd == ENV)
