@@ -1,41 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/03 20:28:03 by adapassa          #+#    #+#             */
-/*   Updated: 2024/08/30 06:41:44 by adapassa         ###   ########.fr       */
+/*   Created: 2024/08/18 21:08:15 by marco             #+#    #+#             */
+/*   Updated: 2024/09/15 17:55:29 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/minishell.h"
 
-int	ft_lstsize(t_list *lst)
+int	env_cmd(t_data **data)
 {
-	int	i;
+	t_env_list	*node;
 
-	i = 0;
-	while (lst)
+	node = (*data)->env_list;
+	while (node != NULL)
 	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
-int	ft_lstsize_token(t_token *lst)
-{
-	int		i;
-	t_token	*node;
-	
-	node = lst;
-	i = 0;
-	while (node)
-	{
+		ft_printf("%s\n", node->content);
 		node = node->next;
-		i++;
 	}
-	return (i);
+	return (g_err_state = 0, 1);
 }

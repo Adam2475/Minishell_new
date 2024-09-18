@@ -1,41 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   lexers_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/03 20:28:03 by adapassa          #+#    #+#             */
-/*   Updated: 2024/08/30 06:41:44 by adapassa         ###   ########.fr       */
+/*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
+/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/minishell.h"
 
-int	ft_lstsize(t_list *lst)
+int	pwd_cmd(t_data **data)
 {
-	int	i;
+	t_env_list	*node;
 
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
-int	ft_lstsize_token(t_token *lst)
-{
-	int		i;
-	t_token	*node;
-	
-	node = lst;
-	i = 0;
-	while (node)
-	{
+	node = (*data)->env_list;
+	while (ft_strncmp(node->var, "PWD=", 4))
 		node = node->next;
-		i++;
-	}
-	return (i);
+	ft_printf("%s\n", node->value);
+	return (g_err_state = 0, 1);
 }

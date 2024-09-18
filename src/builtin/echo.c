@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lexers_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,36 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-int	g_err_state;
-
-int	main(int argc, char **argv, char **envp)
+int	echo_cmd(t_data **data, t_token **tkn)
 {
-	t_data		*data;
-	t_token		*tokens;
-	int			flags;
+	t_token	*node;
 
-	if (init_data(&data, argc, argv, &tokens) > 0)
-		return (1);
-	flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-	fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
-	if (!envp)
-		return (1);
-	gen_list_env(&data, envp);
-	set_signal();
-	while (1)
+	node = (*tkn);
+	while (node)
 	{
-		data->input = readline("myprompt$ ");
-		if (!data->input)
-			free_exit(&data, tokens);
-		tokenizer(&data, &tokens);
-		data->tmp = copy_token_list(data, tokens);
-		data->tokens = copy_token_list(data, tokens);
-		if (piper(&tokens) == 0)
-			token_parser(&tokens, &data, envp);
-		else
-			printf("found a pipe\n");
-		free_exit(&data, tokens);
+		if ((int)node->type == 0 && (int)node->next->type == 11)
+		{
+			ft_printf("%s ", node->value);
+			if (node->next->next)
+			{
+				node = node->next->next;
+				continue ;
+			}
+		}
+		else if ((int)node->type == 0 || (int)node->type == 14)
+		{
+			ft_printf("%s", node->value);
+			node = node->next;
+		}
+		if ((int)node->type == 7)
+			return (g_err_state = 0, ft_printf("\n"));
 	}
 }

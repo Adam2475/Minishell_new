@@ -19,6 +19,7 @@ int	init_data(t_data **data, int argc, char **argv, t_token **tokens)
 		return (1);
 	*argv = NULL;
 	(*tokens) = NULL;
+	g_err_state = 0;
 	if (data)
 	{
 		(*data)->my_line = NULL;
