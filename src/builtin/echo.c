@@ -1,41 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   lexers_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/03 20:28:03 by adapassa          #+#    #+#             */
-/*   Updated: 2024/08/30 06:41:44 by adapassa         ###   ########.fr       */
+/*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
+/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_lstsize(t_list *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
-int	ft_lstsize_token(t_token *lst)
-{
-	int		i;
-	t_token	*node;
-	
-	node = lst;
-	i = 0;
-	while (node)
-	{
-		node = node->next;
-		i++;
-	}
-	return (i);
-}
+#include "../../inc/minishell.h"

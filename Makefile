@@ -6,7 +6,10 @@ CFLAGS = -g -Wall -Wextra -Werror -lreadline
 SRC_DIR = src
 LIB = ./libft/libft.a
 SRCS = main init tokenizer/lexer exit_handle \
-		tokenizer/lexer_utils \
+		tokenizer/lexer_utils expander env_list\
+# builtin/chdir\
+		builtin/exit builtin/echo builtin/export builtin/unset\
+		builtin/pwd\
 
 SRC = $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRCS)))
 # Object file generation

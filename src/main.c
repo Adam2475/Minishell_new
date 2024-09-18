@@ -12,6 +12,8 @@
 
 #include "../inc/minishell.h"
 
+int	g_err_state;
+
 static	void	print_tokens(t_token *tokens)
 {
 	t_token	*temp;
@@ -36,6 +38,8 @@ int	main(int argc, char **argv, char **envp)
 	fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 	if (!envp)
 		return (1);
+	err_state = 0;
+	gen_list_env(&data, envp);
 	while (1)
 	{
 		data->input = readline("myprompt$ ");

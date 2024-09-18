@@ -62,6 +62,8 @@ static	void	token_reformatting(t_token **tokens)
 			current = token_reformatting_special(current);
 		if (current && current->type == TOKEN_WORD)
 			current = token_reformatting_command(current);
+		else if (current)
+			current = current->next;
 	}
 	current = head;
 }
@@ -127,5 +129,9 @@ void	tokenizer(t_data **data, t_token **tokens)
 	end = buffer;
 	recognizer(buffer, tokens, end, data);
 	token_reformatting(tokens);
+	// da aggiungere la liberazione della memoria e rimessa al prompt
+	if (check_quotes(tokens) != 0)
+		exit(printf("unclosed quotes found!!\n"));
+	expand_var(tokens, data);
 	free (tmp);
 }
