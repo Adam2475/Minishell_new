@@ -12,6 +12,13 @@
 
 #include "../../inc/minishell.h"
 
+int	init_execution(t_data **data, int *i, char **command)
+{
+	*i = 1;
+	(*data)->cmd = NULL;
+	(*data)->cmd = find_cmd(command[0], data);
+}
+
 void free_char_array(char **array)
 {
 	int i;

@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static	int	call_for_command(t_data **data, t_token **origin, char **envp)
+static	int	call_for_command(t_token **tokens, t_data **data, t_token **origin, char **envp)
 {
 	t_token		*current;
 	int			i;
@@ -28,7 +28,7 @@ static	int	call_for_command(t_data **data, t_token **origin, char **envp)
 		current = current->next;
 		i++;
 	}
-	execute_command_single((*data)->command, data, envp);
+	execute_command_single((*data)->command, data, envp, tokens);
 	if ((*data)->fd >= 0)
 		close((*data)->fd);
 	return (0);
@@ -77,7 +77,7 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 		current = head;
 		if (current->type == 12)
 		{
-			if (call_for_command(data, &current, envp) > 0)
+			if (call_for_command(data, &current, envp, tokens) > 0)
 				exit_from_parser(data, *tokens);
 		}
 		current = current->next;

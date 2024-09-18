@@ -16,7 +16,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 	t_token		*tokens;
-	t_token		*tmp;
 	int			flags;
 
 	if (init_data(&data, argc, argv, &tokens) > 0)
@@ -29,14 +28,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		data->input = readline("myprompt$ ");
 		if (!data->input)
-			free_exit(&data, tokens, tmp);
+			free_exit(&data, tokens);
 		tokenizer(&data, &tokens);
-		tmp = copy_token_list(tokens);
+		data->tmp = copy_token_list(tokens);
 		data->tokens = copy_token_list(tokens);
 		if (piper(&tokens) == 0)
 			token_parser(&tokens, &data, envp);
 		else
 			printf("found a pipe\n");
-		free_exit(&data, tokens, tmp);
+		free_exit(&data, tokens);
 	}
 }

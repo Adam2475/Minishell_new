@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static int child_process(char *cmd, char **cmd_args, t_data **data, char **envp)
+static int child_process(char **cmd_args, t_data **data, char **envp)
 {
 	if (!((*data)->fd < 0))
 	{
@@ -27,8 +27,8 @@ static int child_process(char *cmd, char **cmd_args, t_data **data, char **envp)
 				return (-1);
 		}
 	}
-	if (cmd && cmd_args)
-		execve(cmd, cmd_args, envp);
+	if ((*data)->cmd && cmd_args)
+		execve((*data)->cmd, cmd_args, envp);
 	else
 		exit(0);
 	return (EXIT_SUCCESS);
@@ -87,47 +87,31 @@ static	int	manual_cmd(char **cmd_args, t_data **data)
 	return (0);
 }
 
-void	execute_command_single(char **command, t_data **data, char **envp)
+void	execute_command_single(char **command, t_data **data, char **envp, t_token **tokens)
 {
-	char	*cmd;
 	pid_t	parent;
 	char	*tmp;
-	char	**cmd_args;
 	char	*holder;
+	int		i;
 
-	cmd = NULL;
+	init_execution(data, &i, command);
 	tmp = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data))
-	{
-		free(tmp);
-		return;
-	}
-	cmd = find_cmd(command[0], data);
-
-	int i = 1;
+		return(free(tmp));
 	holder = NULL;
 	while (command[i])
 	{
 		holder = ft_strjoin_gnl(tmp, command[i++]);
 		tmp = holder;
 	}
-	cmd_args = ft_split(tmp, 32);
+	(*data)->cmd_args = ft_split(tmp, 32);
 	free(tmp);
 	parent = fork();
 	if (parent < 0)
-	{
-		free(cmd_args);
-		exit(ft_printf("error with the fork"));
-	}
+		free_exit((*data)->cmd_args, *tokens);
 	if (!parent)
-	{
-		child_process(cmd, command, data, envp);
-		free(cmd_args);
-		return;
-	}
+		child_process(command, data, envp);
 	else
 		g_err_state = parent_process();
-	free(cmd);
-	free_char_array(cmd_args);
 	return;
 }

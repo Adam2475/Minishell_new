@@ -78,8 +78,11 @@ typedef struct s_data
 	char			*path_from_envp;
 	char			**my_paths;
 	char			**command;
+	char			**cmd_args;
+	char			*cmd;
 	int				redirect_state;
 	int				fd;
+	t_token			*tmp;
 	t_token			*tokens;
 	t_cmd			cmd;
 	t_token_list	*token_list;
@@ -87,7 +90,7 @@ typedef struct s_data
 }	t_data;
 
 // Structural functions
-void		free_exit(t_data **data, t_token *tokens, t_token *tmp);
+void		free_exit(t_data **data, t_token *tokens);
 void		exit_from_parser(t_data **data, t_token *tokens);
 void		free_list(t_token *head);
 int			init_data(t_data **data, int argc, char **argv, t_token **tokens);
@@ -110,7 +113,7 @@ int			parser_case_herdoc(t_token *current, t_data **data);
 // Redireciton
 void		handle_heredoc(char *delimiter, t_data **data);
 // Executer
-void		execute_command_single(char **command, t_data **data, char **envp);
+void	execute_command_single(char **command, t_data **data, char **envp, t_token **token);
 // builtins
 char		*find_cmd(char *cmd, t_data **data);
 void		free_char_array(char **array);
