@@ -12,10 +12,49 @@
 
 #include "../../inc/minishell.h"
 
-static	int	special_cases_lexer2(t_data **data,
-	char *buffer, t_token **tokens, char *end)
+t_token	*token_reformatting_command(t_token *current)
 {
+	current->type = TOKEN_COMMAND;
+	if (current->next != NULL)
+		current = current->next;
+	while (current->type == TOKEN_WHITESPACE)
+		current = current->next;
+	while (current && ((current->type == 0 && current->type != 7)
+			|| current->type == TOKEN_OPTION))
+	{
+		current->type = TOKEN_APPENDICE;
+		while (current->type == TOKEN_WHITESPACE)
+			current = current->next;
+		current = current->next;
+	}
+	return (current);
+}
 
+static	int	special_cases_lexer2(char *buffer, t_token **tokens, char *end)
+{
+	int	i;
+
+	if (*buffer == DOLLAR_SIGN)
+	{
+		i = 1;
+		end = buffer;
+		while (*++end && *end != WHITESPACE
+			&& *end != REDIRECT_LEFT && *end != PIPE
+			&& *end != REDIRECT_RIGHT && *end != '$'
+			&& *end != DOUBLE_QUOTES
+			&& *end != SINGLE_QUOTES)
+			i++;
+		ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_DOLLAR,
+				ft_strndup(buffer, end - buffer)));
+		return (i);
+	}
+	if (*buffer == SINGLE_QUOTES)
+		return (ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_SINGLE_QUOTES,
+					ft_strndup(buffer, 1))), 1);
+	if (*buffer == DOUBLE_QUOTES)
+		return (ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_DOUBLE_QUOTES,
+					ft_strndup(buffer, 1))), 1);
+	return (0);
 }
 
 int	whitespace_case(char *buffer, char *end, t_token **tokens)
@@ -37,8 +76,6 @@ int	whitespace_case(char *buffer, char *end, t_token **tokens)
 int	special_cases_lexer(t_data **data,
 	char *buffer, t_token **tokens, char *end)
 {
-	int	i;
-
 	if (*buffer == REDIRECT_LEFT && data)
 	{
 		if (*(buffer + 1) == REDIRECT_LEFT)
@@ -61,27 +98,7 @@ int	special_cases_lexer(t_data **data,
 	{
 		end = buffer;
 		return (ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_PIPE,
-				ft_strndup(buffer, 1))), 1);
-	}
-	if (*buffer == DOLLAR_SIGN)
-	{
-		i = 1;
-		end = buffer;
-		while (*++end && *end != WHITESPACE
-			&& *end != REDIRECT_LEFT && *end != PIPE
-			&& *end != REDIRECT_RIGHT && *end != '$'
-			&& *end != DOUBLE_QUOTES
-			&& *end != SINGLE_QUOTES)
-			i++;
-		ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_DOLLAR,
-				ft_strndup(buffer, end - buffer)));
-		return (i);
-	}
-	if (*buffer == SINGLE_QUOTES)
-		return (ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_SINGLE_QUOTES,
 					ft_strndup(buffer, 1))), 1);
-	if (*buffer == DOUBLE_QUOTES)
-		return (ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_DOUBLE_QUOTES,
-					ft_strndup(buffer, 1))), 1);
-	return (0);
+	}
+	return (special_cases_lexer2(buffer, tokens, end));
 }

@@ -12,6 +12,36 @@
 
 #include "../../inc/minishell.h"
 
+static	t_token	*token_reformatting_special(t_token *current)
+{
+	current = current->next;
+	while (current->type == TOKEN_WHITESPACE)
+		current = current->next;
+	if (current && current->type == 0)
+		current->type = TOKEN_APPENDICE;
+	current = current->next;
+	return (current);
+}
+
+static	t_token	*token_reformatting_pipe(t_token *current)
+{
+	current = current->next;
+	while (current->type == TOKEN_WHITESPACE)
+		current = current->next;
+	if (current && current->type == TOKEN_WORD)
+		current->type = TOKEN_COMMAND;
+	while (current->type == TOKEN_WHITESPACE)
+		current = current->next;
+	current = current->next;
+	if (current && current->type == TOKEN_WORD)
+	{
+		current->type = TOKEN_APPENDICE;
+		if (current && current->next)
+			current = current->next;
+	}
+	return (current);
+}
+
 static	void	token_reformatting(t_token **tokens)
 {
 	t_token		*head;
@@ -21,56 +51,17 @@ static	void	token_reformatting(t_token **tokens)
 	current = *tokens;
 	while (current && current->type != TOKEN_EOF)
 	{
-		if (current && current->type == TOKEN_EOF)
+		while (current->type == TOKEN_WHITESPACE)
+			current = current->next;
+		if ((current && current->type == TOKEN_EOF) || current == NULL)
 			return ;
 		if (current && current->type == TOKEN_PIPE)
-		{
-			while (current->type == TOKEN_WHITESPACE)
-				current = current->next;
-			current = current->next;
-			if (current && current->type == TOKEN_WORD)
-				current->type = TOKEN_COMMAND;
-			while (current->type == TOKEN_WHITESPACE)
-				current = current->next;
-			current = current->next;
-			if (current && current->type == TOKEN_WORD)
-				current->type = TOKEN_APPENDICE;
-			if (current && current->next)
-				current = current->next;
-			continue ;
-		}
+			current = token_reformatting_pipe(current);
 		if (current && current->type != TOKEN_WORD
-			&& current->type != TOKEN_OPTION
-			&& current->type != TOKEN_DOLLAR)
-		{
-			while (current->type == TOKEN_WHITESPACE)
-				current = current->next;
-			current = current->next;
-			if (current && current->type == 0)
-				current->type = TOKEN_APPENDICE;
-			while (current->type == TOKEN_WHITESPACE)
-				current = current->next;
-			current = current->next;
-			if (current && current->type == 0)
-				current->type = TOKEN_COMMAND;
-			continue ;
-		}
+			&& current->type != TOKEN_OPTION && current->type != TOKEN_DOLLAR)
+			current = token_reformatting_special(current);
 		if (current && current->type == TOKEN_WORD)
-		{
-			current->type = TOKEN_COMMAND;
-			while (current->type == TOKEN_WHITESPACE)
-				current = current->next;
-			while (current && ((current->type == 0 && current->type != 7)
-					|| current->type == TOKEN_OPTION))
-			{
-				current->type = TOKEN_APPENDICE;
-				while (current->type == TOKEN_WHITESPACE)
-					current = current->next;
-				current = current->next;
-			}
-			continue ;
-		}
-		break ;
+			current = token_reformatting_command(current);
 	}
 	current = head;
 }
@@ -106,6 +97,8 @@ static	void	recognizer(char *buffer, t_token **tokens,
 					ft_strndup(buffer, end - buffer)));
 		buffer = end;
 	}
+	ft_tokenadd_back(tokens, ft_lstnewtoken(TOKEN_EOF,
+					ft_strndup(buffer, *buffer)));
 }
 
 static	int	init_state(t_data **data, t_token **tokens, char *tmp)
