@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 19:21:15 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:50:44 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static	int	redirect_parser(t_data **data, t_token *current)
 			return (parser_case_append(current, data));
 		else if (current->type == TOKEN_HEREDOC)
 			return (parser_case_herdoc(current, data));
+		else
+			current = current->next;
 	}
 	return (0);
 }

@@ -95,8 +95,9 @@ void	execute_command_single(char **command, t_data **data,
 
 	init_execution(data, &i, command);
 	tmp = ft_strjoin(command[0], " ");
-	if (manual_cmd(command, data))
-		return (free(tmp));
+	printf("%s\n", tmp);
+	// if (manual_cmd(command, data))
+	// 	return (free(tmp));
 	holder = NULL;
 	while (command[i])
 	{

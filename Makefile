@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror -g
-CFLAGS = -g -Wall -Wextra -Werror -lreadline
+CFLAGS = -g -lreadline
 # Source files
 SRC_DIR = src
 LIB = ./libft/libft.a
@@ -9,9 +9,9 @@ SRCS = main init tokenizer/lexer exit_handle \
 		tokenizer/lexer_utils tokenizer/token_utils \
 		main_utils parser/parser parser/parser_utils \
 		executor/exec executor/exec_utils redirect/redirect \
-		tokenizer/lexer_utils expander env_list \
+		expander env_list \
 		builtin/chdir \
-		builtin/exit builtin/echo builtin/export builtin/unset\
+		builtin/exit builtin/echo builtin/export builtin/unset \
 		builtin/pwd builtin/env \
 		signals \
 
@@ -50,21 +50,21 @@ lib:
 $(OBJ_DIR):
 		mkdir -p $(OBJ_DIR)
 
-$(NAME): $(OBJ)
+$(NAME): $(SRC)
 		@echo "\033[32mCompiling $(NAME) 🚀"
-		$(CC) $(CFLAGS) $(OBJ) $(LIB) -lreadline -o $(NAME)
+		$(CC) $(CFLAGS) $(SRC) $(LIB) -lreadline -o $(NAME)
 		@echo "$(GREEN)$(NAME) compilata con successo❗️ 📁$(DEFAULT)"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-		@mkdir -p $(dir $@)
-		$(CC) $(CFLAGS) -c $< -o $@
+# $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# 		@mkdir -p $(dir $@)
+# 		$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean:
-		$(RM) $(OBJ)
+# $(RM) $(OBJ)
 		@echo "$(CIANO)file oggetto di $(NAME) rimossi con successo❗️ 🪦$(DEFAULT)"
 
 fclean: clean
-		$(RM) $(NAME)
+# $(RM) $(NAME)
 		$(RM) -r $(OBJ_DIR)
 		cd libft && make fclean
 		@echo "$(CIANO)directory OBJ rimossa...$(DEFAULT)"
