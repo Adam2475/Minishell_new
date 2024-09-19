@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 16:56:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:50:33 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,6 @@ int			env_cmd(t_data **data);
 void		cmd_exit(char **args, t_data *data);
 int			pwd_cmd(t_data **data);
 int			init_execution(t_data **data, int *i, char **command);
-void		free_env_list(t_env_list *head);
+void		free_list_env(t_env_list **head);
 
 #endif

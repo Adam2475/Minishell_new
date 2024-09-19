@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by mapichec          #+#    #+#             */
-/*   Updated: 2024/09/19 17:39:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 18:15:36 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_env_list	*new_node_env(char *content)
 	while (new->content[len] != '=')
 		len++;
 	new->value = (char *)ft_calloc((ft_strlen(new->content) - (len - 1)), sizeof(char));
-	new->var = (char *)ft_calloc(len + 2, sizeof(char));
 	split_var_env(&new);
 	return (new);
 }
