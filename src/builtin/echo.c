@@ -28,13 +28,16 @@ int	echo_cmd(t_token **tkn)
 				continue ;
 			}
 		}
-		else if ((int)node->type == 0 || (int)node->type == 14)
+		else if ((int)node->type == 0 || (int)node->type == 14
+			|| (int)node->type == 13)
 		{
 			ft_printf("%s", node->value);
 			node = node->next;
 		}
 		if ((int)node->type == 7)
 			return (g_err_state = 0, ft_printf("\n"));
+		else
+			node = node->next;
 	}
 	g_err_state = 0;
 	return (1);
