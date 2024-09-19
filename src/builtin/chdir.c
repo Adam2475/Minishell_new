@@ -33,6 +33,7 @@ void	chpwd(t_data **data, char *new_path)
 {
 	t_env_list	*node;
 	t_env_list	*node_old;
+	char		*tmp;
 
 	node = (*data)->env_list;
 	while (node && ft_strncmp(node->var, "PWD=", 4) != 0)
@@ -48,6 +49,7 @@ void	chpwd(t_data **data, char *new_path)
 	node_old->content = ft_strjoin(node_old->var, node->value);
 	ft_free_null(node->value);
 	ft_free_null(node->content);
+	tmp = getcwd(new_path, (ft_strlen(node_old->value) + ft_strlen(new_path) + 2));
 	node->value = ft_strndup(new_path, ft_strlen(new_path));
 	node->content = ft_strjoin(node->var, node->value);
 	return ;
