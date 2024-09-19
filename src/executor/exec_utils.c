@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 19:21:15 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:21:17 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void	free_char_array(char **array)
 	int	i;
 
 	i = 0;
-	if (array == NULL)
-		return ;
-	while (array[i] != NULL)
+	while (array && array[i] != NULL)
 	{
 		free(array[i]);
+		array[i] = NULL;
 		i++;
 	}
 	free(array);
+	array = NULL;
 }
 
 char	*find_cmd(char *cmd, t_data **data)

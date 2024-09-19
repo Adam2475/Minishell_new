@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 14:49:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:25:30 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(int argc, char **argv, char **envp)
 			token_parser(&tokens, &data, envp);
 		else
 			printf("found a pipe\n");
-		free_exit(&data, tokens);
+		//free_exit(&data, tokens);
+		//free_list(tokens);
 	}
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexers_utils.c                                     :+:      :+:    :+:   */
+/*   chdir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:44:08 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ int	cd_cmd(t_data **data, t_token **tkn)
 	t_env_list	*node;
 
 	current = (*tkn)->next;
+	ft_printf("%s && %s && %d\n", current->value, current->next->value, ft_lstsize_token((*tkn)));
 	node = (*data)->env_list;
-	if (ft_lstsize_token((*tkn)) > 2
+	if ((ft_lstsize_token((*tkn)) - 1) > 3
 		&& (current->next->value[0] != '>'
 		|| current->next->value[0] != '<'
 		|| current->next->value[0] != '|'))

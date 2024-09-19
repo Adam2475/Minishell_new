@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexers.c                                           :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:27:26 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	tokenizer(t_data **data, t_token **tokens)
 	char	*end;
 
 	end = NULL;
+	if (!(*data)->input)
+		free_exit(data, *tokens);
 	tmp = ft_strndup((*data)->input, ft_strlen((*data)->input));
 	if (init_state(data, tokens, tmp) > 0)
 	{
@@ -107,7 +109,6 @@ void	tokenizer(t_data **data, t_token **tokens)
 	end = buffer;
 	recognizer(buffer, tokens, end, data);
 	token_reformatting(tokens);
-	// da aggiungere la liberazione della memoria e rimessa al prompt
 	if (check_quotes(tokens) != 0)
 		exit(printf("unclosed quotes found!!\n"));
 	expand_var(tokens, data);

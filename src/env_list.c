@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by mapichec          #+#    #+#             */
-/*   Updated: 2024/09/15 16:40:38 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:39:10 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	split_var_env(t_env_list **node)
 		(*node)->value[j++] = (*node)->content[i++];
 }
 
-/*TODO: problemi malloc(): invalid next size (unsorted) quando si presenta un un tab di prese*/
 t_env_list	*new_node_env(char *content)
 {
 	t_env_list	*new;
@@ -91,8 +90,6 @@ int	gen_list_env(t_data **data, char **envp)
 	t_env_list	*head;
 
 	i = 0;
-	//node = malloc(sizeof(t_env_list) * 1);
-	(*data)->env_list = NULL;
 	head = (*data)->env_list;
 	while (envp[i] != NULL)
 	{

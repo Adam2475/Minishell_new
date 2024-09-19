@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 15:04:55 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:21:07 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static int	parser_init(t_data **data)
 	(*data)->command = (char **)ft_calloc(4, sizeof(char *));
 	if (!(*data)->command)
 		return (1);
-	(*data)->command[3] = (char *)ft_calloc(1, 1);
+/* 	(*data)->command[3] = (char *)ft_calloc(1, 1);
 	if (!(*data)->command[3])
-		return (1);
+		return (1); */
 	return (0);
 }
 
@@ -81,11 +81,10 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 		current = head;
 		if (current->type == 12)
 		{
-			if (call_for_command(tokens, data, &current, envp) > 0)
+			if (!call_for_command(tokens, data, &current, envp))
 				return (0);
 			else
 				exit_from_parser(data, *tokens);
-			
 		}
 		current = current->next;
 	}
