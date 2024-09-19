@@ -52,6 +52,7 @@ int	manual_cmd(char **cmd_args, t_data **data)
 
 	tmp = (*data);
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
+	(*data)->cmd_args = NULL;
 	if (tmp->cmd == CH_DIR)
 		return (ft_remove_ws(&tmp->tokens), cd_cmd(data, &tmp->tokens));
 	if (tmp->cmd == ECHO)

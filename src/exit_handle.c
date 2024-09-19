@@ -81,3 +81,18 @@ void	free_exit(t_data **data, t_token *tokens)
 	free(*data);
 	exit(1);
 }
+
+void	free_tokens(t_data **data, t_token *tokens)
+{
+	if (tokens)
+		free_list(tokens);
+	if ((*data)->tmp)
+		free_list((*data)->tmp);
+	if ((*data)->command)
+		free_char_array((*data)->command);
+	if ((*data)->cmd2)
+		free((*data)->cmd2);
+	if ((*data)->cmd_args)
+		free_char_array((*data)->cmd_args);
+	free((*data)->input);
+}

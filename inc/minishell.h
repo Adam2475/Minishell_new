@@ -146,7 +146,6 @@ int			is_numeric(char *str);
 // export
 int			export_cmd(t_data **data, t_token **tkn);
 // chdir
-void		chpwd(t_data **data, char *new_path);
 int			cd_cmd(t_data **data, t_token **tkn);
 // echo
 int			echo_cmd(t_token **tkn);
@@ -159,5 +158,6 @@ void		cmd_exit(char **args, t_data *data);
 int			init_execution(t_data **data, int *i, char **command);
 void		free_char_array(char **array);
 void		free_env_list(t_env_list *head);
+void		free_tokens(t_data **data, t_token *tokens);
 
 #endif

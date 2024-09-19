@@ -29,7 +29,7 @@ int	echo_cmd(t_token **tkn)
 			}
 		}
 		else if ((int)node->type == 0 || (int)node->type == 14
-			|| (int)node->type == 13)
+			|| (int)node->type == 13 || (int)node->type == 8)
 		{
 			ft_printf("%s", node->value);
 			node = node->next;

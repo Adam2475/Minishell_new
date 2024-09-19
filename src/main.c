@@ -22,7 +22,7 @@ static	char	*retrieve_line(char **envp)
 	while (envp[i] != NULL)
 	{
 		if (ft_strnstr(envp[i], "PATH=", 5))
-			return (ft_strdup(envp[i]));
+			return (ft_strndup(envp[i], ft_strlen(envp[i])));
 		i++;
 	}
 	return (NULL);
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 			token_parser(&tokens, &data, envp);
 		else
 			printf("found a pipe\n");
-		//free_exit(&data, tokens);
+		free_tokens(&data, tokens);
 		//free_list(tokens);
 	}
 }

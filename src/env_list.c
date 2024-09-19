@@ -78,7 +78,6 @@ t_env_list	*new_node_env(char *content)
 	while (new->content[len] != '=')
 		len++;
 	new->value = (char *)ft_calloc((ft_strlen(new->content) - (len - 1)), sizeof(char));
-	new->var = (char *)ft_calloc(len + 2, sizeof(char));
 	split_var_env(&new);
 	return (new);
 }

@@ -27,7 +27,7 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 				return (-1);
 		}
 	}
-	if ((*data)->cmd && cmd_args)
+	if ((*data)->cmd2 && cmd_args)
 		execve((*data)->cmd2, cmd_args, envp);
 	else
 		exit(0);
