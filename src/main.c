@@ -67,6 +67,5 @@ int	main(int argc, char **argv, char **envp)
 		else
 			printf("found a pipe\n");
 		free_tokens(&data, tokens);
-		//free_list(tokens);
 	}
 }

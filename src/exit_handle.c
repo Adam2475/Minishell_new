@@ -25,7 +25,6 @@ void	free_env_list(t_env_list *head)
 
 		if (head != NULL)
 			head->pre = NULL;
-		
 		if (tmp->value)
 			free(tmp->value);
 		if (tmp->var)
@@ -36,8 +35,6 @@ void	free_env_list(t_env_list *head)
 		tmp->var = NULL;
 		tmp->value = NULL;
 		free(tmp);
-		//tmp = NULL;
-		//head->pre = NULL;
 	}
 	free(head);
 }
@@ -60,23 +57,10 @@ void	free_list(t_token *head)
 
 void	free_exit(t_data **data, t_token *tokens)
 {
-	if (tokens)
-		free_list(tokens);
-	if ((*data)->tmp)
-		free_list((*data)->tmp);
-	int i = 0;
-	if ((*data)->command)
-		free_char_array((*data)->command);
-	if ((*data)->cmd2)
-		free((*data)->cmd2);
 	if ((*data)->cmd_args)
 		free_char_array((*data)->cmd_args);
-
-	//printf("cioa");
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
-	//free((*data)->env_list);
-
 	free((*data)->input);
 	free(*data);
 	exit(1);
@@ -86,10 +70,18 @@ void	free_tokens(t_data **data, t_token *tokens)
 {
 	if (tokens)
 		free_list(tokens);
+	if ((*data)->tokens)
+		free_list((*data)->tokens);
 	if ((*data)->tmp)
 		free_list((*data)->tmp);
+	if ((*data)->path_from_envp)
+		free((*data)->path_from_envp);
 	if ((*data)->command)
 		free_char_array((*data)->command);
+	if ((*data)->my_paths)
+		free_char_array((*data)->my_paths);
+	if ((*data)->my_line)
+		free((*data)->my_line);
 	if ((*data)->cmd2)
 		free((*data)->cmd2);
 	if ((*data)->cmd_args)
