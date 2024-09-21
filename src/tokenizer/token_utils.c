@@ -1,16 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexers.c                                           :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:36:10 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	append_token_list(t_token_list **list, t_token *head)
+{
+	t_token_list *new_node = create_token_list_node(head);
+
+	if (!new_node)
+		return;
+	if (*list == NULL)
+		*list = new_node;
+	else
+	{
+		t_token_list *current = *list;
+		while (current->next)
+			current = current->next;
+		current->next = new_node;
+	}
+}
 
 t_token	*copy_token(t_token *token)
 {

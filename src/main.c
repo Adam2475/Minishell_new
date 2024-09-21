@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 16:25:30 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:38:09 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int argc, char **argv, char **envp)
 	set_signal();
 	while (1)
 	{
+		data->token_list = NULL;
 		data->input = readline("myprompt$ ");
 		if (!data->input)
 			free_exit(&data, tokens);
@@ -65,7 +66,10 @@ int	main(int argc, char **argv, char **envp)
 		if (piper(&tokens) == 0)
 			token_parser(&tokens, &data, envp);
 		else
-			printf("found a pipe\n");
+		{
+			data->token_list = split_tokens_by_pipe(data->tmp);
+			pipe_case(&tokens, &data, envp, &data->token_list);
+		}
 		free_tokens(&data, tokens);
 	}
 }

@@ -6,13 +6,33 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 17:15:47 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:51:38 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 // serve salvarsi la posizione del puntatore originale
+
+void free_token_list(t_token_list *list)
+{
+	t_token_list *current;
+	t_token_list *next_node;
+
+	current = list;
+	while (current)
+	{
+		if (current->head)
+		{
+			if (current->head->value)
+				free(current->head->value);
+			free(current->head);
+		}
+		next_node = current->next;
+		free(current);
+		current = next_node;
+	}
+}
 
 void	free_env_list(t_env_list *head)
 {
@@ -57,8 +77,6 @@ void	free_list(t_token *head)
 
 void	free_exit(t_data **data, t_token *tokens)
 {
-	if ((*data)->cmd_args)
-		free_char_array((*data)->cmd_args);
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
 	free((*data)->input);
@@ -86,5 +104,7 @@ void	free_tokens(t_data **data, t_token *tokens)
 		free((*data)->cmd2);
 	if ((*data)->cmd_args)
 		free_char_array((*data)->cmd_args);
+	if ((*data)->token_list != NULL)
+		free_token_list((*data)->token_list);
 	free((*data)->input);
 }
