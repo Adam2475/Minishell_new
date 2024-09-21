@@ -64,7 +64,7 @@ int	manual_cmd(char **cmd_args, t_data **data)
 	if (tmp->cmd == ENV)
 		return (env_cmd(data));
 	if (tmp->cmd == EXIT)
-		cmd_exit(cmd_args, *data);
+		cmd_exit(data);
 	if (tmp->cmd == PWD)
 		return (pwd_cmd(data));
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/21 19:51:38 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:59:07 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	free_env_list(t_env_list *head)
 	}
 	free(head);
 }
-
+// TODO: sistema
 void	free_list(t_token *head)
 {
 	t_token	*tmp;
@@ -67,9 +67,10 @@ void	free_list(t_token *head)
 	{
 		tmp = head;
 		head = head->next;
-		if (tmp->value)
+		if (tmp->value && tmp->value[0] != '\0')
 			free(tmp->value);
 		tmp->value = NULL;
+		// ft_printf("%p\n")
 		free(tmp);
 		tmp = NULL;
 	}
@@ -82,6 +83,21 @@ void	free_exit(t_data **data, t_token *tokens)
 	free((*data)->input);
 	free(*data);
 	exit(1);
+}
+
+void	free_char_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array && array[i] != NULL)
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+	array = NULL;
 }
 
 void	free_tokens(t_data **data, t_token *tokens)

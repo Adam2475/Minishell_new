@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+// TODO: sistema
 
 void	append_token_list(t_token_list **list, t_token *head)
 {

@@ -64,7 +64,7 @@ clean:
 		@echo "$(CIANO)file oggetto di $(NAME) rimossi con successo❗️ 🪦$(DEFAULT)"
 
 fclean: clean
-# $(RM) $(NAME)
+		$(RM) $(NAME)
 		$(RM) -r $(OBJ_DIR)
 		cd libft && make fclean
 		@echo "$(CIANO)directory OBJ rimossa...$(DEFAULT)"
