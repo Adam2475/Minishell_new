@@ -44,8 +44,8 @@ t_token	*token_reformatting_command(t_token *current)
 		current->type = TOKEN_APPENDICE;
 		while (current->type == TOKEN_WHITESPACE)
 			current = current->next;
-		current = current->next;
 	}
+	current = current->next;
 	return (current);
 }
 

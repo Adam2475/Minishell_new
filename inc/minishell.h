@@ -139,7 +139,7 @@ int			expand_var(t_token **tkn_lst, t_data **data);
 char		*tmp_set(char *val);
 // builtins
 char		*find_cmd(char *cmd, t_data **data);
-int			manual_cmd(char **cmd_args, t_data **data);
+int			manual_cmd(char **cmd_args, t_data **data, t_token **token);
 // unset
 int			unset_env(t_env_list **env, char *var_name);
 int			is_numeric(char *str);
@@ -151,11 +151,14 @@ int			cd_cmd(t_data **data, t_token **tkn);
 int			echo_cmd(t_token **tkn);
 // pwd
 int			pwd_cmd(t_data **data);
+// env
+int			env_cmd(t_data **data);
+// exit
+int			cmd_exit(t_data **data, t_token **token);
+int			init_execution(t_data **data, int *i, char **command);
 // free functions
 void		ft_free_null(void *null);
-int			env_cmd(t_data **data);
-void		cmd_exit(char **args, t_data *data);
-int			init_execution(t_data **data, int *i, char **command);
+void		free_node_env(t_env_list *node);
 void		free_char_array(char **array);
 void		free_env_list(t_env_list *head);
 void		free_tokens(t_data **data, t_token *tokens);

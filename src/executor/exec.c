@@ -52,8 +52,8 @@ void	execute_command_single(char **command, t_data **data,
 
 	init_execution(data, &i, command);
 	tmp = ft_strjoin(command[0], " ");
-	if (manual_cmd(command, data))
-		return (free(tmp));
+	if (manual_cmd(command, data, tokens))
+		return ;
 	holder = NULL;
 	while (command[i])
 	{

@@ -46,7 +46,20 @@ static void	ft_remove_ws(t_token **token)
 	}
 }
 
-int	manual_cmd(char **cmd_args, t_data **data)
+void	free_node_env(t_env_list *node)
+{
+	t_env_list	*tmp;
+
+	tmp = node;
+	node->pre->next = node->next;
+	free(tmp->value);
+	free(tmp->var);
+	free(tmp->content);
+	free(tmp);
+	tmp = NULL;
+}
+
+int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 {
 	t_data	*tmp;
 
@@ -54,17 +67,17 @@ int	manual_cmd(char **cmd_args, t_data **data)
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	(*data)->cmd_args = NULL;
 	if (tmp->cmd == CH_DIR)
-		return (ft_remove_ws(&tmp->tokens), cd_cmd(data, &tmp->tokens));
+		return (ft_remove_ws(token), cd_cmd(data, token));
 	if (tmp->cmd == ECHO)
-		return (echo_cmd(&tmp->tokens));
+		return (echo_cmd(token));
 	if (tmp->cmd == EXPORT)
-		return (export_cmd(data, &tmp->tokens));
+		return (export_cmd(data, token));
 	if (tmp->cmd == UNSET)
 		return (unset_env(&tmp->env_list, cmd_args[1]));
 	if (tmp->cmd == ENV)
 		return (env_cmd(data));
 	if (tmp->cmd == EXIT)
-		cmd_exit(cmd_args, *data);
+		cmd_exit(data, token);
 	if (tmp->cmd == PWD)
 		return (pwd_cmd(data));
 	return (0);
