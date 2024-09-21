@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 18:24:45 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/19 18:31:52 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 		//free_exit(&data, tokens);
 		//free_list(tokens);
 		//free(data->input);
+		//free(tokens);
 		free_char_array(data->my_paths);
 		free(data->my_line);
 		free(data->path_from_envp);
