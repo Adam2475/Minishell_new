@@ -154,7 +154,7 @@ int			pwd_cmd(t_data **data);
 // free functions
 void		ft_free_null(void *null);
 int			env_cmd(t_data **data);
-void		cmd_exit(char **args, t_data *data);
+int		cmd_exit(t_data **data);
 int			init_execution(t_data **data, int *i, char **command);
 void		free_char_array(char **array);
 void		free_env_list(t_env_list *head);

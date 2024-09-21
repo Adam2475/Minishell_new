@@ -11,13 +11,13 @@
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            // "setupCommands": [
-            //     {
-            //         "description": "Enable follow-fork-mode",
-            //         "text": "set follow-fork-mode child",
-            //         "ignoreFailures": true
-            //     }
-            // ]
+            "setupCommands": [
+                {
+                    "description": "Enable follow-fork-mode",
+                    "text": "set follow-fork-mode child",
+                    "ignoreFailures": true
+                }
+            ]
         }
     ]
 }

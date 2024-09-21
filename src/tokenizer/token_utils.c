@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+// TODO: sistema
 
 t_token	*copy_token(t_token *token)
 {

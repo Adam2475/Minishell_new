@@ -30,7 +30,10 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 	if ((*data)->cmd2 && cmd_args)
 		execve((*data)->cmd2, cmd_args, envp);
 	else
-		exit(0);
+	{
+		g_err_state = 127;
+		free_exit(data, (*data)->tokens);
+	}
 	return (EXIT_SUCCESS);
 }
 

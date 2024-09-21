@@ -38,7 +38,7 @@ void	free_env_list(t_env_list *head)
 	}
 	free(head);
 }
-
+// TODO: sistema
 void	free_list(t_token *head)
 {
 	t_token	*tmp;
@@ -47,9 +47,10 @@ void	free_list(t_token *head)
 	{
 		tmp = head;
 		head = head->next;
-		if (tmp->value)
+		if (tmp->value && tmp->value[0] != '\0')
 			free(tmp->value);
 		tmp->value = NULL;
+		// ft_printf("%p\n")
 		free(tmp);
 		tmp = NULL;
 	}
@@ -57,13 +58,27 @@ void	free_list(t_token *head)
 
 void	free_exit(t_data **data, t_token *tokens)
 {
-	if ((*data)->cmd_args)
-		free_char_array((*data)->cmd_args);
+	free_tokens(data, tokens);
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
 	free((*data)->input);
 	free(*data);
 	exit(1);
+}
+
+void	free_char_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array && array[i] != NULL)
+	{
+		free(array[i]);
+		array[i] = NULL;
+		i++;
+	}
+	free(array);
+	array = NULL;
 }
 
 void	free_tokens(t_data **data, t_token *tokens)
@@ -86,5 +101,4 @@ void	free_tokens(t_data **data, t_token *tokens)
 		free((*data)->cmd2);
 	if ((*data)->cmd_args)
 		free_char_array((*data)->cmd_args);
-	free((*data)->input);
 }
