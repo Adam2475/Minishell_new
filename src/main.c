@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 18:31:52 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:28:54 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static	char	*retrieve_line(char **envp)
 	while (envp[i] != NULL)
 	{
 		if (ft_strnstr(envp[i], "PATH=", 5))
-			return (ft_strdup(envp[i]));
+			return (ft_strndup(envp[i], ft_strlen(envp[i])));
 		i++;
 	}
 	return (NULL);
@@ -66,13 +66,6 @@ int	main(int argc, char **argv, char **envp)
 			token_parser(&tokens, &data, envp);
 		else
 			printf("found a pipe\n");
-		//free_exit(&data, tokens);
-		//free_list(tokens);
-		//free(data->input);
-		//free(tokens);
-		free_char_array(data->my_paths);
-		free(data->my_line);
-		free(data->path_from_envp);
-		free_list(data->tokens);
+		free_tokens(&data, tokens);
 	}
 }

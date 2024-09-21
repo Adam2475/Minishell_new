@@ -27,31 +27,14 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 				return (-1);
 		}
 	}
-	if ((*data)->cmd && cmd_args)
+	if ((*data)->cmd2 && cmd_args)
 		execve((*data)->cmd2, cmd_args, envp);
 	else
-		exit(0);
+	{
+		g_err_state = 127;
+		free_exit(data, (*data)->tokens);
+	}
 	return (EXIT_SUCCESS);
-}
-
-static	int	conf_man_cmd(char *str)
-{
-	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
-		return (1);
-	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
-		return (2);
-	if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
-		return (3);
-	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0)
-		return (4);
-	if (ft_strncmp(str, "env", ft_strlen(str)) == 0)
-		return (5);
-	if (ft_strncmp(str, "exit", ft_strlen(str)) == 0)
-		return (6);
-	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
-		return (7);
-	else
-		return (0);
 }
 
 static	int	parent_process(void)
@@ -60,29 +43,6 @@ static	int	parent_process(void)
 
 	waitpid(-1, &status, 0);
 	return (status);
-}
-
-static	int	manual_cmd(char **cmd_args, t_data **data)
-{
-	t_data	*tmp;
-
-	tmp = (*data);
-	tmp->cmd = conf_man_cmd(cmd_args[0]);
-	if (tmp->cmd == CH_DIR)
-		return (cd_cmd(data, &tmp->tokens));
-	if (tmp->cmd == ECHO)
-		return (echo_cmd(&tmp->tokens));
-	if (tmp->cmd == EXPORT)
-		return (export_cmd(data, &tmp->tokens));
-	if (tmp->cmd == UNSET)
-		return (unset_env(&tmp->env_list, cmd_args[1]));
-	if (tmp->cmd == ENV)
-		return (env_cmd(data));
-	if (tmp->cmd == EXIT)
-		cmd_exit(cmd_args, *data);
-	if (tmp->cmd == PWD)
-		return (pwd_cmd(data));
-	return (0);
 }
 
 void	execute_command_single(char **command, t_data **data,

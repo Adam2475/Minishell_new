@@ -29,10 +29,11 @@ void	ft_free_null(void *null)
 	null = NULL;
 }
 
-void	chpwd(t_data **data, char *new_path)
+static	void	chpwd(t_data **data)
 {
 	t_env_list	*node;
 	t_env_list	*node_old;
+	char		*tmp;
 
 	node = (*data)->env_list;
 	while (node && ft_strncmp(node->var, "PWD=", 4) != 0)
@@ -48,8 +49,10 @@ void	chpwd(t_data **data, char *new_path)
 	node_old->content = ft_strjoin(node_old->var, node->value);
 	ft_free_null(node->value);
 	ft_free_null(node->content);
-	node->value = ft_strndup(new_path, ft_strlen(new_path));
+	tmp = getcwd(NULL, 0);
+	node->value = ft_strndup(tmp, ft_strlen(tmp));
 	node->content = ft_strjoin(node->var, node->value);
+	free(tmp);
 	return ;
 }
 
@@ -59,7 +62,6 @@ int	cd_cmd(t_data **data, t_token **tkn)
 	t_env_list	*node;
 
 	current = (*tkn)->next;
-	ft_printf("%s && %s && %d\n", current->value, current->next->value, ft_lstsize_token((*tkn)));
 	node = (*data)->env_list;
 	if ((ft_lstsize_token((*tkn)) - 1) > 3
 		&& (current->next->value[0] != '>'
@@ -68,7 +70,7 @@ int	cd_cmd(t_data **data, t_token **tkn)
 		return (g_err_state = 1,
 		ft_printf("bash: cd: too many arguments\n"));
 	node = (*data)->env_list;
-	if (!current->value || current->value[0] == '~')
+	if (current->value[0] == '\0')
 	{
 		while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
 			node = node->next;
@@ -77,6 +79,6 @@ int	cd_cmd(t_data **data, t_token **tkn)
 	}
 	if (chdir(current->value) != 0)
 		return (ft_err_chdir((int)errno, current->value));
-	chpwd(data, current->value);
+	chpwd(data);
 	return (g_err_state = 0, 1);
 }

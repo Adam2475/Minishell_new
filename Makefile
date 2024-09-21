@@ -10,7 +10,7 @@ SRCS = main init tokenizer/lexer exit_handle \
 		main_utils parser/parser parser/parser_utils \
 		executor/exec executor/exec_utils redirect/redirect \
 		expander env_list \
-		builtin/chdir \
+		builtin/chdir builtin/builtin\
 		builtin/exit builtin/echo builtin/export builtin/unset \
 		builtin/pwd builtin/env \
 		signals \
@@ -64,7 +64,7 @@ clean:
 		@echo "$(CIANO)file oggetto di $(NAME) rimossi con successo❗️ 🪦$(DEFAULT)"
 
 fclean: clean
-# $(RM) $(NAME)
+		$(RM) $(NAME)
 		$(RM) -r $(OBJ_DIR)
 		cd libft && make fclean
 		@echo "$(CIANO)directory OBJ rimossa...$(DEFAULT)"
