@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 16:56:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:58:58 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,63 +92,63 @@ typedef struct s_data
 }	t_data;
 
 // Structural functions
-void		free_exit(t_data **data, t_token *tokens);
-void		exit_from_parser(t_data **data, t_token *tokens);
-void		free_list(t_token *head);
-int			init_data(t_data **data, int argc, char **argv, t_token **tokens);
+void			free_exit(t_data **data, t_token *tokens);
+void			exit_from_parser(t_data **data, t_token *tokens);
+void			free_list(t_token *head);
+int				init_data(t_data **data, int argc, char **argv, t_token **tokens);
 // Tokenizer
-void		tokenizer(t_data **data, t_token **tokens);
-int			whitespace_case(char *buffer, char *end, t_token **tokens);
-int			special_cases_lexer(t_data **data, char *buffer,
-				t_token **tokens, char *end);
-t_token		*token_reformatting_command(t_token *current);
-t_token		*copy_token_list(t_data **data, t_token *tokens);
-t_token		*token_reformatting_pipe(t_token *current);
-t_token		*token_reformatting_special(t_token *current);
+void			tokenizer(t_data **data, t_token **tokens);
+int				whitespace_case(char *buffer, char *end, t_token **tokens);
+int				special_cases_lexer(t_data **data, char *buffer,
+					t_token **tokens, char *end);
+t_token			*token_reformatting_command(t_token *current);
+t_token			*copy_token_list(t_data **data, t_token *tokens);
+t_token			*token_reformatting_pipe(t_token *current);
+t_token			*token_reformatting_special(t_token *current);
 // Parser
-int			piper(t_token **tokens);
-int			token_parser(t_token **tokens, t_data **data, char **envp);
-int			parser_case_redo(t_token *current, t_data **data);
-int			parser_case_redi(t_token *current, t_data **data);
-int			parser_case_append(t_token *current, t_data **data);
-int			parser_case_herdoc(t_token *current, t_data **data);
+int				piper(t_token **tokens);
+int				token_parser(t_token **tokens, t_data **data, char **envp);
+int				parser_case_redo(t_token *current, t_data **data);
+int				parser_case_redi(t_token *current, t_data **data);
+int				parser_case_append(t_token *current, t_data **data);
+int				parser_case_herdoc(t_token *current, t_data **data);
 // Redireciton
-void		handle_heredoc(char *delimiter, t_data **data);
+void			handle_heredoc(char *delimiter, t_data **data);
 // Executer
-void		execute_command_single(char **command, t_data **data,
-				char **envp, t_token **token);
+void			execute_command_single(char **command, t_data **data,
+					char **envp, t_token **token);
 // tokenizer
-void		tokenizer(t_data **data, t_token **tokens);
-int			whitespace_case(char *buffer, char *end, t_token **tokens);
-int			special_cases_lexer(t_data **data, char *buffer,
-				t_token **tokens, char *end);
-t_token		*token_reformatting_command(t_token *current);
+void			tokenizer(t_data **data, t_token **tokens);
+int				whitespace_case(char *buffer, char *end, t_token **tokens);
+int				special_cases_lexer(t_data **data, char *buffer,
+					t_token **tokens, char *end);
+t_token			*token_reformatting_command(t_token *current);
 // env_list
-t_env_list	*lstlast_env(t_env_list *lst);
-void		add_back_env(t_env_list **lst, t_env_list *new);
-void		split_var_env(t_env_list **node);
-t_env_list	*new_node_env(char *content);
-int			gen_list_env(t_data **data, char **envp);
+t_env_list		*lstlast_env(t_env_list *lst);
+void			add_back_env(t_env_list **lst, t_env_list *new);
+void			split_var_env(t_env_list **node);
+t_env_list		*new_node_env(char *content);
+int				gen_list_env(t_data **data, char **envp);
 // signals
-void		set_signal(void);
+void			set_signal(void);
 // expander
-int			check_quotes(t_token **tokens);
-char		*expand_err_state(char *tmp);
-int			expand_doll(t_token **current, t_data **data);
-int			expand_var(t_token **tkn_lst, t_data **data);
-char		*tmp_set(char *val);
+int				check_quotes(t_token **tokens);
+char			*expand_err_state(char *tmp);
+int				expand_doll(t_token **current, t_data **data);
+int				expand_var(t_token **tkn_lst, t_data **data);
+char			*tmp_set(char *val);
 // builtins
 char		*find_cmd(char *cmd, t_data **data);
 int			manual_cmd(char **cmd_args, t_data **data, t_token **token);
 // unset
-int			unset_env(t_env_list **env, char *var_name);
-int			is_numeric(char *str);
+int				unset_env(t_env_list **env, char *var_name);
+int				is_numeric(char *str);
 // export
-int			export_cmd(t_data **data, t_token **tkn);
+int				export_cmd(t_data **data, t_token **tkn);
 // chdir
-int			cd_cmd(t_data **data, t_token **tkn);
+int				cd_cmd(t_data **data, t_token **tkn);
 // echo
-int			echo_cmd(t_token **tkn);
+int				echo_cmd(t_token **tkn);
 // pwd
 int			pwd_cmd(t_data **data);
 // env
@@ -162,5 +162,26 @@ void		free_node_env(t_env_list *node);
 void		free_char_array(char **array);
 void		free_env_list(t_env_list *head);
 void		free_tokens(t_data **data, t_token *tokens);
+int				pwd_cmd(t_data **data);
+// free functions
+void			ft_free_null(void *null);
+int				env_cmd(t_data **data);
+int				init_execution(t_data **data, int *i, char **command);
+void			free_char_array(char **array);
+void			free_env_list(t_env_list *head);
+void			free_tokens(t_data **data, t_token *tokens);
+///////////////////////////////////////////////////////////////
+void			pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **token_list);
+t_token_list	*split_tokens_by_pipe(t_token *tokens);
+void			append_token_list(t_token_list **list, t_token *head);
+t_token_list	*create_token_list_node(t_token *head);
+t_token			*extract_command_and_appendices(t_token *tokens);
+void			append_token(t_token **list, t_token *new_token);
+char			*token_to_command(t_token *head);
+int				count_pipes(t_token* head);
+int				set_redirection(t_token *tokens, t_data **data);
+size_t			calculate_command_length(t_token *head);
+int				execute_command(char *command, t_data **data, char **envp);
+void			free_token_list(t_token_list *list);
 
 #endif
