@@ -42,3 +42,5 @@ int	echo_cmd(t_token **tkn)
 	g_err_state = 0;
 	return (1);
 }
+
+// TODO: problemi 'echo cioa disod ios'
