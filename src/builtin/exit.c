@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexers_utils.c                                     :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:41:56 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static	void	join_in_qt(t_data **data, t_token *tkn, t_token_type type, int flag)
 
 int	cmd_exit(t_data **data)
 {
-	t_token	*tkn;
-	t_token	*tmp;
+	t_token		*tkn;
+	t_token		*tmp;
 
 	tkn = (*data)->tokens->next;
 	tmp = NULL;

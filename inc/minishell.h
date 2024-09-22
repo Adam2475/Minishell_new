@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/21 19:58:58 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:38:45 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef enum cmd
 typedef struct s_token_list
 {
 	t_token					*head;
-	struct s_token_list		*next;
+	struct	s_token_list		*next;
 }	t_token_list;
 
 typedef struct s_env_list
@@ -67,12 +67,15 @@ typedef struct s_env_list
 	char				*var;
 	char				*value;
 	char				*content;
-	struct s_env_list	*pre;
-	struct s_env_list	*next;
+	struct	s_env_list	*pre;
+	struct	s_env_list	*next;
 }	t_env_list;
 
 typedef struct s_data
 {
+	int				redirect_state;
+	int				fd;
+	int				total;
 	char			*input;
 	char			*my_line;
 	char			*path_from_envp;
@@ -80,9 +83,6 @@ typedef struct s_data
 	char			**command;
 	char			**cmd_args;
 	char			*cmd2;
-	int				redirect_state;
-	int				fd;
-	int				total;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -118,25 +118,25 @@ void			handle_heredoc(char *delimiter, t_data **data);
 void			execute_command_single(char **command, t_data **data,
 					char **envp, t_token **token);
 // tokenizer
+t_token			*token_reformatting_command(t_token *current);
 void			tokenizer(t_data **data, t_token **tokens);
 int				whitespace_case(char *buffer, char *end, t_token **tokens);
 int				special_cases_lexer(t_data **data, char *buffer,
 					t_token **tokens, char *end);
-t_token			*token_reformatting_command(t_token *current);
 // env_list
 t_env_list		*lstlast_env(t_env_list *lst);
+t_env_list		*new_node_env(char *content);
 void			add_back_env(t_env_list **lst, t_env_list *new);
 void			split_var_env(t_env_list **node);
-t_env_list		*new_node_env(char *content);
 int				gen_list_env(t_data **data, char **envp);
 // signals
 void			set_signal(void);
 // expander
-int				check_quotes(t_token **tokens);
 char			*expand_err_state(char *tmp);
+char			*tmp_set(char *val);
+int				check_quotes(t_token **tokens);
 int				expand_doll(t_token **current, t_data **data);
 int				expand_var(t_token **tkn_lst, t_data **data);
-char			*tmp_set(char *val);
 // builtins
 char			*find_cmd(char *cmd, t_data **data);
 int				manual_cmd(char **cmd_args, t_data **data);
@@ -153,24 +153,24 @@ int				echo_cmd(t_token **tkn);
 int				pwd_cmd(t_data **data);
 // free functions
 void			ft_free_null(void *null);
-int				env_cmd(t_data **data);
-void			cmd_exit(char **args, t_data *data);
-int				init_execution(t_data **data, int *i, char **command);
+int				cmd_exit(t_data **data);
 void			free_char_array(char **array);
 void			free_env_list(t_env_list *head);
 void			free_tokens(t_data **data, t_token *tokens);
+int				env_cmd(t_data **data);
+int				init_execution(t_data **data, int *i, char **command);
 ///////////////////////////////////////////////////////////////
-void			pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **token_list);
 t_token_list	*split_tokens_by_pipe(t_token *tokens);
-void			append_token_list(t_token_list **list, t_token *head);
 t_token_list	*create_token_list_node(t_token *head);
 t_token			*extract_command_and_appendices(t_token *tokens);
+size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
+void			pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **token_list);
+void			append_token_list(t_token_list **list, t_token *head);
+void			free_token_list(t_token_list *list);
 char			*token_to_command(t_token *head);
 int				count_pipes(t_token* head);
 int				set_redirection(t_token *tokens, t_data **data);
-size_t			calculate_command_length(t_token *head);
 int				execute_command(char *command, t_data **data, char **envp);
-void			free_token_list(t_token_list *list);
 
 #endif
