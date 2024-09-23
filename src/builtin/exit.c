@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/22 18:41:56 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:51:20 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static	void	free_exit_cmd(t_data **data, t_token *tokens)
 {
+	if ((*data)->tmp9)
+		free((*data)->tmp9);
 	free_tokens(data, tokens);
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);

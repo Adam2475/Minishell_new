@@ -49,26 +49,26 @@ void	execute_command_single(char **command, t_data **data,
 		char **envp, t_token **tokens)
 {
 	pid_t	parent;
-	char	*tmp;
+	
 	char	*holder;
 	int		i;
 
 	init_execution(data, &i, command);
-	tmp = ft_strjoin(command[0], " ");
+	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
 	{
-		free(tmp);
+		free((*data)->tmp9);
 		return ;
 	}
 	(*data)->cmd2 = find_cmd(command[0], data);
 	holder = NULL;
 	while (command[i])
 	{
-		holder = ft_strjoin_gnl(tmp, command[i++]);
-		tmp = holder;
+		holder = ft_strjoin_gnl((*data)->tmp9, command[i++]);
+		(*data)->tmp9 = holder;
 	}
-	(*data)->cmd_args = ft_split(tmp, 32);
-	free(tmp);
+	(*data)->cmd_args = ft_split((*data)->tmp9, 32);
+	free((*data)->tmp9);
 	parent = fork();
 	if (parent < 0)
 		free_exit(data, *tokens);

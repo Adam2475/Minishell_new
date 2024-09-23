@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/22 19:27:26 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:49:51 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_data
 	char			**command;
 	char			**cmd_args;
 	char			*cmd2;
+	char			*tmp9;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;

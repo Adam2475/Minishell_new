@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 13:55:03 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:26:42 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,13 @@ static	int	call_for_command(t_token **tokens, t_data **data,
 	{
 		if (current->type == TOKEN_WHITESPACE)
 			current = current->next;
-		(*data)->command[i] = ft_strdup(current->value);
-		current = current->next;
+		if (current->type == TOKEN_APPENDICE)
+		{
+			(*data)->command[i] = ft_strdup(current->value);
+			current = current->next;
+		}
+		else
+			break ;
 		i++;
 	}
 	execute_command_single((*data)->command, data, envp, tokens);
@@ -77,7 +82,6 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 	{
 		if (redirect_parser(data, current) > 0)
 			exit_from_parser(data, *tokens);
-		current = head;
 		if (current->type == 12)
 		{
 			if (!call_for_command(tokens, data, &current, envp))
