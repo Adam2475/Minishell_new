@@ -12,22 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-int	ft_strsearch(char *str, int c)
-{
-	int i;
-
-	i = 0;
-	if (!str)
-		return (1);
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 static	void	join_in_qt_exp(t_data **data, t_token *tkn, t_token_type type)
 {
 	t_token	*current;
@@ -95,6 +79,33 @@ static	void	print_exp_env(t_data **data)
 	} 
 }
 
+static int	util_exp(t_data **data, t_token **current, t_token **tkn)
+{
+	char	*var;
+	int		flag;
+
+	var = NULL;
+	flag = 0;
+	if ((*current)->value && !(((*current)->value[0] >= 'a' && (*current)->value[0] <= 'z')
+			|| ((*current)->value[0] >= 'A' && (*current)->value[0] <= 'Z') || (*current)->value[0] == 32))
+	{
+		if (ft_strsearch((*current)->value, '='))
+		{
+			var = ft_strndup((*current)->value, (ft_strlen_char((*current)->value, '=') - 1));
+			flag = 1;
+		}
+		else
+			var = (*current)->value;
+		ft_printf("bash: export: `%s': not a valid identifier\n", var);
+		if (flag == 1)
+			free(var);
+		return (unset_env(tkn, &(*data)->env_list), 1);			
+	}
+	if ((*current)->value && ft_strsearch((*current)->value, '=') == 0)
+		return ((*current) = (*current)->next, 2);
+	return (0);
+}
+
 int	export_cmd(t_data **data, t_token **tkn)
 {
 	t_token		*current;
@@ -106,9 +117,10 @@ int	export_cmd(t_data **data, t_token **tkn)
 	{
 		while (current->type != TOKEN_EOF && current->type == TOKEN_WHITESPACE)
 			current = current->next;
-		if (current->value && !((current->value[0] >= 'a' && current->value[0] <= 'z')
-				|| (current->value[0] >= 'A' && current->value[0] <= 'Z') || current->value[0] == 32))
-			return (ft_printf("bash: export: `%s': not a valid identifier\n", current->value));
+		if (util_exp(data, &current, tkn) == 1)
+			return (1);
+		else if (util_exp(data, &current, tkn) == 2)
+			continue ;
 		if (current->value && ft_strsearch(current->value, '='))
 		{
 			add_to_env(current, data);

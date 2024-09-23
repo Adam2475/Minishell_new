@@ -136,10 +136,11 @@ int				expand_var(t_token **tkn_lst, t_data **data);
 char		*find_cmd(char *cmd, t_data **data);
 int			manual_cmd(char **cmd_args, t_data **data, t_token **token);
 // unset
-int				unset_env(t_env_list **env, char *var_name);
-int				is_numeric(char *str);
+int				unset_env(t_token **token, t_env_list **env);
+int				ft_strsearch(char *str, int c);
 // export
 int				export_cmd(t_data **data, t_token **tkn);
+int				is_numeric(char *str);
 // chdir
 int				cd_cmd(t_data **data, t_token **tkn);
 // echo

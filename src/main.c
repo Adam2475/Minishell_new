@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 		data->token_list = NULL;
 		data->input = readline("myprompt$ ");
 		if (!data->input)
-			free_exit(&data, tokens);
+			return (ft_printf("exit\n"), free_exit(&data, tokens), 1);
 		add_history(data->input);
 		if (tokenizer(&data, &tokens))
 			continue ;
