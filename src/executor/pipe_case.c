@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/21 18:39:42 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:40:43 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **toke
 				close(end[z]);
 				z++;
 			}
-			if (set_redirection(current->head, data) > 0)
+			if (redirect_parser(data, current->head) > 0)
 				return ;
 			status = child_process_pipe(envp, data, current->head);
 		}

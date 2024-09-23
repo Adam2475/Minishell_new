@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 14:12:30 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:17:05 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	parser_case_herdoc(t_token *current, t_data **data)
 	current = current->next;
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
-	if (current->type == TOKEN_APPENDICE)
+	if (current->type == TOKEN_APPENDICE || current->type == TOKEN_COMMAND)
 		handle_heredoc(current->value, data);
 	else
-		return (1);
+		return (ft_printf("syntax error after heredoc operator!\n"));
 	return (0);
 }

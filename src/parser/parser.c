@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 14:26:42 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:34:26 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ static int	parser_init(t_data **data)
 	return (0);
 }
 
-static	int	redirect_parser(t_data **data, t_token *current)
+int	redirect_parser(t_data **data, t_token *current)
 {
+	if ((*data)->fd >= 0)
+		return (0);
 	while (current != NULL)
 	{
 		if (current->type == TOKEN_REDIRECT_OUT)

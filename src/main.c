@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 15:04:50 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:44:03 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	g_err_state;
 
-static void    print_tokens(t_token *tokens)
+static	void	print_tokens(t_token *tokens)
 {
 	t_token *temp = tokens;
-        while (temp)
+		while (temp)
 	{
-                printf("Type: %d, Value: %s\n", temp->type, temp->value);
-	        temp = temp->next;
-        }
+		printf("Type: %d, Value: %s\n", temp->type, temp->value);
+		temp = temp->next;
+	}
 }
 
 static	char	*retrieve_line(char **envp)
@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 			data->token_list = split_tokens_by_pipe(data->tmp);
 			pipe_case(&tokens, &data, envp, &data->token_list);
 		}
-		//print_tokens(tokens);
+		print_tokens(tokens);
 		free_tokens(&data, tokens);
 	}
 }
@@ -96,8 +96,16 @@ int	main(int argc, char **argv, char **envp)
 /////////////////
 // Single Command:
 // echo ciao
+// echo "ciao" ciao
 // ls -l
 // exit
 // ls -l > outfile
 // cat outfile
-// < outfile grep -rl out ?!
+// < outfile grep -rl out
+// cat << eof
+// ls -l >> out
+
+/////////////////
+// Multi Cmd:
+//
+// < outfile grep -rl ada | cat -e > out2 ??

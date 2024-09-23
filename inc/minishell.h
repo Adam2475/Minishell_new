@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 14:49:51 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:36:38 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef enum cmd
 
 typedef struct s_token_list
 {
-	t_token					*head;
+	t_token						*head;
 	struct	s_token_list		*next;
 }	t_token_list;
 
@@ -113,6 +113,7 @@ int				parser_case_redo(t_token *current, t_data **data);
 int				parser_case_redi(t_token *current, t_data **data);
 int				parser_case_append(t_token *current, t_data **data);
 int				parser_case_herdoc(t_token *current, t_data **data);
+int				redirect_parser(t_data **data, t_token *current);
 // Redireciton
 void			handle_heredoc(char *delimiter, t_data **data);
 // Executer
