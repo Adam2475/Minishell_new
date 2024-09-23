@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 			data->token_list = split_tokens_by_pipe(data->tmp);
 			pipe_case(&tokens, &data, envp, &data->token_list);
 		}
-		print_tokens(tokens);
+		// print_tokens(tokens);
 		free_tokens(&data, tokens);
 	}
 }

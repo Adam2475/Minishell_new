@@ -12,42 +12,45 @@
 
 #include "../../inc/minishell.h"
 
+static	void	print_in_qt(t_token **node, t_token_type type)
+{
+	(*node) = (*node)->next;
+	while ((*node)->type != type && (*node)->type != TOKEN_EOF)
+	{
+		ft_printf("%s", (*node)->value);
+		(*node) = (*node)->next;
+	}
+	if ((int)(*node)->next->type == 11 && (*node)->type != type)
+		ft_printf(" ");
+}
+
 int	echo_cmd(t_token **tkn)
 {
 	t_token	*node;
 	int		flag_n;
 
-	node = (*tkn);
+	node = (*tkn)->next;
 	flag_n = 0;
-	while (node)
+	while (node->type != TOKEN_EOF && node->type == TOKEN_WHITESPACE)
+		node = node->next;
+	if (ft_strncmp(node->value, "-n", 3) == 0)
 	{
-		if (ft_strncmp(node->value, "-n", 3) == 0)
-		{
-			node = node->next;
-			flag_n = 1;
-		}
-		if (((int)node->type == 0 || (int)node->type == 13) && (int)node->next->type == 11)
-		{
-			ft_printf("%s ", node->value);
-			if (node->next->next)
-			{
-				node = node->next->next;
-				continue ;
-			}
-		}
-		else if ((int)node->type == 0 || (int)node->type == 14
-			|| (int)node->type == 13 || (int)node->type == 8)
-		{
-			ft_printf("%s", node->value);
-			node = node->next;
-		}
-		if ((int)node->type == 7 && flag_n == 0)
-			return (g_err_state = 0, ft_printf("\n"));
-		else
-			node = node->next;
+		node = node->next;
+		flag_n = 1;
 	}
-	g_err_state = 0;
-	return (1);
+	while (node && node->type != TOKEN_EOF)
+	{
+		if (((int)node->type == 0 || (int)node->type == 13) && (int)node->next->type == 11)
+			ft_printf("%s ", node->value);
+		if (((int)node->type == 0 || (int)node->type == 13) && (int)node->next->type != 11)
+			ft_printf("%s", node->value);
+		if ((int)node->type == 9 || (int)node->type == 10)
+			print_in_qt(&node, node->type);
+		node = node->next;
+	}
+	if (flag_n == 0)
+		ft_printf("\n");
+	return (g_err_state = 0, 1);
 }
 
 // TODO: problemi 'echo cioa disod ios'

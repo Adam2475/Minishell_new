@@ -100,6 +100,29 @@ int	execute_command(char *command, t_data **data, char **envp)
 // 	return (0);
 // }
 
+
+/*TODO: SISTEMARE EXPANDER HEREDOC 	
+			- vedere se puo' aver senso tokenizzare ogni
+				str che viene passata e poi liberare cosi' si hanno
+				gia' l funzioni pronte ecc
+
+static	char	*expand_line(char *line, t_data **data)
+{
+	char	*tmp;
+	char	*copy_line;
+	int		i;
+	int		j;
+
+	tmp = ft_strndup(line, ft_strlen_char(line, '$') - 1);
+	copy_line = ft_strtrim(line, tmp);
+	free(tmp);
+	i = 0;
+	while (copy_line[i] != '\0' && copy_line[i] != 32)
+		i++;
+	tmp = ft_calloc(sizeof(char), i + 1);
+	while (cop)
+}
+*/
 void	handle_heredoc(char *delimiter, t_data **data)
 {
 	char		*line;
@@ -118,7 +141,8 @@ void	handle_heredoc(char *delimiter, t_data **data)
 			free(line);
 			break ;
 		}
-		
+		if (ft_strsearch(line, '$'))
+			line = expand_line(line, data);
 		write(heredoc_fd, line, ft_strlen(line));
 		write(heredoc_fd, "\n", 1);
 		free(line);
