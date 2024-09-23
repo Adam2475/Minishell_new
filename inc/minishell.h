@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 17:36:38 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:36:42 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ int				check_quotes(t_token **tokens);
 int				expand_doll(t_token **current, t_data **data);
 int				expand_var(t_token **tkn_lst, t_data **data);
 // builtins
-char		*find_cmd(char *cmd, t_data **data);
-int			manual_cmd(char **cmd_args, t_data **data, t_token **token);
+char			*find_cmd(char *cmd, t_data **data);
+int				manual_cmd(char **cmd_args, t_data **data, t_token **token);
 // unset
 int				unset_env(t_env_list **env, char *var_name);
 int				is_numeric(char *str);
@@ -146,12 +146,12 @@ int				cd_cmd(t_data **data, t_token **tkn);
 // echo
 int				echo_cmd(t_token **tkn);
 // pwd
-int			pwd_cmd(t_data **data);
+int				pwd_cmd(t_data **data);
 // env
-int			env_cmd(t_data **data);
+int				env_cmd(t_data **data);
 // exit
-int			cmd_exit(t_data **data, t_token **token);
-int			init_execution(t_data **data, int *i, char **command);
+int				cmd_exit(t_data **data, t_token **token);
+int				init_execution(t_data **data, int *i, char **command);
 // free functions
 void			ft_free_null(void *null);
 void			free_node_env(t_env_list *node);

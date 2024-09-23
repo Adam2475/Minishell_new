@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 13:48:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:39:19 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ void free_token_list(t_token_list *list)
 	while (current)
 	{
 		if (current->head)
-		{
-			if (current->head->value)
-				free(current->head->value);
-			free(current->head);
-		}
+			free_list(current->head);
 		next_node = current->next;
 		free(current);
 		current = next_node;
