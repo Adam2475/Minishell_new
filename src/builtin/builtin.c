@@ -59,6 +59,22 @@ void	free_node_env(t_env_list *node)
 	tmp = NULL;
 }
 
+int	ft_strsearch(char *str, int c)
+{
+	int i;
+
+	i = 0;
+	if (!str)
+		return (1);
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 {
 	t_data	*tmp;
@@ -73,7 +89,7 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	if (tmp->cmd == EXPORT)
 		return (export_cmd(data, token));
 	if (tmp->cmd == UNSET)
-		return (unset_env(&tmp->env_list, cmd_args[1]));
+		return (unset_env(token, &tmp->env_list));
 	if (tmp->cmd == ENV)
 		return (env_cmd(data));
 	if (tmp->cmd == EXIT)

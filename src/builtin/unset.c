@@ -12,7 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-
 int	is_numeric(char *str)
 {
 	int i = 0;
@@ -30,31 +29,45 @@ int	is_numeric(char *str)
 	return (1);
 }
 
-int	unset_env(t_env_list **env, char *var_name)
+void	roll_env(t_env_list **current, char *var_name)
 {
-	t_env_list *current = *env;
-
-	var_name = ft_strjoin(var_name, "=");
-	while (current && ft_strncmp(current->var, var_name, ft_strlen(var_name)) != 0)
+	while ((*current))
 	{
-		if (current->next)
-			current = current->next;
+		if (ft_strncmp((*current)->var, var_name, ft_strlen(var_name)) == 0)
+		{
+			free_node_env((*current));
+			break ;
+		}
+		else if ((*current)->next)
+			(*current) = (*current)->next;
 		else
 			break ;
 	}
-	if (ft_strncmp(current->var, var_name, ft_strlen(var_name)) == 0)
+}
+
+int	unset_env(t_token **token, t_env_list **env)
+{
+	t_env_list	*current;
+	t_token		*tkn;
+	char		*var_name;
+
+	tkn = (*token)->next;
+	var_name = NULL;
+	while (tkn && tkn->type != TOKEN_EOF)
 	{
-		if (current->pre)
-			current->pre->next = current->next;
+		current = *env;
+		while(tkn->type == TOKEN_WHITESPACE)
+			tkn = tkn->next;
+		if (ft_strsearch(tkn->value, '='))
+			var_name = ft_strndup(tkn->value, ft_strlen_char(tkn->value, '='));
 		else
-			*env = current->next;
-		if (current->next)
-			current->next->pre = current->pre;
-		free(current->var);
-		free(current->value);
-		free(current->content);
-		free(current);
-		return (1);
+			var_name = ft_strjoin(tkn->value, "=");
+		roll_env(&current, var_name);
+		free(var_name);
+		var_name = NULL;
+		tkn = tkn->next;
 	}
-	return (0);
+	if (var_name != NULL)
+		free(var_name);
+	return (1);
 }

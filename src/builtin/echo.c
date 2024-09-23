@@ -15,11 +15,18 @@
 int	echo_cmd(t_token **tkn)
 {
 	t_token	*node;
+	int		flag_n;
 
 	node = (*tkn);
+	flag_n = 0;
 	while (node)
 	{
-		if ((int)node->type == 0 && (int)node->next->type == 11)
+		if (ft_strncmp(node->value, "-n", 3) == 0)
+		{
+			node = node->next;
+			flag_n = 1;
+		}
+		if (((int)node->type == 0 || (int)node->type == 13) && (int)node->next->type == 11)
 		{
 			ft_printf("%s ", node->value);
 			if (node->next->next)
@@ -34,7 +41,7 @@ int	echo_cmd(t_token **tkn)
 			ft_printf("%s", node->value);
 			node = node->next;
 		}
-		if ((int)node->type == 7)
+		if ((int)node->type == 7 && flag_n == 0)
 			return (g_err_state = 0, ft_printf("\n"));
 		else
 			node = node->next;
