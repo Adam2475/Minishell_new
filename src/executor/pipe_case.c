@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 17:40:43 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:24:33 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ t_token *extract_command_and_appendices(t_token *tokens)
 
 	while (current)
 	{
+		// Skip whitespace tokens
+		if (current->type == TOKEN_WHITESPACE)
+		{
+			current = current->next;
+			continue;
+		}
+
 		if (current->type == TOKEN_COMMAND)
 		{
 			command_found = 1;
