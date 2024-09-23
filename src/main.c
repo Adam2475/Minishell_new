@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 15:04:50 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:19:07 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	main(int argc, char **argv, char **envp)
 			data->token_list = split_tokens_by_pipe(data->tmp);
 			pipe_case(&tokens, &data, envp, &data->token_list);
 		}
-		//print_tokens(tokens);
 		free_tokens(&data, tokens);
 	}
 }
@@ -100,4 +99,7 @@ int	main(int argc, char **argv, char **envp)
 // exit
 // ls -l > outfile
 // cat outfile
-// < outfile grep -rl out ?!
+// < outfile grep -rl out
+// cat << eof
+// ls -l >> out
+

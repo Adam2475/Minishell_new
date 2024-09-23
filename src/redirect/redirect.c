@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/21 18:51:58 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:02:33 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	handle_heredoc(char *delimiter, t_data **data)
 	int			heredoc_fd;
 	char		*tempfile;
 
-	tempfile = "/tmp/minishell_heredoc.tmp";
+	tempfile = ".heredoc.txt";
 	heredoc_fd = open(tempfile, O_CREAT | O_RDWR | O_TRUNC, 0600);
 	if (heredoc_fd < 0)
 		return (perror("Failed to open heredoc temporary file"));
@@ -118,7 +118,8 @@ void	handle_heredoc(char *delimiter, t_data **data)
 			free(line);
 			break ;
 		}
-		write(heredoc_fd, line, strlen(line));
+		
+		write(heredoc_fd, line, ft_strlen(line));
 		write(heredoc_fd, "\n", 1);
 		free(line);
 	}
@@ -130,9 +131,6 @@ void	handle_heredoc(char *delimiter, t_data **data)
 		return ;
 	}
 	(*data)->fd = heredoc_fd;
-	if (dup2((*data)->fd, STDIN_FILENO) < 0)
-	{
-		perror("heredoc redirection error");
-		exit(1);
-	}
+	(*data)->redirect_state = 0;
+	return ;
 }
