@@ -97,7 +97,7 @@ void			exit_from_parser(t_data **data, t_token *tokens);
 void			free_list(t_token *head);
 int				init_data(t_data **data, int argc, char **argv, t_token **tokens);
 // Tokenizer
-void			tokenizer(t_data **data, t_token **tokens);
+int				tokenizer(t_data **data, t_token **tokens);
 int				whitespace_case(char *buffer, char *end, t_token **tokens);
 int				special_cases_lexer(t_data **data, char *buffer,
 					t_token **tokens, char *end);
@@ -117,12 +117,6 @@ void			handle_heredoc(char *delimiter, t_data **data);
 // Executer
 void			execute_command_single(char **command, t_data **data,
 					char **envp, t_token **token);
-// tokenizer
-t_token			*token_reformatting_command(t_token *current);
-void			tokenizer(t_data **data, t_token **tokens);
-int				whitespace_case(char *buffer, char *end, t_token **tokens);
-int				special_cases_lexer(t_data **data, char *buffer,
-					t_token **tokens, char *end);
 // env_list
 t_env_list		*lstlast_env(t_env_list *lst);
 t_env_list		*new_node_env(char *content);
@@ -154,14 +148,14 @@ int			pwd_cmd(t_data **data);
 // env
 int			env_cmd(t_data **data);
 // exit
-int			cmd_exit(t_data **data);
+int			cmd_exit(t_data **data, t_token **token);
 int			init_execution(t_data **data, int *i, char **command);
 // free functions
-void		ft_free_null(void *null);
-void		free_node_env(t_env_list *node);
-void		free_char_array(char **array);
-void		free_env_list(t_env_list *head);
-void		free_tokens(t_data **data, t_token *tokens);
+void			ft_free_null(void *null);
+void			free_node_env(t_env_list *node);
+void			free_char_array(char **array);
+void			free_env_list(t_env_list *head);
+void			free_tokens(t_data **data, t_token *tokens);
 int				pwd_cmd(t_data **data);
 // free functions
 void			ft_free_null(void *null);
@@ -170,7 +164,7 @@ void			free_env_list(t_env_list *head);
 void			free_tokens(t_data **data, t_token *tokens);
 int				env_cmd(t_data **data);
 int				init_execution(t_data **data, int *i, char **command);
-///////////////////////////////////////////////////////////////
+// Pipe case
 t_token_list	*split_tokens_by_pipe(t_token *tokens);
 t_token_list	*create_token_list_node(t_token *head);
 t_token			*extract_command_and_appendices(t_token *tokens);

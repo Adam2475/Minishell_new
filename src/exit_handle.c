@@ -58,19 +58,17 @@ void	free_env_list(t_env_list *head)
 	}
 	free(head);
 }
-// TODO: sistema
 void	free_list(t_token *head)
 {
 	t_token	*tmp;
 
-	while (head != NULL)
+	while (head)
 	{
 		tmp = head;
 		head = head->next;
-		if (tmp->value && tmp->value[0] != '\0')
+		if (tmp->value)
 			free(tmp->value);
 		tmp->value = NULL;
-		// ft_printf("%p\n")
 		free(tmp);
 		tmp = NULL;
 	}
@@ -80,7 +78,8 @@ void	free_exit(t_data **data, t_token *tokens)
 {
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
-	free((*data)->input);
+	if ((*data)->input)
+		free((*data)->input);
 	free(*data);
 	exit(1);
 }

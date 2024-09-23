@@ -59,7 +59,8 @@ int	main(int argc, char **argv, char **envp)
 		data->input = readline("myprompt$ ");
 		if (!data->input)
 			free_exit(&data, tokens);
-		tokenizer(&data, &tokens);
+		if (tokenizer(&data, &tokens))
+			continue ;
 		data->tmp = copy_token_list(&data, tokens);
 		data->tokens = copy_token_list(&data, tokens);
 		env_parser(&data, envp);
@@ -71,5 +72,6 @@ int	main(int argc, char **argv, char **envp)
 			pipe_case(&tokens, &data, envp, &data->token_list);
 		}
 		free_tokens(&data, tokens);
+		//if (g_err_state = 127)
 	}
 }

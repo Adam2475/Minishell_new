@@ -32,7 +32,7 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 	else
 	{
 		g_err_state = 127;
-		free_exit(data, (*data)->tokens);
+		exit(1);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -56,7 +56,11 @@ void	execute_command_single(char **command, t_data **data,
 	init_execution(data, &i, command);
 	tmp = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
+	{
+		free(tmp);
 		return ;
+	}
+	(*data)->cmd2 = find_cmd(command[0], data);
 	holder = NULL;
 	while (command[i])
 	{

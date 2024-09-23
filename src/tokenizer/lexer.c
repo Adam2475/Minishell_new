@@ -90,7 +90,7 @@ static	int	init_state(t_data **data, t_token **tokens, char *tmp)
 	return (0);
 }
 
-void	tokenizer(t_data **data, t_token **tokens)
+int	tokenizer(t_data **data, t_token **tokens)
 {
 	char	*buffer;
 	char	*tmp;
@@ -110,7 +110,8 @@ void	tokenizer(t_data **data, t_token **tokens)
 	recognizer(buffer, tokens, end, data);
 	token_reformatting(tokens);
 	if (check_quotes(tokens) != 0)
-		exit(printf("unclosed quotes found!!\n"));
+		return (1);
 	expand_var(tokens, data);
 	free (tmp);
+	return (0);
 }

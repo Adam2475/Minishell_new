@@ -77,7 +77,7 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	if (tmp->cmd == ENV)
 		return (env_cmd(data));
 	if (tmp->cmd == EXIT)
-		return (cmd_exit(data));
+		return (cmd_exit(data, token));
 	if (tmp->cmd == PWD)
 		return (pwd_cmd(data));
 	return (0);
