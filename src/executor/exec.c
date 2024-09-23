@@ -32,7 +32,7 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 	else
 	{
 		g_err_state = 127;
-		exit(1);
+		exit(g_err_state);
 	}
 	return (EXIT_SUCCESS);
 }

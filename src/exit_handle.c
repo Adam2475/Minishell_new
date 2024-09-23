@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/21 19:59:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:48:11 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	free_list(t_token *head)
 
 void	free_exit(t_data **data, t_token *tokens)
 {
+	clear_history();
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
 	if ((*data)->input)

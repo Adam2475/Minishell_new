@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/21 19:59:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:47:40 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	main(int argc, char **argv, char **envp)
 		data->input = readline("myprompt$ ");
 		if (!data->input)
 			free_exit(&data, tokens);
+		add_history(data->input);
 		if (tokenizer(&data, &tokens))
 			continue ;
 		data->tmp = copy_token_list(&data, tokens);
@@ -72,6 +73,5 @@ int	main(int argc, char **argv, char **envp)
 			pipe_case(&tokens, &data, envp, &data->token_list);
 		}
 		free_tokens(&data, tokens);
-		//if (g_err_state = 127)
 	}
 }
