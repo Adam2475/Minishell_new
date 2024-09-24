@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 18:26:19 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:15:16 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_err_state;
 
-static	void	print_tokens(t_token *tokens)
+void	print_tokens(t_token *tokens)
 {
 	t_token *temp = tokens;
 		while (temp)
@@ -109,5 +109,4 @@ int	main(int argc, char **argv, char **envp)
 // Multi Cmd:
 //
 // < outfile grep -rl ada | cat -e > out2 ??
-// < src/init.c grep -rl int | cat -e > out2
-
+// < src/init.c grep -rl int | cat -e > out2 ??

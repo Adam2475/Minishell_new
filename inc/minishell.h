@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/24 17:03:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:21:12 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,14 +182,23 @@ int				set_redirection(t_token *tokens, t_data **data);
 int				execute_command(char *command, t_data **data, char **envp);
 
 ///////////
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *string, int searchedChar );
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t elementCount, size_t elementSize);
-char	*ft_free(char *buffer, char *buf);
-char	*ft_next(char *buffer);
-char	*ft_line(char *buffer);
-char	*read_file(int fd, char *res);
-char	*get_next_line2(int fd);
+char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strchr(const char *string, int searchedChar );
+void		ft_bzero(void *s, size_t n);
+void		*ft_calloc(size_t elementCount, size_t elementSize);
+char		*ft_free(char *buffer, char *buf);
+char		*ft_next(char *buffer);
+char		*ft_line(char *buffer);
+char		*read_file(int fd, char *res);
+char		*get_next_line2(int fd);
+
+////////////////////////
+void		print_tokens(t_token *tokens);
+
+////////////////////////
+int			is_whitespace(const char *str);
+void		remove_whitespace_nodes(t_token **head);
+t_token		*new_node(const char *content);
+void		print_list(t_token *head);
 
 #endif

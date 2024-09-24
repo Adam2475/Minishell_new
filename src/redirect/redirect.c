@@ -6,11 +6,68 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/24 18:31:00 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:20:25 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+// Helper function to check if the content of a node is all whitespace
+int is_whitespace(const char *str)
+{
+	while (*str)
+	{
+		if (!isspace((unsigned char)*str))
+			return 0;
+		str++;
+	}
+	return 1;
+}
+
+// Function to remove whitespace nodes
+void remove_whitespace_nodes(t_token **head)
+{
+	t_token	*current = *head;
+	t_token	*prev = NULL;
+
+	while (current != NULL)
+	{
+		if (is_whitespace(current->value))
+		{
+			if (prev == NULL)
+			{
+				*head = current->next;
+				free(current->value);
+				free(current);
+				current = *head;
+			}
+			else
+			{
+				prev->next = current->next;
+				free(current->value);
+				free(current);
+				current = prev->next;
+			}
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+}
+
+// Function to create a new list node
+t_token *new_node(const char *content)
+{
+	t_token *node = (t_token *)malloc(sizeof(t_token));
+	if (!node)
+		return NULL;
+	node->value = ft_strdup(content);
+	node->type = 0;
+	node->next = NULL;
+	return node;
+}
 
 char	*trim_whitespace(char *str)
 {
@@ -74,7 +131,6 @@ void	handle_heredoc(char *delimiter, t_data **data)
 		free(line);
 	}
 	close(heredoc_fd);
-	// tempfile = "Makefile";
 	heredoc_fd = open(tempfile, O_RDONLY);
 	if (heredoc_fd < 0)
 	{
