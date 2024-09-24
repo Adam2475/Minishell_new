@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 18:37:05 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:31:00 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,88 +47,14 @@ int	execute_command(char *command, t_data **data, char **envp)
 	return(0);
 }
 
-// int	set_redirection(t_token *tokens, t_data **data)
-// {
-// 	t_token *current = tokens;
-
-// 	while (current != NULL)
-// 	{
-// 		if (current->type == TOKEN_REDIRECT_OUT)
-// 		{
-// 			current = current->next;
-// 			(*data)->redirect_state = 1;
-// 			if (current->type == TOKEN_APPENDICE)
-// 				(*data)->fd = open(current->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
-// 			else
-// 				return(ft_printf("syntax error!!\n"));
-// 		}
-// 		else if (current->type == TOKEN_REDIRECT_IN)
-// 		{
-// 			current = current->next;
-// 			(*data)->redirect_state = 0;
-// 			if (current->type == TOKEN_APPENDICE)
-// 			{
-// 				(*data)->fd = open(current->value, O_RDONLY);
-// 				if ((*data)->fd < 0)
-// 					exit(ft_printf("input file not found!\n"));
-// 				else
-// 					return(ft_printf("syntax error!!\n"));
-// 			}
-// 		}
-// 		else if (current->type == TOKEN_APPEND)
-// 		{
-// 			current = current->next;
-// 			(*data)->redirect_state = 1;
-// 			if (current->type == TOKEN_APPENDICE)
-// 			{
-// 				ft_printf("setting up the append!\n");
-// 				(*data)->fd = open(current->value, O_WRONLY | O_APPEND | O_CREAT, 0644);
-// 			}
-// 			else
-// 				return(ft_printf("syntax error!!\n"));
-// 		}
-// 		else if (current->type == TOKEN_HEREDOC)
-// 		{
-// 			current = current->next;
-// 			if (current->type == TOKEN_APPENDICE)
-// 				handle_heredoc(current->value, data);
-// 			else
-// 				return(ft_printf("syntax error!!\n"));
-// 		}
-// 		current = current->next;
-// 	}
-// 	return (0);
-// }
-
-
-/*TODO: SISTEMARE EXPANDER HEREDOC 	
-			- vedere se puo' aver senso tokenizzare ogni
-				str che viene passata e poi liberare cosi' si hanno
-				gia' l funzioni pronte ecc
-
-static	char	*expand_line(char *line, t_data **data)
-{
-	char	*tmp;
-	char	*copy_line;
-	int		i;
-	int		j;
-
-	tmp = ft_strndup(line, ft_strlen_char(line, '$') - 1);
-	copy_line = ft_strtrim(line, tmp);
-	free(tmp);
-	i = 0;
-	while (copy_line[i] != '\0' && copy_line[i] != 32)
-		i++;
-	tmp = ft_calloc(sizeof(char), i + 1);
-	while (cop)
-}
-*/
 void	handle_heredoc(char *delimiter, t_data **data)
 {
 	char		*line;
 	int			heredoc_fd;
 	char		*tempfile;
+	int			i;
 
+	i = 0;
 	tempfile = ".heredoc.txt";
 	heredoc_fd = open(tempfile, O_CREAT | O_RDWR | O_TRUNC, 0600);
 	if (heredoc_fd < 0)
@@ -141,13 +67,14 @@ void	handle_heredoc(char *delimiter, t_data **data)
 			free(line);
 			break ;
 		}
-		if (ft_strsearch(line, '$'))
-			line = expand_line(line, data);
+		// if (ft_strsearch(line, '$'))
+		// 	line = expand_line(line, data);
 		write(heredoc_fd, line, ft_strlen(line));
 		write(heredoc_fd, "\n", 1);
 		free(line);
 	}
 	close(heredoc_fd);
+	// tempfile = "Makefile";
 	heredoc_fd = open(tempfile, O_RDONLY);
 	if (heredoc_fd < 0)
 	{
@@ -156,5 +83,13 @@ void	handle_heredoc(char *delimiter, t_data **data)
 	}
 	(*data)->fd = heredoc_fd;
 	(*data)->redirect_state = 0;
+	while (1)
+	{
+		line = get_next_line2(heredoc_fd);
+		if (!line)
+			break ;
+		ft_printf("%s", line);
+		free(line);
+	}
 	return ;
 }
