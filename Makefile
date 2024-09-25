@@ -14,6 +14,7 @@ SRCS = main init tokenizer/lexer exit_handle \
 		builtin/exit builtin/echo builtin/export builtin/unset \
 		builtin/pwd builtin/env \
 		signals get_next_line get_next_line_utils \
+		builtin/utils_builtin \
 
 SRC = $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRCS)))
 # Object file generation

@@ -24,6 +24,21 @@ static	void	print_in_qt(t_token **node, t_token_type type)
 		ft_printf(" ");
 }
 
+static int	inutils_num(t_token *node)
+{
+	t_token	*tmp;
+	int		flag;
+
+	tmp = node;
+	flag = 0;
+	if (ft_strncmp(tmp->value, "-n", 3) == 0)
+	{
+		tmp = tmp->next;
+		flag = 1;
+	}
+	return (flag);
+}
+
 int	echo_cmd(t_token **tkn)
 {
 	t_token	*node;
@@ -33,16 +48,14 @@ int	echo_cmd(t_token **tkn)
 	flag_n = 0;
 	while (node->type != TOKEN_EOF && node->type == TOKEN_WHITESPACE)
 		node = node->next;
-	if (ft_strncmp(node->value, "-n", 3) == 0)
-	{
-		node = node->next;
-		flag_n = 1;
-	}
+	flag_n = inutils_num(node);
 	while (node && node->type != TOKEN_EOF)
 	{
-		if (((int)node->type == 0 || (int)node->type == 13) && (int)node->next->type == 11)
+		if (((int)node->type == 8 || (int)node->type == 13)
+			&& (int)node->next->type == 11)
 			ft_printf("%s ", node->value);
-		if (((int)node->type == 0 || (int)node->type == 13) && (int)node->next->type != 11)
+		if (((int)node->type == 8 || (int)node->type == 13)
+			&& (int)node->next->type != 11)
 			ft_printf("%s", node->value);
 		if ((int)node->type == 9 || (int)node->type == 10)
 			print_in_qt(&node, node->type);

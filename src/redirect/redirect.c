@@ -124,8 +124,6 @@ void	handle_heredoc(char *delimiter, t_data **data)
 			free(line);
 			break ;
 		}
-		// if (ft_strsearch(line, '$'))
-		// 	line = expand_line(line, data);
 		write(heredoc_fd, line, ft_strlen(line));
 		write(heredoc_fd, "\n", 1);
 		free(line);
