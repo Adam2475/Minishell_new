@@ -43,9 +43,30 @@ static	int	call_for_command(t_token **tokens, t_data **data,
 	return (0);
 }
 
+static	int	token_words(t_token *token)
+{
+	int		i;
+	t_token	*tmp;
+
+	tmp = token;
+	i = 0;
+	while (tmp && tmp->type != TOKEN_EOF)
+	{
+		if (tmp->type == TOKEN_WHITESPACE)
+			;
+		else
+			i++;
+		tmp = tmp->next;
+	}
+	return (i + 1);
+}
+
 static int	parser_init(t_data **data)
 {
-	(*data)->command = (char **)ft_calloc(4, sizeof(char *));
+	size_t	words;
+
+	words = (size_t)token_words((*data)->tokens);
+	(*data)->command = (char **)ft_calloc(words, sizeof(char *));
 	if (!(*data)->command)
 		return (1);
 	return (0);

@@ -113,7 +113,7 @@ int	export_cmd(t_data **data, t_token **tkn)
 
 	current = (*tkn);
 	flag = 0;
-	while (current->value && current->type != TOKEN_EOF)
+	while (current && current->type != TOKEN_EOF)
 	{
 		while (current->type != TOKEN_EOF && current->type == TOKEN_WHITESPACE)
 			current = current->next;

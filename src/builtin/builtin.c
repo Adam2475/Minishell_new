@@ -51,7 +51,10 @@ void	free_node_env(t_env_list *node)
 	t_env_list	*tmp;
 
 	tmp = node;
-	node->pre->next = node->next;
+	if (tmp->pre != NULL)
+		tmp->pre->next = tmp->next;
+	if (tmp->next != NULL)
+		tmp->next->pre = tmp->pre;
 	free(tmp->value);
 	free(tmp->var);
 	free(tmp->content);

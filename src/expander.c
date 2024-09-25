@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,24 +12,17 @@
 
 #include "../inc/minishell.h"
 
-char	*expand_err_state(char *tmp)
+static	int	case_err(t_token **current, char *tmp)
 {
-	tmp = ft_strtrim(tmp, "=");
-	tmp = ft_strtrim(tmp, "?");
-	tmp = ft_strjoin(ft_itoa(g_err_state), tmp);
-	return (tmp);
+	free((*current)->value);
+	if (*tmp == '?')
+	{
+		(*current)->value = expand_err_state(tmp);
+		return (0);
+	}
+	(*current)->value = ft_strndup("", 1);
+	return (free(tmp), 0);
 }
-
-char	*tmp_set(char *val)
-{
-	char	*tmp;
-
-	tmp = ft_strndup(val, ft_strlen(val));
-	tmp = ft_strtrim(tmp, "$");
-	tmp = ft_strjoin(tmp, "=");
-	return (tmp);
-}
-
 
 int	expand_doll(t_token **current, t_data **data)
 {
@@ -49,12 +42,7 @@ int	expand_doll(t_token **current, t_data **data)
 		}
 	}
 	if (!node)
-	{
-		free((*current)->value);
-		if (*tmp == '?')
-			return ((*current)->value = expand_err_state(tmp), free(tmp), 0);
-		return ((*current)->value = ft_strndup("", 1), free(tmp), 0);
-	}
+		return (case_err(current, tmp));
 	free(tmp);
 	free((*current)->value);
 	return ((*current)->value = ft_strndup(node->value, ft_strlen(node->value)), 0);
