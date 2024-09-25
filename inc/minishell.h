@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/24 19:21:12 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:14:01 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,14 +168,14 @@ void			free_tokens(t_data **data, t_token *tokens);
 int				env_cmd(t_data **data);
 int				init_execution(t_data **data, int *i, char **command);
 // Pipe case
-t_token_list	*split_tokens_by_pipe(t_token *tokens);
+t_token_list 	*split_tokens_by_pipe(t_token *tokens);
 t_token_list	*create_token_list_node(t_token *head);
 t_token			*extract_command_and_appendices(t_token *tokens);
 size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
 void			pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **token_list);
 void			append_token_list(t_token_list **list, t_token *head);
-void			free_token_list(t_token_list *list);
+void			free_token_list(t_data **data);
 char			*token_to_command(t_token *head);
 int				count_pipes(t_token* head);
 int				set_redirection(t_token *tokens, t_data **data);
@@ -200,5 +200,11 @@ int			is_whitespace(const char *str);
 void		remove_whitespace_nodes(t_token **head);
 t_token		*new_node(const char *content);
 void		print_list(t_token *head);
+void		free_token_list2(t_token_list *list);
+void		free_token_segment(t_token *token_segment);
+
+/////////////////////////////////////
+
+t_token *copy_token_segment(t_token *start, t_token *end);
 
 #endif

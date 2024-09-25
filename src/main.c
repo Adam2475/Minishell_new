@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/24 19:15:16 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:20:23 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,18 @@ int	main(int argc, char **argv, char **envp)
 		if (tokenizer(&data, &tokens))
 			continue ;
 		data->tmp = copy_token_list(&data, tokens);
-		data->tokens = copy_token_list(&data, tokens);
+		data->tokens = copy_token_list(&data, tokens); 
 		env_parser(&data, envp);
 		if (piper(&tokens) == 0)
 			token_parser(&tokens, &data, envp);
 		else
 		{
 			data->token_list = split_tokens_by_pipe(data->tmp);
+			if (data->tmp != NULL)
+	 			free(data->tmp);
 			pipe_case(&tokens, &data, envp, &data->token_list);
 		}
-		// print_tokens(tokens);
+		//print_tokens(tokens);
 		free_tokens(&data, tokens);
 	}
 }
@@ -92,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 ////////////////
 // Edge Cases:
 // diomerda
+// = current_list->head;
 
 /////////////////
 // Single Command:
@@ -104,9 +107,12 @@ int	main(int argc, char **argv, char **envp)
 // < outfile grep -rl out
 // cat << eof
 // ls -l >> out
+// export a=32 b=78 c=4647 ?! | leaks
+// echo cioa$PWD ciao 
 
 /////////////////
 // Multi Cmd:
 //
-// < outfile grep -rl ada | cat -e > out2 ??
-// < src/init.c grep -rl int | cat -e > out2 ??
+// < outfile grep -rl ada | cat -e > out2 ?!
+// < src/init.c grep -rl int | cat -e > out2 ?!
+// cat src/main.c | cat src/init.c ?!

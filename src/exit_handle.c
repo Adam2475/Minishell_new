@@ -6,28 +6,38 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 18:39:19 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:54:00 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// serve salvarsi la posizione del puntatore originale
-
-void free_token_list(t_token_list *list)
+void	free_token_list(t_data **data)
 {
-	t_token_list *current;
-	t_token_list *next_node;
+	t_token_list	*current_list;
+	t_token_list	*temp_list;
+	t_token			*current_token;
+	t_token			*temp_token;
 
-	current = list;
-	while (current)
+	current_list = (*data)->token_list;
+	current_token = current_list->head;
+	while (current_list)
 	{
-		if (current->head)
-			free_list(current->head);
-		next_node = current->next;
-		free(current);
-		current = next_node;
+		while (current_token)
+		{
+			temp_token = current_token->next;
+			free(current_token->value);
+			current_token->value = NULL;
+			free(current_token);
+			current_token = temp_token;
+		}
+		temp_list = current_list->next;
+		free(current_list);
+		current_list = temp_list;
 	}
+	// if ((*data)->tmp != NULL)
+	// 	free((*data)->tmp);
+	//print_tokens((*data)->tmp);
 }
 
 void	free_env_list(t_env_list *head)
@@ -102,8 +112,10 @@ void	free_tokens(t_data **data, t_token *tokens)
 		free_list(tokens);
 	if ((*data)->tokens)
 		free_list((*data)->tokens);
-	if ((*data)->tmp)
-		free_list((*data)->tmp);
+	if ((*data)->token_list != NULL)
+		free_token_list(data);
+	// if ((*data)->tmp != NULL)
+	//  	free((*data)->tmp);
 	if ((*data)->path_from_envp)
 		free((*data)->path_from_envp);
 	if ((*data)->command)
@@ -116,7 +128,39 @@ void	free_tokens(t_data **data, t_token *tokens)
 		free((*data)->cmd2);
 	if ((*data)->cmd_args)
 		free_char_array((*data)->cmd_args);
-	if ((*data)->token_list != NULL)
-		free_token_list((*data)->token_list);
 	free((*data)->input);
+}
+
+void free_token_segment(t_token *token_segment)
+{
+    t_token *current = token_segment;
+    t_token *temp;
+
+    while (current)
+	{
+        temp = current->next;
+        if (current->value) {
+            free(current->value);
+            current->value = NULL;
+        }
+        free(current);
+        current = temp;
+    }
+}
+
+void free_token_list2(t_token_list *list)
+{
+    t_token_list *current = list;
+    t_token_list *temp;
+
+    while (current)
+	{
+        temp = current->next;
+        if (current->head)
+		{
+            free_token_segment(current->head);
+        }
+        free(current);
+        current = temp;
+    }
 }

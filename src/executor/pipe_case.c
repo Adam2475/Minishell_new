@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/24 19:28:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:49:00 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **toke
 	while (i <= (pipes))
 	{
 		remove_whitespace_nodes(&current->head);
-		print_tokens(current->head);
+		//print_tokens(current->head);
 		parent = fork();
 		if (parent == -1)
 			exit(ft_printf("fork error!\n"));

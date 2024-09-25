@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/21 18:36:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:08:21 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ t_token	*copy_token(t_token *token)
 t_token	*token_reformatting_special(t_token *current)
 {
 	current = current->next;
-	while (current->type == TOKEN_WHITESPACE)
+	while (current->type == TOKEN_WHITESPACE || current->type == TOKEN_DOUBLE_QUOTES
+			|| current->type == TOKEN_SINGLE_QUOTES)
 		current = current->next;
-	if (current && current->type == 0)
+	while (current && current->type == 0)
 		current->type = TOKEN_APPENDICE;
 	current = current->next;
 	return (current);

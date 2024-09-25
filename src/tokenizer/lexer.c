@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/24 19:29:15 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:41:57 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	void	token_reformatting(t_token **tokens)
 		if (current && current->type == TOKEN_PIPE)
 			current = token_reformatting_pipe(current);
 		if (current && current->type != TOKEN_WORD
-			&& current->type != TOKEN_OPTION && current->type != TOKEN_DOLLAR)
+			&& current->type != TOKEN_OPTION)
 			current = token_reformatting_special(current);
 		if (current && current->type == TOKEN_WORD)
 			current = token_reformatting_command(current);
