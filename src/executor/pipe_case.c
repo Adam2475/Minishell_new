@@ -73,9 +73,7 @@ static int child_process_pipe(char **envp, t_data **data, t_token *tokens)
 {
 	char		*holder;
 	t_token		*new_tokens;
-	t_token		*tmp;
 
-	tmp = NULL;
 	new_tokens = extract_command_and_appendices(tokens);
 	holder = token_to_command(new_tokens);
 
@@ -120,7 +118,6 @@ void pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **toke
 	while (i <= (pipes))
 	{
 		remove_whitespace_nodes(&current->head);
-		//print_tokens(current->head);
 		parent = fork();
 		if (parent == -1)
 			exit(ft_printf("fork error!\n"));

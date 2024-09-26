@@ -12,11 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-void	exit_from_parser(t_data **data, t_token *tokens)
-{
-	free_exit(data, tokens);
-}
-
 int	parser_case_redo(t_token *current, t_data **data)
 {
 	current = current->next;

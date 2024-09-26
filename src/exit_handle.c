@@ -88,6 +88,9 @@ void	free_list(t_token *head)
 {
 	t_token	*tmp;
 
+	tmp = head;
+	if (tmp == NULL)
+		return ;
 	while (head)
 	{
 		tmp = head;
@@ -98,7 +101,7 @@ void	free_list(t_token *head)
 	}
 }
 
-void	free_exit(t_data **data, t_token *tokens)
+void	free_exit(t_data **data)
 {
 	clear_history();
 	if ((*data)->env_list)

@@ -93,8 +93,7 @@ typedef struct s_data
 }	t_data;
 
 // Structural functions
-void			free_exit(t_data **data, t_token *tokens);
-void			exit_from_parser(t_data **data, t_token *tokens);
+void	free_exit(t_data **data);
 void			free_list(t_token *head);
 int				init_data(t_data **data, int argc, char **argv, t_token **tokens);
 // Tokenizer
@@ -152,7 +151,7 @@ int				pwd_cmd(t_data **data);
 int				env_cmd(t_data **data);
 // exit
 int				cmd_exit(t_data **data, t_token **token);
-int				init_execution(t_data **data, int *i, char **command);
+int				init_execution(t_data **data, int *i);
 // free functions
 void			ft_free_null(void *null);
 void			free_node_env(t_env_list *node);
@@ -166,7 +165,6 @@ void			free_char_array(char **array);
 void			free_env_list(t_env_list *head);
 void			free_tokens(t_data **data, t_token *tokens);
 int				env_cmd(t_data **data);
-int				init_execution(t_data **data, int *i, char **command);
 // Pipe case
 t_token_list 	*split_tokens_by_pipe(t_token *tokens);
 t_token_list	*create_token_list_node(t_token *head);

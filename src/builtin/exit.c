@@ -23,8 +23,8 @@ static	void	free_exit_cmd(t_data **data, t_token *tokens)
 	exit(1);
 }
 
-static	void	join_in_qt(t_data **data,
-		t_token *tkn, t_token_type type, int flag)
+static	void	join_in_qt(t_token *tkn,
+			t_token_type type, int flag)
 {
 	t_token	*current;
 	char	*tmp;
@@ -44,22 +44,19 @@ static	void	join_in_qt(t_data **data,
 int	cmd_exit(t_data **data, t_token **token)
 {
 	t_token		*tkn;
-	t_token		*tmp;
 
 	tkn = (*token)->next;
-	tmp = NULL;
 	while (tkn->type == TOKEN_WHITESPACE)
 		tkn = tkn->next;
 	if ((int)tkn->type == 7)
 		free_exit_cmd(data, *token);
 	if (tkn->type == TOKEN_DOUBLE_QUOTES || tkn->type == TOKEN_SINGLE_QUOTES)
-		(join_in_qt(data, tkn->next, tkn->type, 0),
-			free_exit_cmd(data, *token), 0);
+		(join_in_qt(tkn->next, tkn->type, 0),
+			free_exit_cmd(data, *token));
 	if (!is_numeric(tkn->value))
-		(join_in_qt(data, tkn, tkn->type, 1), free_exit_cmd(data, *token), 0);
+		join_in_qt(tkn, tkn->type, 1);
 	if (is_numeric(tkn->value))
 	{
-		tmp = tkn;
 		while ((int)tkn->type != 7 && (int)tkn->type == 11)
 			tkn = tkn->next;
 		if ((int)tkn->type != 7)

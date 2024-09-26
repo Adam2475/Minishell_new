@@ -132,7 +132,7 @@
 //     return (copy_head);
 // }
 
-int	init_execution(t_data **data, int *i, char **command)
+int	init_execution(t_data **data, int *i)
 {
 	*i = 1;
 	(*data)->cmd2 = NULL;
@@ -164,28 +164,6 @@ char	*find_cmd(char *cmd, t_data **data)
 	return (NULL);
 }
 
-static void free_token_list3(t_token_list *list)
-{
-    t_token_list *tmp;
-
-    while (list)
-    {
-        tmp = list;
-        list = list->next;
-
-        t_token *current_token = tmp->head;
-        while (current_token)
-        {
-            t_token *next_token = current_token->next;
-            free(current_token->value);  // Free the duplicated string
-            free(current_token);         // Free the token structure
-            current_token = next_token;
-        }
-
-        free(tmp);  // Free the t_token_list node
-    }
-}
-
 t_token_list	*create_token_list_node(t_token *token_head)
 {
 	t_token_list	*new_node;
@@ -197,54 +175,6 @@ t_token_list	*create_token_list_node(t_token *token_head)
 	new_node->next = NULL;
 	return (new_node);
 }
-
-// t_token_list *split_tokens_by_pipe(t_token *token_list)
-// {
-//     t_token_list *result = NULL;
-// 	t_token_list *current_list = NULL;
-//     t_token *start = token_list;
-// 	t_token *prev = NULL;
-// 	t_token_list *new_list;
-
-//     while (token_list)
-//     {
-//         if (token_list->type == TOKEN_PIPE)
-//         {
-//             if (start != token_list)
-//             {
-//                 // Temporarily terminate the current segment
-//                 if (prev)
-//                     prev->next = NULL;
-
-//                 // Create a new sublist for the current segment
-//                 new_list = create_token_list_node(start);
-//                 if (!result)
-//                     result = new_list;
-//                 else
-//                     current_list->next = new_list;
-//                 current_list = new_list;
-// 				//free_token_list3(new_list);
-// 				free_token_list3(new_list);
-//             }
-//             // Move start to the token after the pipe
-//             start = token_list->next;
-//         }
-//         prev = token_list;
-//         token_list = token_list->next;
-//     }
-
-//     // Add the last segment if any
-//     if (start)
-//     {
-//         t_token_list *new_list = create_token_list_node(start);
-//         if (!result)
-//             result = new_list;
-//         else
-//             current_list->next = new_list;
-//     }
-
-//     return result;
-// }
 
 void free_token(t_token *token)
 {

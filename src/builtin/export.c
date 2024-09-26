@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static	void	join_in_qt_exp(t_data **data, t_token *tkn, t_token_type type)
+static	void	join_in_qt_exp(t_token *tkn, t_token_type type)
 {
 	t_token	*current;
 	char	*tmp;
@@ -48,7 +48,7 @@ int	add_to_env(t_token *arg, t_data **data)
 		{
 			if (arg->next->type == TOKEN_DOUBLE_QUOTES
 				|| arg->next->type ==  TOKEN_SINGLE_QUOTES)
-				join_in_qt_exp(data, arg, arg->next->type);
+				join_in_qt_exp(arg, arg->next->type);
 			node->next = new_node_env(arg->value);
 			free_node_env(node);
 			return (0);
@@ -59,7 +59,7 @@ int	add_to_env(t_token *arg, t_data **data)
 	}
 	if (arg->next->type == TOKEN_DOUBLE_QUOTES
 		|| arg->next->type ==  TOKEN_SINGLE_QUOTES)
-		join_in_qt_exp(data, arg, arg->next->type);
+		join_in_qt_exp(arg, arg->next->type);
 	node = new_node_env(arg->value);
 	return (add_back_env(&(*data)->env_list, node), 0);
 }
@@ -76,7 +76,7 @@ static	void	print_exp_env(t_data **data)
 			node = node->next;
 		else
 			break ;
-	} 
+	}
 }
 
 static int	util_exp(t_data **data, t_token **current, t_token **tkn)
@@ -99,7 +99,7 @@ static int	util_exp(t_data **data, t_token **current, t_token **tkn)
 		ft_printf("bash: export: `%s': not a valid identifier\n", var);
 		if (flag == 1)
 			free(var);
-		return (unset_env(tkn, &(*data)->env_list), 1);			
+		return (unset_env(tkn, &(*data)->env_list), 1);
 	}
 	if ((*current)->value && ft_strsearch((*current)->value, '=') == 0)
 		return ((*current) = (*current)->next, 2);

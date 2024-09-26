@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror -g
-CFLAGS = -g -lreadline
+CFLAGS = -g -lreadline -Wall -Wextra -Werror -g
 # Source files
 SRC_DIR = src
 LIB = ./libft/libft.a
@@ -58,7 +58,7 @@ $(NAME): $(SRC)
 
 # $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 # 		@mkdir -p $(dir $@)
-# 		$(CC) $(CFLAGS) -c $< -o $@ 
+# 		$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 # $(RM) $(OBJ)

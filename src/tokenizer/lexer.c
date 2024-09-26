@@ -98,12 +98,12 @@ int	tokenizer(t_data **data, t_token **tokens)
 
 	end = NULL;
 	if (!(*data)->input)
-		free_exit(data, *tokens);
+		free_exit(data);
 	tmp = ft_strndup((*data)->input, ft_strlen((*data)->input));
 	if (init_state(data, tokens, tmp) > 0)
 	{
 		free(tmp);
-		free_exit(data, *tokens);
+		free_exit(data);
 	}
 	buffer = tmp;
 	end = buffer;

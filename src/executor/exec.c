@@ -49,11 +49,10 @@ void	execute_command_single(char **command, t_data **data,
 		char **envp, t_token **tokens)
 {
 	pid_t	parent;
-	
 	char	*holder;
 	int		i;
 
-	init_execution(data, &i, command);
+	init_execution(data, &i);
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
 	{
@@ -71,7 +70,7 @@ void	execute_command_single(char **command, t_data **data,
 	free((*data)->tmp9);
 	parent = fork();
 	if (parent < 0)
-		free_exit(data, *tokens);
+		free_exit(data);
 	if (!parent)
 		child_process(command, data, envp);
 	else

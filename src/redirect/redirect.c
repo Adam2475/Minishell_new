@@ -109,9 +109,7 @@ void	handle_heredoc(char *delimiter, t_data **data)
 	char		*line;
 	int			heredoc_fd;
 	char		*tempfile;
-	int			i;
 
-	i = 0;
 	tempfile = ".heredoc.txt";
 	heredoc_fd = open(tempfile, O_CREAT | O_RDWR | O_TRUNC, 0600);
 	if (heredoc_fd < 0)

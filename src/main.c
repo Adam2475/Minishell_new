@@ -49,24 +49,20 @@ static	void	env_parser(t_data **data, char **envp)
 	(*data)->my_paths = ft_split((*data)->path_from_envp, ':');
 }
 
-static	void	split_tokens(t_data **data, t_token *src)
+static void split_tokens(t_data **data, t_token *src)
 {
-	t_token	*head1;
-	t_token *head2;
-	t_token *end;
+	t_token *head1;
 	head1 = src;
-	int i;
-	i = 0;
+	int i = 0;
 	t_token_list *result;
 	t_token_list *result_head;
-	t_token_list *prev;
 	int count = count_pipes(src) + 1;
-	//ft_printf("%s\n", src->value);
-	result = (t_token_list *)ft_calloc(sizeof(t_token_list), 1);
+
+	result = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
 	result_head = result;
+
 	while (i < count && src != NULL)
 	{
-		//ft_tokenadd_back(&result->head, ft_lstnewtoken(src->type, ft_strdup(src->value)));
 		while (src->type != TOKEN_PIPE && src->type != TOKEN_EOF)
 		{
 			ft_tokenadd_back(&result->head, ft_lstnewtoken(src->type, ft_strdup(src->value)));
@@ -75,17 +71,21 @@ static	void	split_tokens(t_data **data, t_token *src)
 		i++;
 		if (src->type == TOKEN_PIPE)
 		{
-			result = result->next; //(78)
+			src = src->next;
+
+			if (src != NULL && i < count)
+			{
+				result->next = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
+				result = result->next;
+			}
 		}
 		else
-			break ;
-		result = (t_token_list *)ft_calloc(sizeof(t_token_list), 1);
-		src = src->next;
+		{
+			break;
+		}
 	}
-	result_head->next = result; //(85)
-	result = result_head;
-	//free_token_list(result);
-	(*data)->token_list = result;
+	result->next = NULL;
+	(*data)->token_list = result_head;
 	src = head1;
 	return;
 }
@@ -110,11 +110,10 @@ int	main(int argc, char **argv, char **envp)
 		data->token_list = NULL;
 		data->input = readline("myprompt$ ");
 		if (!data->input)
-			return (ft_printf("exit\n"), free_exit(&data, tokens), 1);
+			return (ft_printf("exit\n"), free_exit(&data), 1);
 		add_history(data->input);
 		if (tokenizer(&data, &tokens))
 			continue ;
-		//data->tmp = copy_token_list(&data, tokens);
 		data->tokens = copy_token_list(&data, tokens);
 		env_parser(&data, envp);
 		if (piper(&tokens) == 0)
@@ -122,15 +121,12 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tmp = copy_token_list(&data, data->tokens);
-
 			split_tokens(&data, tmp);
 			free_list(data->tmp);
-			//print_token_lists(data->token_list);
+			print_token_lists(data->token_list);
 			pipe_case(&tokens, &data, envp, &data->token_list);
+			free_list(tmp);
 		}
-		//print_tokens(tokens);
-		free_list(tmp);
-		//free_list(data->tmp);
 		free_tokens(&data, tokens);
 	}
 }
@@ -140,25 +136,26 @@ int	main(int argc, char **argv, char **envp)
 ////////////////
 // Edge Cases:
 // diomerda
-// = current_list->head;
+// = current_list->head; !? | leaks
 
 /////////////////
 // Single Command:
-// echo ciao
-// echo "ciao" ciao
+// echo ciao | OK
+// echo "ciao" ciao | OK
 // ls -l
 // exit
 // ls -l > outfile
 // cat outfile
 // < outfile grep -rl out
 // cat << eof
-// ls -l >> out
-// export a=32 b=78 c=4647 ?! | leaks
-// echo cioa$PWD ciao
+// ls -l >> out | OK
+// export a=32 b=78 c=4647 | OK
+// echo cioa$PWD ciao | OK
 
 /////////////////
 // Multi Cmd:
 //
-// < outfile grep -rl ada | cat -e > out2 ?!
-// < src/init.c grep -rl int | cat -e > out2 ?!
-// cat src/main.c | cat src/init.c ?!
+// < outfile grep -rl ada | cat -e > out2 | OK
+// < src/init.c grep -rl int | cat -e > out2 | OK
+// cat src/main.c | cat src/init.c | OK
+// env | sort | grep -v SHLVL | grep -v ^_ | OK

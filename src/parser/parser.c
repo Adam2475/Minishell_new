@@ -95,22 +95,20 @@ int	redirect_parser(t_data **data, t_token *current)
 int	token_parser(t_token **tokens, t_data **data, char **envp)
 {
 	t_token		*current;
-	t_token		*head;
 
 	if (parser_init(data) > 0)
-		exit_from_parser(data, *tokens);
+		free_exit(data);
 	current = *tokens;
-	head = *tokens;
 	while (current && current->type != TOKEN_EOF)
 	{
 		if (redirect_parser(data, current) > 0)
-			exit_from_parser(data, *tokens);
+			free_exit(data);
 		if (current->type == 12)
 		{
 			if (!call_for_command(tokens, data, &current, envp))
 				return (0);
 			else
-				exit_from_parser(data, *tokens);
+				free_exit(data);
 		}
 		current = current->next;
 	}
