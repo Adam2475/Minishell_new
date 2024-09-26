@@ -136,7 +136,7 @@ int	main(int argc, char **argv, char **envp)
 ////////////////
 // Edge Cases:
 // diomerda
-// = current_list->head; !? | leaks
+// = current_list->head; | OK
 
 /////////////////
 // Single Command:
@@ -147,7 +147,7 @@ int	main(int argc, char **argv, char **envp)
 // ls -l > outfile
 // cat outfile
 // < outfile grep -rl out
-// cat << eof
+// cat << eof | OK
 // ls -l >> out | OK
 // export a=32 b=78 c=4647 | OK
 // echo cioa$PWD ciao | OK
