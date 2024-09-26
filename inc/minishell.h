@@ -175,7 +175,6 @@ size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
 void			pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **token_list);
 void			append_token_list(t_token_list **list, t_token *head);
-void			free_token_list(t_data **data);
 char			*token_to_command(t_token *head);
 int				count_pipes(t_token* head);
 int				set_redirection(t_token *tokens, t_data **data);
@@ -191,6 +190,7 @@ char		*ft_next(char *buffer);
 char		*ft_line(char *buffer);
 char		*read_file(int fd, char *res);
 char		*get_next_line2(int fd);
+void free_token(t_token *token);
 
 ////////////////////////
 void		print_tokens(t_token *tokens);
@@ -205,6 +205,11 @@ void		free_token_segment(t_token *token_segment);
 
 /////////////////////////////////////
 
+t_token	*copy_till_pipe(t_data **data);
 t_token *copy_token_segment(t_token *start, t_token *end);
+void	split_tokens_new(t_data	**data);
+t_token	*copy_token(t_token *token);
+void free_token_list(t_token_list *list);
+void print_token_lists(t_token_list *token_lists);
 
 #endif
