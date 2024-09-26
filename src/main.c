@@ -49,69 +49,6 @@ static	void	env_parser(t_data **data, char **envp)
 	(*data)->my_paths = ft_split((*data)->path_from_envp, ':');
 }
 
-// t_token	*copy_till_pipe(t_data **data)
-// {
-// 	t_token	*tmp;
-// 	t_token	*head;
-// 	t_token	*tmp_head;
-// 	t_token	*prev;
-
-// 	tmp_head = (*data)->tmp;
-// 	head = tmp;
-// 	while ((*data)->tmp->type != TOKEN_PIPE)
-// 	{
-// 		prev = (*data)->tmp;
-// 		//tmp = copy_token((*data)->tmp);
-// 		ft_tokenadd_back(&tmp, prev);
-// 		(*data)->tmp = (*data)->tmp->next;
-// 		free(prev);
-// 	}
-// 	tmp = head;
-// 	(*data)->tmp = tmp_head;
-// 	return (tmp);
-// }
-
-// static	t_token	*copy_split()
-// {
-
-// }
-
-// t_token *copy_until_pipe(t_token *src)
-// {
-//     if (!src) return NULL;
-
-//     t_token *new_list = NULL;
-//     t_token *current_new = NULL;
-
-//     while (src && src->type != TOKEN_PIPE) {
-//         t_token_list *new_node = malloc(sizeof(t_token_list));
-//         if (!new_node) {
-//             // Handle memory cleanup in case of allocation failure
-//             // You can add a cleanup function here if needed
-//             return NULL;
-//         }
-
-//         new_node->token = copy_token(src);
-//         if (!new_node->token) {
-//             free(new_node);
-//             return NULL;
-//         }
-
-//         new_node->next = NULL;
-
-//         if (!new_list) {
-//             new_list = new_node;
-//         } else {
-//             current_new->next = new_node;
-//         }
-//         current_new = new_node;
-
-//         src = src->next;
-//     }
-
-//     return new_list;
-// }
-
 static	void	split_tokens(t_data **data, t_token *src)
 {
 	t_token	*head1;
@@ -122,25 +59,30 @@ static	void	split_tokens(t_data **data, t_token *src)
 	i = 0;
 	t_token_list *result;
 	t_token_list *result_head;
+	t_token_list *prev;
 	int count = count_pipes(src) + 1;
-	result = (t_token_list *)ft_calloc(sizeof(t_token_list), count + 1);
 	//ft_printf("%s\n", src->value);
+	result = (t_token_list *)ft_calloc(sizeof(t_token_list), 1);
 	result_head = result;
 	while (i < count && src != NULL)
 	{
-		ft_tokenadd_back(&result->head, ft_lstnewtoken(src->type, ft_strdup(src->value)));
+		//ft_tokenadd_back(&result->head, ft_lstnewtoken(src->type, ft_strdup(src->value)));
 		while (src->type != TOKEN_PIPE && src->type != TOKEN_EOF)
 		{
-			src = src->next;
 			ft_tokenadd_back(&result->head, ft_lstnewtoken(src->type, ft_strdup(src->value)));
+			src = src->next;
 		}
 		i++;
 		if (src->type == TOKEN_PIPE)
 		{
-			result = result->next;
+			result = result->next; //(78)
 		}
+		else
+			break ;
+		result = (t_token_list *)ft_calloc(sizeof(t_token_list), 1);
 		src = src->next;
 	}
+	result_head->next = result; //(85)
 	result = result_head;
 	//free_token_list(result);
 	(*data)->token_list = result;
@@ -180,12 +122,10 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tmp = copy_token_list(&data, data->tokens);
-			//data->token_list = split_tokens_by_pipe(data->tmp);
-			//data->token_list = split_tokens_by_pipe(tmp);
+
 			split_tokens(&data, tmp);
-			//if (data->tmp != NULL)
 			free_list(data->tmp);
-			print_token_lists(data->token_list);
+			//print_token_lists(data->token_list);
 			pipe_case(&tokens, &data, envp, &data->token_list);
 		}
 		//print_tokens(tokens);

@@ -23,7 +23,8 @@ void free_token_list(t_token_list *list)
         while (current_token)
         {
             t_token *next_token = current_token->next;
-            free_token(current_token);  // Use the free_token helper
+			if (current_token)
+           		free_token(current_token);  // Use the free_token helper
             current_token = next_token;
         }
 

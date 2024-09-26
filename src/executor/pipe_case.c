@@ -108,8 +108,6 @@ void pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **toke
 	int prev_fd = 0;
 	int status = 0;
 
-	return ;
-
 	while (j < pipes)
 	{
 		if (pipe(end + (j * 2)) < 0)
