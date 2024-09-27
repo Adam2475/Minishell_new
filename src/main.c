@@ -49,52 +49,73 @@ static	void	env_parser(t_data **data, char **envp)
 	(*data)->my_paths = ft_split((*data)->path_from_envp, ':');
 }
 
-static void split_tokens(t_data **data, t_token *src)
+static void	add_tokens_to_list(t_token_list *result, t_token **src)
 {
-	t_token *head1;
-	head1 = src;
-	int i = 0;
-	t_token_list *result;
-	t_token_list *result_head;
-	int count = count_pipes(src) + 1;
+	while ((*src)->type != TOKEN_PIPE && (*src)->type != TOKEN_EOF)
+	{
+		ft_tokenadd_back(&result->head,
+			ft_lstnewtoken((*src)->type, ft_strdup((*src)->value)));
+		*src = (*src)->next;
+	}
+}
 
+static void	split_tokens(t_data **data, t_token *src)
+{
+	t_token_list	*result;
+	t_token_list	*result_head;
+	int				i;
+	int				count;
+
+	i = 0;
+	count = count_pipes(src) + 1;
 	result = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
 	result_head = result;
-
 	while (i < count && src != NULL)
 	{
-		while (src->type != TOKEN_PIPE && src->type != TOKEN_EOF)
-		{
-			ft_tokenadd_back(&result->head, ft_lstnewtoken(src->type, ft_strdup(src->value)));
-			src = src->next;
-		}
+		add_tokens_to_list(result, &src);
 		i++;
 		if (src->type == TOKEN_PIPE)
 		{
 			src = src->next;
-
 			if (src != NULL && i < count)
 			{
-				result->next = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
+				result->next = (t_token_list *)ft_calloc(1,
+						sizeof(t_token_list));
 				result = result->next;
 			}
-		}
-		else
-		{
-			break;
 		}
 	}
 	result->next = NULL;
 	(*data)->token_list = result_head;
-	src = head1;
-	return;
+}
+
+static	int	read_input(t_data *data, t_token *tokens)
+{
+	data->token_list = NULL;
+	data->input = readline("myprompt$ ");
+	if (!data->input)
+		return (0);
+	add_history(data->input);
+	data->tokens = copy_token_list(&data, tokens);
+	return (1);
+}
+
+static	void	do_pipe(t_data *data, t_token *tokens, char **envp)
+{
+	t_token	*tmp;
+
+	tmp = copy_token_list(&data, data->tokens);
+	split_tokens(&data, tmp);
+	free_list(data->tmp);
+	print_token_lists(data->token_list);
+	pipe_case(&tokens, &data, envp, &data->token_list);
+	free_list(tmp);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 	t_token		*tokens;
-	t_token		*tmp;
 	int			flags;
 
 	if (init_data(&data, argc, argv, &tokens) > 0)
@@ -107,26 +128,15 @@ int	main(int argc, char **argv, char **envp)
 	set_signal();
 	while (1)
 	{
-		data->token_list = NULL;
-		data->input = readline("myprompt$ ");
-		if (!data->input)
+		if (!read_input(data, tokens))
 			return (ft_printf("exit\n"), free_exit(&data), 1);
-		add_history(data->input);
 		if (tokenizer(&data, &tokens))
 			continue ;
-		data->tokens = copy_token_list(&data, tokens);
 		env_parser(&data, envp);
 		if (piper(&tokens) == 0)
 			token_parser(&tokens, &data, envp);
 		else
-		{
-			tmp = copy_token_list(&data, data->tokens);
-			split_tokens(&data, tmp);
-			free_list(data->tmp);
-			print_token_lists(data->token_list);
-			pipe_case(&tokens, &data, envp, &data->token_list);
-			free_list(tmp);
-		}
+			do_pipe(data, tokens, envp);
 		free_tokens(&data, tokens);
 	}
 }
@@ -137,12 +147,13 @@ int	main(int argc, char **argv, char **envp)
 // Edge Cases:
 // diomerda
 // = current_list->head; | OK
+// ljsdbhhds hdsdsh  > | lhsdb<dshh !?
 
 /////////////////
 // Single Command:
 // echo ciao | OK
 // echo "ciao" ciao | OK
-// ls -l
+// ls -l | OK
 // exit
 // ls -l > outfile
 // cat outfile
@@ -159,3 +170,5 @@ int	main(int argc, char **argv, char **envp)
 // < src/init.c grep -rl int | cat -e > out2 | OK
 // cat src/main.c | cat src/init.c | OK
 // env | sort | grep -v SHLVL | grep -v ^_ | OK
+
+// multi cmd still have issues when run as second command

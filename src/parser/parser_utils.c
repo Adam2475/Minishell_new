@@ -68,6 +68,7 @@ int	parser_case_herdoc(t_token *current, t_data **data)
 	current = current->next;
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
+	// if the syntax is correct we execute heredoc inside a new fork
 	if (current->type == TOKEN_APPENDICE || current->type == TOKEN_COMMAND)
 	{
 		(*data)->fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0600);
