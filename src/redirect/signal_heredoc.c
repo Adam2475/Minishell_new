@@ -14,6 +14,9 @@
 
 static	void	sigINT(void)
 {
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
 	exit(0);
 }
 
