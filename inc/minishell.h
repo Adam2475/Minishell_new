@@ -114,7 +114,7 @@ int				parser_case_append(t_token *current, t_data **data);
 int				parser_case_herdoc(t_token *current, t_data **data);
 int				redirect_parser(t_data **data, t_token *current);
 // Redireciton
-void			handle_heredoc(char *delimiter, t_data **data);
+void			handle_heredoc(char *delimiter, t_data **data, char *tmp);
 // Executer
 void			execute_command_single(char **command, t_data **data,
 					char **envp, t_token **token);
@@ -126,6 +126,7 @@ void			split_var_env(t_env_list **node);
 int				gen_list_env(t_data **data, char **envp);
 // signals
 void			set_signal(void);
+void			signal_doc(void);
 // expander
 char			*expand_err_state(char *tmp);
 char			*tmp_set(char *val);

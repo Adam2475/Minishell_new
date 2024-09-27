@@ -20,7 +20,7 @@ static	void	print_in_qt(t_token **node, t_token_type type)
 		ft_printf("%s", (*node)->value);
 		(*node) = (*node)->next;
 	}
-	if ((int)(*node)->next->type == 11 && (*node)->type != type)
+	if ((int)(*node)->next->type == 11 && (*node)->type == type)
 		ft_printf(" ");
 }
 

@@ -12,7 +12,7 @@ SRCS = main init tokenizer/lexer exit_handle \
 		expander env_list executor/pipe_case \
 		builtin/chdir builtin/builtin executor/pipe_utils \
 		builtin/exit builtin/echo builtin/export builtin/unset \
-		builtin/pwd builtin/env \
+		builtin/pwd builtin/env redirect/signal_heredoc \
 		signals get_next_line get_next_line_utils \
 		builtin/utils_builtin \
 
