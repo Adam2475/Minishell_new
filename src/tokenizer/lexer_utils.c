@@ -48,6 +48,8 @@ t_token	*token_reformatting_command(t_token *current)
 			current->type = TOKEN_APPENDICE;
 		if (current->next && current->next->type != TOKEN_EOF && current->type != TOKEN_PIPE)
 			current = current->next;
+		else if (current->next->type == TOKEN_EOF)
+			current = current->next;
 	}
 	if (current->type != TOKEN_DOLLAR)
 		current = current->next;

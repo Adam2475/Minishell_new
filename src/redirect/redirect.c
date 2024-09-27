@@ -104,16 +104,14 @@ int	execute_command(char *command, t_data **data, char **envp)
 	return(0);
 }
 
-void	handle_heredoc(char *delimiter, t_data **data)
+void	handle_heredoc(char *delimiter, t_data **data, char *tmp)
 {
 	char		*line;
 	int			heredoc_fd;
-	char		*tempfile;
 
-	tempfile = ".heredoc.txt";
-	heredoc_fd = open(tempfile, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	if (heredoc_fd < 0)
-		return (perror("Failed to open heredoc temporary file"));
+	if ((*data)->fd < 0)
+		exit (ft_printf("Failed to open heredoc temporary file"));
+	signal_doc();
 	while (1)
 	{
 		line = readline("> ");
@@ -122,19 +120,17 @@ void	handle_heredoc(char *delimiter, t_data **data)
 			free(line);
 			break ;
 		}
-		write(heredoc_fd, line, ft_strlen(line));
-		write(heredoc_fd, "\n", 1);
+		write((*data)->fd, line, ft_strlen(line));
+		write((*data)->fd, "\n", 1);
 		free(line);
 	}
-	close(heredoc_fd);
-	heredoc_fd = open(tempfile, O_RDONLY);
+	close((*data)->fd);
+	heredoc_fd = open(tmp, O_RDONLY);
 	if (heredoc_fd < 0)
 	{
 		perror("Failed to reopen heredoc temporary file");
-		return ;
+		exit(0);
 	}
-	(*data)->fd = heredoc_fd;
-	(*data)->redirect_state = 0;
 	while (1)
 	{
 		line = get_next_line2(heredoc_fd);
@@ -143,5 +139,6 @@ void	handle_heredoc(char *delimiter, t_data **data)
 		ft_printf("%s", line);
 		free(line);
 	}
-	return ;
+	close (heredoc_fd);
+	exit(0);
 }

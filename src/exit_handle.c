@@ -135,8 +135,8 @@ void	free_tokens(t_data **data, t_token *tokens)
 		free_list((*data)->tokens);
 	if ((*data)->token_list != NULL)
 		free_token_list((*data)->token_list);
-	// if ((*data)->tmp != NULL)
-	//  	free((*data)->tmp);
+	if ((*data)->fd >= 0)
+		(*data)->fd = -1;
 	if ((*data)->path_from_envp)
 		free((*data)->path_from_envp);
 	if ((*data)->command)
