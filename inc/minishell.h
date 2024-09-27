@@ -114,7 +114,8 @@ int				parser_case_append(t_token *current, t_data **data);
 int				parser_case_herdoc(t_token *current, t_data **data);
 int				redirect_parser(t_data **data, t_token *current);
 // Redireciton
-char		*exp_word(char *line, t_data **data, int *i);
+char			*expander_doc(char *line, t_data **data);
+char			*exp_word(char *line, t_data **data, int *i);
 void			handle_heredoc(char *delimiter, t_data **data, char *tmp);
 // Executer
 void			execute_command_single(char **command, t_data **data,
