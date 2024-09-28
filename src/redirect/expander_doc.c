@@ -80,12 +80,10 @@ char	*exp_word(char *line, t_data **data, int *i)
 
 static	char	*exp_line(char *line, char *env, int i)
 {
-	int		len_var;
 	int		j;
 	char	*pre_doll;
 	char	*post_doll;
 
-	len_var = ft_strlen(env);
 	if (*line != '$')
 		pre_doll = ft_strndup(line, (ft_strlen_char(line, '$') - 1));
 	else

@@ -70,13 +70,13 @@ static void	split_tokens(t_data **data, t_token *src)
 	count = count_pipes(src) + 1;
 	result = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
 	result_head = result;
-	while (i < count && src != NULL)
+	while (i++ < count && src != NULL)
 	{
 		add_tokens_to_list(result, &src);
 		if (src->type == TOKEN_PIPE)
 		{
 			src = src->next;
-			if (src != NULL && i++ < count)
+			if (src != NULL)
 			{
 				result->next = (t_token_list *)ft_calloc(1,
 						sizeof(t_token_list));
@@ -103,10 +103,10 @@ static	void	do_pipe(t_data *data, t_token *tokens, char **envp)
 {
 	t_token	*tmp;
 
-	tmp = copy_token_list(&data, data->tokens);
+	tmp = copy_token_list(&data, tokens);
 	split_tokens(&data, tmp);
 	free_list(data->tmp);
-	print_token_lists(data->token_list);
+	//print_token_lists(data->token_list);
 	pipe_case(&tokens, &data, envp, &data->token_list);
 	free_list(tmp);
 }

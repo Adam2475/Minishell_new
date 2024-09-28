@@ -89,6 +89,7 @@ int	execute_command(char *command, t_data **data, char **envp)
 	char *tmp;
 	char *holder;
 
+	ft_printf("%s\n", command);
 	cmd_args = ft_split(command, 32);
 	cmd = cmd_args[0];
 	tmp = NULL;

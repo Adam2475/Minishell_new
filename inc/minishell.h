@@ -191,26 +191,26 @@ char		*ft_next(char *buffer);
 char		*ft_line(char *buffer);
 char		*read_file(int fd, char *res);
 char		*get_next_line2(int fd);
-void free_token(t_token *token);
+void		free_token(t_token *token);
 
 ////////////////////////
 void		print_tokens(t_token *tokens);
 
 ////////////////////////
-int			is_whitespace(const char *str);
-void		remove_whitespace_nodes(t_token **head);
-t_token		*new_node(const char *content);
-void		print_list(t_token *head);
-void		free_token_list2(t_token_list *list);
-void		free_token_segment(t_token *token_segment);
+int				is_whitespace(const char *str);
+void			remove_whitespace_nodes(t_token **head);
+t_token			*new_node(const char *content);
+void			print_list(t_token *head);
+void			free_token_list2(t_token_list *list);
+void			free_token_segment(t_token *token_segment);
 
 /////////////////////////////////////
 
-t_token	*copy_till_pipe(t_data **data);
-t_token *copy_token_segment(t_token *start, t_token *end);
-void	split_tokens_new(t_data	**data);
-t_token	*copy_token(t_token *token);
-void free_token_list(t_token_list *list);
-void print_token_lists(t_token_list *token_lists);
+t_token			*copy_till_pipe(t_data **data);
+t_token			*copy_token_segment(t_token *start, t_token *end);
+void			split_tokens_new(t_data	**data);
+t_token			*copy_token(t_token *token);
+void			free_token_list(t_token_list *list);
+void			print_token_lists(t_token_list *token_lists);
 
 #endif
