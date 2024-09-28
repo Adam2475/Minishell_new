@@ -28,7 +28,7 @@ static	int	count_doll(char *line)
 			count++;
 		i++;
 	}
-	return (i);
+	return (count);
 }
 
 static	char	*exp_word_2(char *res, t_data **data)
@@ -60,12 +60,16 @@ char	*exp_word(char *line, t_data **data, int *i)
 	int			count;
 
 	count = (*i);
+	if (line[(*i)] == '$')
+		(*i)++;
 	while (line[(*i)] && (ft_isalnum(line[(*i)]) || line[(*i)] == '_'))
 		(*i)++;
 	count = (*i) - count;
 	tmp = (char *)ft_calloc(sizeof(char), count + 1);
 	(*i) -= count;
 	count = 0;
+	if (line[(*i)] == '$')
+		(*i)++;
 	while (line[(*i)] && (ft_isalnum(line[(*i)]) || line[(*i)] == '_'))
 	{
 		tmp[count] = line[(*i)];
@@ -84,15 +88,16 @@ static	char	*exp_line(char *line, char *env, int i)
 	char	*pre_doll;
 	char	*post_doll;
 
-	if (*line != '$')
+	if (line[i] != '$')
 		pre_doll = ft_strndup(line, (ft_strlen_char(line, '$') - 1));
 	else
 		pre_doll = ft_strndup("", 0);
-	j = -1;
-	while (line[i] != '\0' && line[i] != 32
-	&& line[i] != '\'' && line[i] != '\"')
+	j = i;
+	while (line[i] != '\0')
 		i++;
-	post_doll = ft_calloc(sizeof(char), (ft_strlen(line) - i) + 1);
+	post_doll = ft_calloc(sizeof(char), (i - j + 1));
+	i = j;
+	j = -1;
 	while (line[i] != '\0')
 		post_doll[++j] = line[i++];
 	free(line);
