@@ -147,6 +147,7 @@ int	main(int argc, char **argv, char **envp)
 // diomerda
 // = current_list->head; | OK
 // ljsdbhhds hdsdsh  > | lhsdb<dshh !?
+// t_token *result; = NULL; ??
 
 /////////////////
 // Single Command:
