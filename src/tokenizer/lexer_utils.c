@@ -22,8 +22,10 @@ t_token	*token_reformatting_pipe(t_token *current)
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	current = current->next;
-	if (current && current->type == TOKEN_WORD)
+	while ((current && current->type == TOKEN_WORD) || current->type == TOKEN_WHITESPACE)
 	{
+		while (current->type == TOKEN_WHITESPACE)
+			current = current->next;
 		current->type = TOKEN_APPENDICE;
 		if (current && current->next)
 			current = current->next;
@@ -51,7 +53,7 @@ t_token	*token_reformatting_command(t_token *current)
 		else if (current->next->type == TOKEN_EOF)
 			current = current->next;
 	}
-	if (current->type != TOKEN_DOLLAR)
+	if (current->type != TOKEN_DOLLAR && current->type != TOKEN_PIPE)
 		current = current->next;
 	return (current);
 }

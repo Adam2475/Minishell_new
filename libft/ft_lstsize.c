@@ -29,7 +29,7 @@ int	ft_lstsize_token(t_token *lst)
 {
 	int		i;
 	t_token	*node;
-	
+
 	node = lst;
 	i = 0;
 	while (node)

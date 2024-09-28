@@ -14,59 +14,60 @@
 
 t_token	*create_token(t_token_type type, char *value)
 {
-	t_token *new_token = (t_token *)malloc(sizeof(t_token));
+	t_token	*new_token;
+
+	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
-		return NULL;
+		return (NULL);
 	new_token->type = type;
 	new_token->value = strdup(value);
 	new_token->next = NULL;
-	return new_token;
+	return (new_token);
 }
 
 void	append_token(t_token **list, t_token *new_token)
 {
+	t_token	*temp;
+
 	if (!*list)
 	{
 		*list = new_token;
-		return;
+		return ;
 	}
-	t_token *temp = *list;
+	temp = *list;
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new_token;
 }
 
-t_token *extract_command_and_appendices(t_token *tokens)
+// t_token *result; = NULL;
+t_token	*extract_command_and_appendices(t_token *tokens)
 {
-	t_token *result = NULL;
-	t_token *current = tokens;
-	int command_found = 0;
+	 t_token *result = NULL;
+	t_token		*current;
+	int			command_found;
 
+	command_found = 0;
+	current = tokens;
 	while (current)
 	{
-		// Skip whitespace tokens
 		if (current->type == TOKEN_WHITESPACE)
 		{
 			current = current->next;
-			continue;
+			continue ;
 		}
-
 		if (current->type == TOKEN_COMMAND)
 		{
 			command_found = 1;
 			append_token(&result, create_token(current->type, current->value));
 		}
 		else if (command_found && (current->type == TOKEN_APPENDICE || current->type == TOKEN_OPTION))
-		{
 			append_token(&result, create_token(current->type, current->value));
-		}
 		else if (command_found)
-		{
-			break;
-		}
+			break ;
 		current = current->next;
 	}
-	return result;
+	return (result);
 }
 
 static int child_process_pipe(char **envp, t_data **data, t_token *tokens)
