@@ -73,11 +73,10 @@ static void	split_tokens(t_data **data, t_token *src)
 	while (i < count && src != NULL)
 	{
 		add_tokens_to_list(result, &src);
-		i++;
 		if (src->type == TOKEN_PIPE)
 		{
 			src = src->next;
-			if (src != NULL && i < count)
+			if (src != NULL && i++ < count)
 			{
 				result->next = (t_token_list *)ft_calloc(1,
 						sizeof(t_token_list));

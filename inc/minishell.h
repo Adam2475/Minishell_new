@@ -93,7 +93,7 @@ typedef struct s_data
 }	t_data;
 
 // Structural functions
-void	free_exit(t_data **data);
+void			free_exit(t_data **data);
 void			free_list(t_token *head);
 int				init_data(t_data **data, int argc, char **argv, t_token **tokens);
 // Tokenizer
