@@ -66,7 +66,7 @@ static int	parser_init(t_data **data)
 	size_t	words;
 
 	words = (size_t)token_words((*data)->tokens);
-	(*data)->command = (char **)ft_calloc(words, sizeof(char *));
+	(*data)->command = (char **)ft_calloc(words + 2, sizeof(char *));
 	if (!(*data)->command)
 		return (1);
 	return (0);

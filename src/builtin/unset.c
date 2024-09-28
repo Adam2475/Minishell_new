@@ -14,10 +14,11 @@
 
 int	is_numeric(char *str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!str || !str[0])
-		return 0;
+		return (0);
 	if (str[0] == '-')
 		i++;
 	while (str[i])
@@ -56,7 +57,7 @@ int	unset_env(t_token **token, t_env_list **env)
 	while (tkn && tkn->type != TOKEN_EOF)
 	{
 		current = *env;
-		while(tkn->type == TOKEN_WHITESPACE)
+		while (tkn->type == TOKEN_WHITESPACE)
 			tkn = tkn->next;
 		if (ft_strsearch(tkn->value, '='))
 			var_name = ft_strndup(tkn->value, ft_strlen_char(tkn->value, '='));

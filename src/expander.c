@@ -45,7 +45,8 @@ int	expand_doll(t_token **current, t_data **data)
 		return (case_err(current, tmp));
 	free(tmp);
 	free((*current)->value);
-	return ((*current)->value = ft_strndup(node->value, ft_strlen(node->value)), 0);
+	return ((*current)->value = ft_strndup(node->value,
+			ft_strlen(node->value)), 0);
 }
 
 int	expand_var(t_token **tkn_lst, t_data **data)
@@ -66,13 +67,13 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 static t_token	*ft_set_zero(t_token *current, int flag)
 {
 	while ((int)current->type != 7 && flag == 0
-			&& (int)current->type != 10)
+		&& (int)current->type != 10)
 	{
 		current->type = TOKEN_WORD_QT;
 		current = current->next;
 	}
 	while ((int)current->type != 7 && (int)current->type != 9
-			&& flag == 1)
+		&& flag == 1)
 	{
 		if ((int)current->type != 8)
 			current->type = TOKEN_WORD_QT;
@@ -84,7 +85,7 @@ static t_token	*ft_set_zero(t_token *current, int flag)
 	return (current);
 }
 
-int check_quotes(t_token **tokens)
+int	check_quotes(t_token **tokens)
 {
 	t_token	*current;
 

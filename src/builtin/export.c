@@ -31,7 +31,7 @@ static	void	join_in_qt_exp(t_token *tkn, t_token_type type)
 		current = current->next;
 	tkn_delone(&current, current->next);
 	tmp = tkn->value;
-	tkn->value = ft_strjoin(tkn->value, tkn->next->value)	;
+	tkn->value = ft_strjoin(tkn->value, tkn->next->value);
 	free(tmp);
 	return ;
 }
@@ -44,10 +44,10 @@ int	add_to_env(t_token *arg, t_data **data)
 	while (node)
 	{
 		if (ft_strncmp(arg->value, node->var,
-			(ft_strlen_char(arg->value, '=') - 1)) == 0)
+				(ft_strlen_char(arg->value, '=') - 1)) == 0)
 		{
 			if (arg->next->type == TOKEN_DOUBLE_QUOTES
-				|| arg->next->type ==  TOKEN_SINGLE_QUOTES)
+				|| arg->next->type == TOKEN_SINGLE_QUOTES)
 				join_in_qt_exp(arg, arg->next->type);
 			node->next = new_node_env(arg->value);
 			free_node_env(node);
@@ -58,7 +58,7 @@ int	add_to_env(t_token *arg, t_data **data)
 		node = node->next;
 	}
 	if (arg->next->type == TOKEN_DOUBLE_QUOTES
-		|| arg->next->type ==  TOKEN_SINGLE_QUOTES)
+		|| arg->next->type == TOKEN_SINGLE_QUOTES)
 		join_in_qt_exp(arg, arg->next->type);
 	node = new_node_env(arg->value);
 	return (add_back_env(&(*data)->env_list, node), 0);
@@ -86,12 +86,14 @@ static int	util_exp(t_data **data, t_token **current, t_token **tkn)
 
 	var = NULL;
 	flag = 0;
-	if ((*current)->value && !(((*current)->value[0] >= 'a' && (*current)->value[0] <= 'z')
-			|| ((*current)->value[0] >= 'A' && (*current)->value[0] <= 'Z') || (*current)->value[0] == 32))
+	if ((*current)->value && !(((*current)->value[0] >= 'a'
+				&& (*current)->value[0] <= 'z') || ((*current)->value[0] >= 'A'
+				&& (*current)->value[0] <= 'Z') || (*current)->value[0] == 32))
 	{
 		if (ft_strsearch((*current)->value, '='))
 		{
-			var = ft_strndup((*current)->value, (ft_strlen_char((*current)->value, '=') - 1));
+			var = ft_strndup((*current)->value,
+					(ft_strlen_char((*current)->value, '=') - 1));
 			flag = 1;
 		}
 		else
@@ -130,5 +132,5 @@ int	export_cmd(t_data **data, t_token **tkn)
 	}
 	if (flag == 0)
 		print_exp_env(data);
-	return(1);
+	return (1);
 }

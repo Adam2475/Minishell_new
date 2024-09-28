@@ -16,10 +16,10 @@ static int	ft_err_chdir(int err, char *val)
 {
 	if (err == ENOENT)
 		return (g_err_state = err,
-		ft_printf("bash: cd: %s: No such file or directory\n", val));
+			ft_printf("bash: cd: %s: No such file or directory\n", val));
 	else if (err == ENOTDIR)
 		return (g_err_state = err,
-		ft_printf("bash: cd: %s: Not a directory\n", val));
+			ft_printf("bash: cd: %s: Not a directory\n", val));
 	return (0);
 }
 
@@ -65,10 +65,10 @@ int	cd_cmd(t_data **data, t_token **tkn)
 	node = (*data)->env_list;
 	if ((ft_lstsize_token((*tkn)) - 1) > 3
 		&& (current->next->value[0] != '>'
-		|| current->next->value[0] != '<'
-		|| current->next->value[0] != '|'))
+			|| current->next->value[0] != '<'
+			|| current->next->value[0] != '|'))
 		return (g_err_state = 1,
-		ft_printf("bash: cd: too many arguments\n"));
+			ft_printf("bash: cd: too many arguments\n"));
 	node = (*data)->env_list;
 	if (current->value[0] == '\0')
 	{

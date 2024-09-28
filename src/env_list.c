@@ -57,7 +57,8 @@ void	split_var_env(t_env_list **node)
 
 	i = 0;
 	j = 0;
-	(*node)->var = (char *)ft_strndup((*node)->content, ft_strlen_char((*node)->content, '='));
+	(*node)->var = (char *)ft_strndup((*node)->content,
+			ft_strlen_char((*node)->content, '='));
 	i = ft_strlen_char((*node)->content, '=');
 	while ((*node)->content[i] != '\0')
 		(*node)->value[j++] = (*node)->content[i++];
@@ -77,7 +78,8 @@ t_env_list	*new_node_env(char *content)
 	new->content = ft_strndup(content, ft_strlen(content));
 	while (new->content[len] != '=')
 		len++;
-	new->value = (char *)ft_calloc((ft_strlen(new->content) - (len - 1)), sizeof(char));
+	new->value = (char *)ft_calloc((ft_strlen(new->content)
+				- (len - 1)), sizeof(char));
 	split_var_env(&new);
 	return (new);
 }

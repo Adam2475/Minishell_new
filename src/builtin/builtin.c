@@ -64,7 +64,7 @@ void	free_node_env(t_env_list *node)
 
 int	ft_strsearch(char *str, int c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str)
