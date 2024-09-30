@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 17:57:00 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 19:03:49 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,4 @@ int	main(int argc, char **argv, char **envp)
 // cat src/main.c | cat src/init.c | OK
 // env | sort | grep -v SHLVL | grep -v ^_ | OK
 
-// multi cmd still have issues when run as second command
+// multi cmd still have issues when run as second command ?!

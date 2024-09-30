@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 18:09:26 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 19:05:59 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,20 @@ void	free_token_segment(t_token *token_segment)
 	}
 }
 
-void free_token_list2(t_token_list *list)
+void	free_token_list2(t_token_list *list)
 {
-    t_token_list *current = list;
-    t_token_list *temp;
+	t_token_list	*current;
+	t_token_list	*temp;
 
-    while (current)
+	current = list;
+	while (current)
 	{
-        temp = current->next;
-        if (current->head)
+		temp = current->next;
+		if (current->head)
 		{
-            free_token_segment(current->head);
-        }
-        free(current);
-        current = temp;
-    }
+			free_token_segment(current->head);
+		}
+		free(current);
+		current = temp;
+	}
 }

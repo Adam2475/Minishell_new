@@ -6,16 +6,16 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 17:55:45 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 19:08:32 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char *ft_strcat(char *dest, char *src)
+char	*ft_strcat(char *dest, char *src)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (dest[i] != '\0')
@@ -57,10 +57,12 @@ char	*retrieve_line(char **envp)
 
 void	print_tokens(t_token *tokens)
 {
-	t_token *temp = tokens;
-		while (temp)
+	t_token	*temp;
+
+	temp = tokens;
+	while (temp)
 	{
-		printf("Type: %d, Value: %s\n", temp->type, temp->value);
+		ft_printf("Type: %d, Value: %s\n", temp->type, temp->value);
 		temp = temp->next;
 	}
 }

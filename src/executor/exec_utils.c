@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 18:10:38 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:27:34 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,80 +65,70 @@ void free_token(t_token *token)
 	}
 }
 
-
-t_token_list *split_tokens_by_pipe(t_token *token_list)
+t_token_list	*terminate_segment(t_token *prev)
 {
-	t_token_list *result = NULL, *current_list = NULL, *new_list = NULL;
-	t_token *start = token_list, *prev = NULL;
+	if (prev)
+		prev->next = NULL;
+	return (NULL);
+}
 
+t_token_list	*create_and_link(t_token *start, t_token_list *result,
+					t_token_list *current_list)
+{
+	t_token_list	*new_list;
+
+	new_list = create_token_list_node(start);
+	if (!new_list)
+		return (result);
+	if (!result)
+		return (new_list);
+	current_list->next = new_list;
+	return (new_list);
+}
+
+void	free_token_segment2(t_token *start)
+{
+	t_token	*tmp;
+	t_token	*next_token;
+
+	tmp = start;
+	while (tmp)
+	{
+		next_token = tmp->next;
+		free_token(tmp);
+		tmp = next_token;
+	}
+}
+
+t_token_list	*split_tokens_by_pipe(t_token *token_list)
+{
+	t_token_list	*result;
+	t_token_list	*current_list;
+	t_token			*start;
+	t_token			*prev;
+
+	result = NULL;
+	current_list = NULL;
+	start = token_list;
+	prev = NULL;
 	while (token_list)
 	{
 		if (token_list->type == TOKEN_PIPE)
 		{
-			if (start != token_list)
-			{
-				// Temporarily terminate the current segment
-				if (prev)
-					prev->next = NULL;
-
-				// Create a new sublist for the current segment
-				new_list = create_token_list_node(start);
-				if (!new_list)
-				{
-					// Handle memory allocation failure if needed
-					return result;  // Return what we have so far
-				}
-				if (!result)
-					result = new_list;
-				else
-					current_list->next = new_list;
-
-				current_list = new_list;
-
-				// Free the tokens that were added to the new list
-				t_token *tmp = start;
-				while (tmp->next && tmp != token_list)  // Freeing the range that was just copied
-				{
-					t_token *next_token = tmp->next;
-					free_token(tmp); // Free each token
-					tmp = next_token;
-				}
-			}
-			// Move start to the token after the pipe
+			terminate_segment(prev);
+			current_list = create_and_link(start, result, current_list);
+			free_token_segment(start);
 			start = token_list->next;
 		}
 		prev = token_list;
 		token_list = token_list->next;
 	}
-
-	// Add the last segment if any
 	if (start)
-	{
-		new_list = create_token_list_node(start);
-		if (!new_list)
-		{
-			// Handle memory allocation failure if needed
-			return result;  // Return what we have so far
-		}
-		if (!result)
-			result = new_list;
-		else
-			current_list->next = new_list;
-
-		// Free the tokens that were added to the new list
-		t_token *tmp = start;
-		while (tmp)
-		{
-			t_token *next_token = tmp->next;
-			free_token(tmp); // Free each token
-			tmp = next_token;
-		}
-	}
-
-	return result;
+		current_list = create_and_link(start, result, current_list);
+	return (result);
 }
 
-void print_token_lists(t_token_list *token_lists)
+void	print_token_lists(t_token_list *token_lists)
 {
 	int list_num = 1;
 	while (token_lists)

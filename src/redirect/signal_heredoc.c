@@ -6,13 +6,13 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/24 19:20:25 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 19:13:58 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static	void	sigINT(void)
+static	void	sig_int(void)
 {
 	ft_putstr_fd("\n", STDOUT_FILENO);
 	rl_on_new_line();
@@ -20,7 +20,7 @@ static	void	sigINT(void)
 	exit(0);
 }
 
-static	void	sigQUIT(void)
+static	void	sig_quit(void)
 {
 	ft_putstr_fd("  \b\b", STDIN_FILENO);
 }
@@ -35,14 +35,14 @@ static	void	signal_handler(int sign)
 	{
 		g_err_state = 130;
 		if (pid == -1)
-			sigINT();
+			sig_int();
 		else
 			ft_putstr_fd("\n", 1);
 	}
 	else if (sign == SIGQUIT)
 	{
 		if (pid == -1)
-			sigQUIT();
+			sig_quit();
 		else
 			ft_putstr_fd("\n", 1);
 	}

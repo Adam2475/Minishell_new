@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 17:55:58 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 19:10:36 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_data
 	char			**cmd_args;
 	char			*cmd2;
 	char			*tmp9;
+	int				command_found;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -172,7 +173,7 @@ int				env_cmd(t_data **data);
 // Pipe case
 t_token_list	*split_tokens_by_pipe(t_token *tokens);
 t_token_list	*create_token_list_node(t_token *head);
-t_token			*extract_command_and_appendices(t_token *tokens);
+t_token			*extract_command_and_appendices(t_data **data, t_token *tokens);
 size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
 void			pipe_case(t_token **tokens, t_data **data, char **envp,
@@ -217,5 +218,13 @@ void			print_token_lists(t_token_list *token_lists);
 char			*retrieve_line(char **envp);
 void			env_parser(t_data **data, char **envp);
 char			*ft_strcat(char *dest, char *src);
+void			free_token_segment(t_token *start);
+t_token_list	*create_and_link(t_token *start, t_token_list *result,
+					t_token_list *current_list);
+t_token_list	*terminate_segment(t_token *prev);
+void			free_token_segment2(t_token *start);
+void			handle_parent_process(pid_t parent, int *status);
+void			setup_pipe(int i, int pipes, int prev_fd, int *end);
+void			create_pipes(int *end, int pipes);
 
 #endif
