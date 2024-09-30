@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/25 16:05:49 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:07:24 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,38 @@ t_token	*token_reformatting_command(t_token *current)
 			current->type = TOKEN_APPENDICE;
 		if (current->next && current->next->type != TOKEN_EOF && current->type != TOKEN_PIPE)
 			current = current->next;
-		else if (current->next->type == TOKEN_EOF)
+		else if (current->next && current->next->type == TOKEN_EOF)
 			current = current->next;
 	}
-	if (current->type != TOKEN_DOLLAR && current->type != TOKEN_PIPE)
+	if (current->type != TOKEN_DOLLAR)
 		current = current->next;
 	return (current);
 }
+
+// t_token	*token_reformatting_command(t_token *current)
+// {
+// 	current->type = TOKEN_COMMAND;
+// 	if (current->next != NULL)
+// 		current = current->next;
+// 	while (current->type == TOKEN_WHITESPACE)
+// 		current = current->next;
+// 	while ((current && current->type == 0 && current->type != 7)
+// 			|| current->type == TOKEN_OPTION || current->type == TOKEN_WHITESPACE
+// 			|| current->type == TOKEN_SINGLE_QUOTES || current->type == TOKEN_DOUBLE_QUOTES)
+// 	{
+// 		while (current->type == TOKEN_WHITESPACE)
+// 			current = current->next;
+// 		if (current->type == TOKEN_WORD || current->type == TOKEN_OPTION)
+// 			current->type = TOKEN_APPENDICE;
+// 		if (current->next && current->next->type != TOKEN_EOF && current->type != TOKEN_PIPE)
+// 			current = current->next;
+// 		else if (current->next && current->next->type == TOKEN_EOF)
+// 			current = current->next;
+// 	}
+// 	if (current->type != TOKEN_DOLLAR && current->type != TOKEN_PIPE)
+// 		current = current->next;
+// 	return (current);
+// }
 
 static	int	special_cases_lexer2(char *buffer, t_token **tokens, char *end)
 {

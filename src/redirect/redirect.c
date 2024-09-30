@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/24 19:20:25 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:17:57 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*trim_whitespace(char *str)
 	while (*str == 32) str++;
 	if (*str == 0)
 		return str;
-	end = str + strlen(str) - 1;
+	end = str + ft_strlen(str) - 1;
 	while (end > str && *end == 32) end--;
 	*(end + 1) = '\0';
 	return (str);
@@ -89,7 +89,7 @@ int	execute_command(char *command, t_data **data, char **envp)
 	char *tmp;
 	char *holder;
 
-	ft_printf("%s\n", command);
+	//ft_printf("%s\n", command);
 	cmd_args = ft_split(command, 32);
 	cmd = cmd_args[0];
 	tmp = NULL;

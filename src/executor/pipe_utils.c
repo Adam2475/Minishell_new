@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/21 18:45:02 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:21:33 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,21 @@ char	*token_to_command(t_token *head)
 	current = head;
 	while (current)
 	{
-		ft_strlcat(command, current->value, ft_strlen(command));
+		strcat(command, current->value);
 		if (current->next != NULL)
-			ft_strlcat(command, " ", ft_strlen(command));
+			strcat(command, " "); // Add space between tokens
 		current = current->next;
 	}
 	return (command);
 }
+
+	// while (current)
+	// {
+	// 	ft_strlcat(command, current->value, ft_strlen(command));
+	// 	if (current->next != NULL)
+	// 		ft_strlcat(command, " ", ft_strlen(command));
+	// 	current = current->next;
+	// }
 
 int count_pipes(t_token* head)
 {
