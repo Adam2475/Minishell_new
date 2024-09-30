@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 16:17:57 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:55:33 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,15 +134,15 @@ void	handle_heredoc(char *delimiter, t_data **data, char *tmp)
 		perror("Failed to reopen heredoc temporary file");
 		exit(0);
 	}
-	while (1)
-	{
-		line = get_next_line2(heredoc_fd);
-		if (!line)
-			break ;
-		// da togliere
-		// ft_printf("%s", line);
-		free(line);
-	}
+	// while (1)
+	// {
+	// 	line = get_next_line2(heredoc_fd);
+	// 	if (!line)
+	// 		break ;
+	// 	// da togliere
+	// 	// ft_printf("%s", line);
+	// 	free(line);
+	// }
 	close (heredoc_fd);
 	exit(0);
 }

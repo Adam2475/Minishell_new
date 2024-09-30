@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 17:17:05 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:39:18 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,7 @@ int	parser_case_herdoc(t_token *current, t_data **data)
 	}
 	else
 		return (ft_printf("syntax error after heredoc operator!\n"));
+	close((*data)->fd);
+	(*data)->fd = open(tmp, O_RDONLY);
 	return (0);
 }

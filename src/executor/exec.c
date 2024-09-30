@@ -23,6 +23,7 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 		}
 		if ((*data)->redirect_state == 0)
 		{
+			//printf("corrent\n");
 			if (dup2((*data)->fd, STDIN_FILENO) < 0)
 				return (-1);
 		}
@@ -31,6 +32,7 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 		execve((*data)->cmd2, cmd_args, envp);
 	else
 	{
+		//printf("diocancaro\n");
 		g_err_state = 127;
 		exit(g_err_state);
 	}
