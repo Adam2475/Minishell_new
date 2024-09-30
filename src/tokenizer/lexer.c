@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/25 18:41:57 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:43:40 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	tokenizer(t_data **data, t_token **tokens)
 	if (check_quotes(tokens) != 0)
 		return (1);
 	expand_var(tokens, data);
+	(*data)->tokens = copy_token_list(data, *tokens);
 	free (tmp);
 	return (0);
 }

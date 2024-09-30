@@ -6,11 +6,62 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 16:15:59 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:05:55 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	free_env_list(t_env_list *head)
+{
+	t_env_list	*tmp;
+
+	while (head != NULL)
+	{
+		tmp = head;
+		head = head->next;
+		if (head != NULL)
+			head->pre = NULL;
+		if (tmp->value)
+			free(tmp->value);
+		if (tmp->var)
+			free(tmp->var);
+		if (tmp->content)
+			free(tmp->content);
+		tmp->pre = NULL;
+		tmp->var = NULL;
+		tmp->value = NULL;
+		free(tmp);
+	}
+	free(head);
+}
+
+void	free_list(t_token *head)
+{
+	t_token	*tmp;
+
+	tmp = head;
+	if (tmp == NULL)
+		return ;
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
+void	free_exit(t_data **data)
+{
+	clear_history();
+	if ((*data)->env_list)
+		free_env_list((*data)->env_list);
+	if ((*data)->input)
+		free((*data)->input);
+	free(*data);
+	exit(1);
+}
 
 int	init_data(t_data **data, int argc, char **argv, t_token **tokens)
 {

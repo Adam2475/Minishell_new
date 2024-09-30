@@ -6,110 +6,32 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/25 17:54:00 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:09:26 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void free_token_list(t_token_list *list)
+void	free_token_list(t_token_list *list)
 {
-    while (list)
-    {
-        t_token_list *tmp = list;
-        list = list->next;
+	t_token_list	*tmp;
+	t_token			*current_token;
+	t_token			*next_token;
 
-        t_token *current_token = tmp->head;
-        while (current_token)
-        {
-            t_token *next_token = current_token->next;
+	while (list)
+	{
+		tmp = list;
+		list = list->next;
+		current_token = tmp->head;
+		while (current_token)
+		{
+			next_token = current_token->next;
 			if (current_token)
-           		free_token(current_token);  // Use the free_token helper
-            current_token = next_token;
-        }
-
-        free(tmp);  // Free the t_token_list node
-    }
-}
-
-// void	free_token_list(t_data **data)
-// {
-// 	t_token_list	*current_list;
-// 	t_token_list	*temp_list;
-// 	t_token			*current_token;
-// 	t_token			*temp_token;
-
-// 	current_list = (*data)->token_list;
-// 	current_token = current_list->head;
-// 	while (current_list)
-// 	{
-// 		while (current_token)
-// 		{
-// 			temp_token = current_token->next;
-// 			free(current_token->value);
-// 			current_token->value = NULL;
-// 			free(current_token);
-// 			current_token = temp_token;
-// 		}
-// 		temp_list = current_list->next;
-// 		free(current_list);
-// 		current_list = temp_list;
-// 	}
-// 	// if ((*data)->tmp != NULL)
-// 	// 	free((*data)->tmp);
-// 	//print_tokens((*data)->tmp);
-// }
-
-void	free_env_list(t_env_list *head)
-{
-	t_env_list	*tmp;
-
-	while (head != NULL)
-	{
-		tmp = head;
-		head = head->next;
-
-		if (head != NULL)
-			head->pre = NULL;
-		if (tmp->value)
-			free(tmp->value);
-		if (tmp->var)
-			free(tmp->var);
-		if (tmp->content)
-			free(tmp->content);
-		tmp->pre = NULL;
-		tmp->var = NULL;
-		tmp->value = NULL;
+				free_token(current_token);
+			current_token = next_token;
+		}
 		free(tmp);
 	}
-	free(head);
-}
-void	free_list(t_token *head)
-{
-	t_token	*tmp;
-
-	tmp = head;
-	if (tmp == NULL)
-		return ;
-	while (head)
-	{
-		tmp = head;
-		head = head->next;
-		//if (tmp->value)
-		free(tmp->value);
-		free(tmp);
-	}
-}
-
-void	free_exit(t_data **data)
-{
-	clear_history();
-	if ((*data)->env_list)
-		free_env_list((*data)->env_list);
-	if ((*data)->input)
-		free((*data)->input);
-	free(*data);
-	exit(1);
 }
 
 void	free_char_array(char **array)
@@ -152,21 +74,23 @@ void	free_tokens(t_data **data, t_token *tokens)
 	free((*data)->input);
 }
 
-void free_token_segment(t_token *token_segment)
+void	free_token_segment(t_token *token_segment)
 {
-    t_token *current = token_segment;
-    t_token *temp;
+	t_token	*current;
+	t_token	*temp;
 
-    while (current)
+	current = token_segment;
+	while (current)
 	{
-        temp = current->next;
-        if (current->value) {
-            free(current->value);
-            current->value = NULL;
-        }
-        free(current);
-        current = temp;
-    }
+		temp = current->next;
+		if (current->value)
+		{
+			free(current->value);
+			current->value = NULL;
+		}
+		free(current);
+		current = temp;
+	}
 }
 
 void free_token_list2(t_token_list *list)

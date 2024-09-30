@@ -23,7 +23,6 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 		}
 		if ((*data)->redirect_state == 0)
 		{
-			//printf("corrent\n");
 			if (dup2((*data)->fd, STDIN_FILENO) < 0)
 				return (-1);
 		}
@@ -32,7 +31,6 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 		execve((*data)->cmd2, cmd_args, envp);
 	else
 	{
-		//printf("diocancaro\n");
 		g_err_state = 127;
 		exit(g_err_state);
 	}
@@ -57,10 +55,7 @@ void	execute_command_single(char **command, t_data **data,
 	init_execution(data, &i);
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
-	{
-		free((*data)->tmp9);
-		return ;
-	}
+		return (free((*data)->tmp9));
 	(*data)->cmd2 = find_cmd(command[0], data);
 	holder = NULL;
 	while (command[i])

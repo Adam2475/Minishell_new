@@ -6,48 +6,13 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 16:39:13 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:57:00 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 int	g_err_state;
-
-void	print_tokens(t_token *tokens)
-{
-	t_token *temp = tokens;
-		while (temp)
-	{
-		printf("Type: %d, Value: %s\n", temp->type, temp->value);
-		temp = temp->next;
-	}
-}
-
-static	char	*retrieve_line(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		if (ft_strnstr(envp[i], "PATH=", 5))
-			return (ft_strndup(envp[i], ft_strlen(envp[i])));
-		i++;
-	}
-	return (NULL);
-}
-
-static	void	env_parser(t_data **data, char **envp)
-{
-	if ((*data)->env_list == NULL)
-		gen_list_env(data, envp);
-	(*data)->my_line = retrieve_line(envp);
-	if (!(*data)->my_line)
-		exit(write(1, "PATH not found\n", 15));
-	(*data)->path_from_envp = ft_substr((*data)->my_line, 5, 500);
-	(*data)->my_paths = ft_split((*data)->path_from_envp, ':');
-}
 
 static void	add_tokens_to_list(t_token_list *result, t_token **src)
 {
@@ -105,7 +70,6 @@ static	void	do_pipe(t_data *data, t_token *tokens, char **envp)
 	tmp = copy_token_list(&data, tokens);
 	split_tokens(&data, tmp);
 	free_list(data->tmp);
-	//print_token_lists(data->token_list);
 	pipe_case(&tokens, &data, envp, &data->token_list);
 	free_list(tmp);
 }
@@ -130,7 +94,6 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (tokenizer(&data, &tokens))
 			continue ;
-		data->tokens = copy_token_list(&data, tokens);
 		env_parser(&data, envp);
 		if (piper(&tokens) == 0)
 			token_parser(&tokens, &data, envp);
@@ -142,14 +105,12 @@ int	main(int argc, char **argv, char **envp)
 
 // Testing
 
-////////////////
 // Edge Cases:
-// diomerda
+// diomerda | OK
 // = current_list->head; | OK
 // ljsdbhhds hdsdsh  > | lhsdb<dshh !?
 // t_token *result; = NULL; | OK
 
-/////////////////
 // Single Command:
 // echo ciao | OK
 // echo "ciao" ciao | OK
@@ -163,7 +124,6 @@ int	main(int argc, char **argv, char **envp)
 // export a=32 b=78 c=4647 | OK
 // echo cioa$PWD ciao | OK
 
-/////////////////
 // Multi Cmd:
 //
 // < outfile grep -rl ada | cat -e > out2 | OK

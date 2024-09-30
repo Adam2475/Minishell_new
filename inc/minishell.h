@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/25 17:14:01 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:55:58 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef enum cmd
 typedef struct s_token_list
 {
 	t_token						*head;
-	struct	s_token_list		*next;
+	struct s_token_list			*next;
 }	t_token_list;
 
 typedef struct s_env_list
@@ -67,8 +67,8 @@ typedef struct s_env_list
 	char				*var;
 	char				*value;
 	char				*content;
-	struct	s_env_list	*pre;
-	struct	s_env_list	*next;
+	struct s_env_list	*pre;
+	struct s_env_list	*next;
 }	t_env_list;
 
 typedef struct s_data
@@ -95,7 +95,8 @@ typedef struct s_data
 // Structural functions
 void			free_exit(t_data **data);
 void			free_list(t_token *head);
-int				init_data(t_data **data, int argc, char **argv, t_token **tokens);
+int				init_data(t_data **data, int argc, char **argv,
+					t_token **tokens);
 // Tokenizer
 int				tokenizer(t_data **data, t_token **tokens);
 int				whitespace_case(char *buffer, char *end, t_token **tokens);
@@ -169,32 +170,33 @@ void			free_env_list(t_env_list *head);
 void			free_tokens(t_data **data, t_token *tokens);
 int				env_cmd(t_data **data);
 // Pipe case
-t_token_list 	*split_tokens_by_pipe(t_token *tokens);
+t_token_list	*split_tokens_by_pipe(t_token *tokens);
 t_token_list	*create_token_list_node(t_token *head);
 t_token			*extract_command_and_appendices(t_token *tokens);
 size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
-void			pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **token_list);
+void			pipe_case(t_token **tokens, t_data **data, char **envp,
+					t_token_list **token_list);
 void			append_token_list(t_token_list **list, t_token *head);
 char			*token_to_command(t_token *head);
-int				count_pipes(t_token* head);
+int				count_pipes(t_token *head);
 int				set_redirection(t_token *tokens, t_data **data);
 int				execute_command(char *command, t_data **data, char **envp);
 
 ///////////
-char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_strchr(const char *string, int searchedChar );
-void		ft_bzero(void *s, size_t n);
-void		*ft_calloc(size_t elementCount, size_t elementSize);
-char		*ft_free(char *buffer, char *buf);
-char		*ft_next(char *buffer);
-char		*ft_line(char *buffer);
-char		*read_file(int fd, char *res);
-char		*get_next_line2(int fd);
-void		free_token(t_token *token);
+char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strchr(const char *string, int searchedChar );
+void			ft_bzero(void *s, size_t n);
+void			*ft_calloc(size_t elementCount, size_t elementSize);
+char			*ft_free(char *buffer, char *buf);
+char			*ft_next(char *buffer);
+char			*ft_line(char *buffer);
+char			*read_file(int fd, char *res);
+char			*get_next_line2(int fd);
+void			free_token(t_token *token);
 
 ////////////////////////
-void		print_tokens(t_token *tokens);
+void			print_tokens(t_token *tokens);
 
 ////////////////////////
 int				is_whitespace(const char *str);
@@ -212,5 +214,8 @@ void			split_tokens_new(t_data	**data);
 t_token			*copy_token(t_token *token);
 void			free_token_list(t_token_list *list);
 void			print_token_lists(t_token_list *token_lists);
+char			*retrieve_line(char **envp);
+void			env_parser(t_data **data, char **envp);
+char			*ft_strcat(char *dest, char *src);
 
 #endif

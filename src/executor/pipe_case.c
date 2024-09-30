@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/25 15:49:00 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:59:15 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	append_token(t_token **list, t_token *new_token)
 // t_token *result; = NULL;
 t_token	*extract_command_and_appendices(t_token *tokens)
 {
-	 t_token *result = NULL;
+	t_token		*result;
 	t_token		*current;
 	int			command_found;
 
