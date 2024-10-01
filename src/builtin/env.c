@@ -19,7 +19,7 @@ int	env_cmd(t_data **data)
 	node = (*data)->env_list;
 	while (node != NULL)
 	{
-		ft_printf("%s\n", node->content);
+		ft_printf("%s%s\n", node->var, node->value);
 		node = node->next;
 	}
 	return (g_err_state = 0, 1);

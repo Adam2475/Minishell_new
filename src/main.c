@@ -88,14 +88,14 @@ static void	split_tokens(t_data **data, t_token *src)
 	(*data)->token_list = result_head;
 }
 
-static	int	read_input(t_data *data, t_token *tokens)
+static	int	read_input(t_data *data)
 {
 	data->token_list = NULL;
+	data->tokens = NULL;
 	data->input = readline("myprompt$ ");
 	if (!data->input)
 		return (0);
 	add_history(data->input);
-	data->tokens = copy_token_list(&data, tokens);
 	return (1);
 }
 
@@ -127,10 +127,11 @@ int	main(int argc, char **argv, char **envp)
 	set_signal();
 	while (1)
 	{
-		if (!read_input(data, tokens))
+		if (!read_input(data))
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (tokenizer(&data, &tokens))
 			continue ;
+		data->tokens = copy_token_list(&data, tokens);
 		env_parser(&data, envp);
 		if (piper(&tokens) == 0)
 			token_parser(&tokens, &data, envp);
