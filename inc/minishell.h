@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/25 17:14:01 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:59:36 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef enum cmd
 typedef struct s_token_list
 {
 	t_token						*head;
-	struct	s_token_list		*next;
+	struct s_token_list			*next;
 }	t_token_list;
 
 typedef struct s_env_list
@@ -67,8 +67,8 @@ typedef struct s_env_list
 	char				*var;
 	char				*value;
 	char				*content;
-	struct	s_env_list	*pre;
-	struct	s_env_list	*next;
+	struct s_env_list	*pre;
+	struct s_env_list	*next;
 }	t_env_list;
 
 typedef struct s_data
@@ -84,6 +84,10 @@ typedef struct s_data
 	char			**cmd_args;
 	char			*cmd2;
 	char			*tmp9;
+	char			*tmp6;
+	int				command_found;
+	int				pipes;
+	int				prev_fd;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -95,7 +99,8 @@ typedef struct s_data
 // Structural functions
 void			free_exit(t_data **data);
 void			free_list(t_token *head);
-int				init_data(t_data **data, int argc, char **argv, t_token **tokens);
+int				init_data(t_data **data, int argc, char **argv,
+					t_token **tokens);
 // Tokenizer
 int				tokenizer(t_data **data, t_token **tokens);
 int				whitespace_case(char *buffer, char *end, t_token **tokens);
@@ -116,7 +121,7 @@ int				redirect_parser(t_data **data, t_token *current);
 // Redireciton
 char			*expander_doc(char *line, t_data **data);
 char			*exp_word(char *line, t_data **data, int *i);
-void			handle_heredoc(char *delimiter, t_data **data, char *tmp);
+int				handle_heredoc(char *delimiter, t_data **data);
 // Executer
 void			execute_command_single(char **command, t_data **data,
 					char **envp, t_token **token);
@@ -169,32 +174,36 @@ void			free_env_list(t_env_list *head);
 void			free_tokens(t_data **data, t_token *tokens);
 int				env_cmd(t_data **data);
 // Pipe case
-t_token_list 	*split_tokens_by_pipe(t_token *tokens);
+t_token_list	*split_tokens_by_pipe(t_token *tokens);
 t_token_list	*create_token_list_node(t_token *head);
-t_token			*extract_command_and_appendices(t_token *tokens);
+t_token			*extract_command_and_appendices(t_data **data, t_token *tokens);
 size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
-void			pipe_case(t_token **tokens, t_data **data, char **envp, t_token_list **token_list);
+void			pipe_case(t_token **tokens, t_data **data, char **envp,
+					t_token_list **token_list);
 void			append_token_list(t_token_list **list, t_token *head);
 char			*token_to_command(t_token *head);
-int				count_pipes(t_token* head);
+int				count_pipes(t_token *head);
 int				set_redirection(t_token *tokens, t_data **data);
 int				execute_command(char *command, t_data **data, char **envp);
+void			space_helper(t_token **head, t_token **current,
+					t_token **prev, int flag);
+char			*trim_whitespace(char *str);
 
 ///////////
-char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_strchr(const char *string, int searchedChar );
-void		ft_bzero(void *s, size_t n);
-void		*ft_calloc(size_t elementCount, size_t elementSize);
-char		*ft_free(char *buffer, char *buf);
-char		*ft_next(char *buffer);
-char		*ft_line(char *buffer);
-char		*read_file(int fd, char *res);
-char		*get_next_line2(int fd);
-void		free_token(t_token *token);
+char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strchr(const char *string, int searchedChar );
+void			ft_bzero(void *s, size_t n);
+void			*ft_calloc(size_t elementCount, size_t elementSize);
+char			*ft_free(char *buffer, char *buf);
+char			*ft_next(char *buffer);
+char			*ft_line(char *buffer);
+char			*read_file(int fd, char *res);
+char			*get_next_line2(int fd);
+void			free_token(t_token *token);
 
 ////////////////////////
-void		print_tokens(t_token *tokens);
+void			print_tokens(t_token *tokens);
 
 ////////////////////////
 int				is_whitespace(const char *str);
@@ -212,5 +221,27 @@ void			split_tokens_new(t_data	**data);
 t_token			*copy_token(t_token *token);
 void			free_token_list(t_token_list *list);
 void			print_token_lists(t_token_list *token_lists);
+char			*retrieve_line(char **envp);
+void			env_parser(t_data **data, char **envp);
+char			*ft_strcat(char *dest, char *src);
+void			free_token_segment(t_token *start);
+t_token_list	*create_and_link(t_token *start, t_token_list *result,
+					t_token_list *current_list);
+t_token_list	*terminate_segment(t_token *prev);
+void			free_token_segment2(t_token *start);
+void			handle_parent_process(pid_t parent, int *status);
+void			setup_pipe(int i, int pipes, int prev_fd, int *end);
+void			create_pipes(int *end, int pipes);
+void			close_pipes(int *end, int pipes);
+void			append_token(t_token **list, t_token *new_token);
+t_token			*create_token(t_token_type type, char *value);
+int				init_state(t_data **data, t_token **tokens, char *tmp);
+void			recognizer(char *buffer, t_token **tokens,
+					char *end, t_data **data);
+void			token_reformatting(t_token **tokens);
+void			token_builder(t_token **tokens, char *buffer,
+					char *end, int flag);
+int				find_special(char c);
+void			parent_process2(t_data **data, int i, int *end, int parent);
 
 #endif

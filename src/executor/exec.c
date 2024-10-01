@@ -55,10 +55,7 @@ void	execute_command_single(char **command, t_data **data,
 	init_execution(data, &i);
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
-	{
-		free((*data)->tmp9);
-		return ;
-	}
+		return (free((*data)->tmp9));
 	(*data)->cmd2 = find_cmd(command[0], data);
 	holder = NULL;
 	while (command[i])
@@ -76,4 +73,43 @@ void	execute_command_single(char **command, t_data **data,
 	else
 		g_err_state = parent_process();
 	return ;
+}
+
+void	append_token(t_token **list, t_token *new_token)
+{
+	t_token	*temp;
+
+	if (!*list)
+	{
+		*list = new_token;
+		return ;
+	}
+	temp = *list;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new_token;
+}
+
+void	remove_whitespace_nodes(t_token **head)
+{
+	t_token	*current;
+	t_token	*prev;
+
+	current = *head;
+	prev = NULL;
+	while (current != NULL)
+	{
+		if (is_whitespace(current->value))
+		{
+			if (prev == NULL)
+				space_helper(head, &current, &prev, 0);
+			else
+				space_helper(head, &current, &prev, 1);
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
 }
