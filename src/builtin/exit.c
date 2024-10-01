@@ -41,6 +41,50 @@ static	void	join_in_qt(t_token *tkn,
 	return ;
 }
 
+static void	*ft_check_lon(char *s)
+{
+	static long		result = 0;
+	static int		sign = 0;
+	static int		digit = 0;
+
+	if (*s == '-')
+	{
+		sign = -1;
+		s++;
+	}
+	else if (*s == '+')
+		s++;
+	while ((*s) && ft_isdigit(*s))
+	{
+		digit = *s - '0';
+		if (result > (LONG_MAX - digit) / 10)
+			return ((void *)s);
+		result = result * 10 + digit;
+		s++;
+	}
+	return ((void *)NULL);
+}
+
+static	int	ft_too_long(char *val, t_data **data, t_token **token)
+{
+	char	*ptr;
+
+	ptr = ft_strndup(val, ft_strlen(val));
+	if (!val)
+		return (0);
+	if ((ft_strlen(val) - 1) > ft_strlen("-9223372036854775808"))
+		return (ft_printf("exit: %s: numeric argument required 1\n", val),
+			free_exit_cmd(data, *token), 1);
+	if (ft_check_lon(ptr) != NULL)
+		return (ft_printf("exit: %s: numeric argument required 2\n", val),
+			free_exit_cmd(data, *token), 1);
+	if (ft_atol(val) > 255)
+		g_err_state = ft_atol(val) / 256;
+	else
+		g_err_state = ft_atol(val);
+	return (0);
+}
+
 int	cmd_exit(t_data **data, t_token **token)
 {
 	t_token		*tkn;
@@ -53,12 +97,16 @@ int	cmd_exit(t_data **data, t_token **token)
 	if (tkn->type == TOKEN_DOUBLE_QUOTES || tkn->type == TOKEN_SINGLE_QUOTES)
 		(join_in_qt(tkn->next, tkn->type, 0),
 			free_exit_cmd(data, *token));
-	if (!is_numeric(tkn->value))
+	if (!is_numeric(tkn->value) || ft_too_long(tkn->value, data, token))
 		join_in_qt(tkn, tkn->type, 1);
 	if (is_numeric(tkn->value))
 	{
-		while ((int)tkn->type != 7 && (int)tkn->type == 11)
+		while ((int)tkn->type != 7 || (int)tkn->type == 11)
+		{
 			tkn = tkn->next;
+			if (tkn->type != 11 && tkn->type != 7)
+				break ;
+		}
 		if ((int)tkn->type != 7)
 			return (ft_printf("exit\nbash: exit: too many arguments\n"));
 		free_exit_cmd(data, *token);

@@ -95,7 +95,6 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (tokenizer(&data, &tokens))
 			continue ;
-		data->tokens = copy_token_list(&data, tokens);
 		env_parser(&data, envp);
 		if (piper(&tokens) == 0)
 			token_parser(&tokens, &data, envp);

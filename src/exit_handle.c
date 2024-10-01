@@ -39,7 +39,7 @@ void	free_char_array(char **array)
 	int	i;
 
 	i = 0;
-	while (array && array[i] != NULL)
+	while (array && array != NULL && array[i] != NULL)
 	{
 		free(array[i]);
 		array[i] = NULL;

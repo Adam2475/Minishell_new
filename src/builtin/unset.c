@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexers_utils.c                                     :+:      :+:    :+:   */
+/*   unset.c	                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -70,5 +70,5 @@ int	unset_env(t_token **token, t_env_list **env)
 	}
 	if (var_name != NULL)
 		free(var_name);
-	return (1);
+	return (g_err_state = 0, 1);
 }

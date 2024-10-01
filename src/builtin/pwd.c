@@ -15,8 +15,17 @@
 int	pwd_cmd(t_data **data)
 {
 	t_env_list	*node;
+	t_token		*tkn;
 
 	node = (*data)->env_list;
+	tkn = (*data)->tokens->next;
+	while (tkn && tkn->type != TOKEN_EOF)
+	{
+		if (tkn->type == TOKEN_WHITESPACE)
+			tkn = tkn->next;
+		else
+			return (ft_printf("pwd: too many arguments\n"));
+	}
 	while (ft_strncmp(node->var, "PWD=", 4))
 		node = node->next;
 	ft_printf("%s\n", node->value);

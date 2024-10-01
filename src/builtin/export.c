@@ -96,7 +96,7 @@ static	int	join_to_env(t_token *arg, t_data **data)
 	if (arg->next->type == TOKEN_DOUBLE_QUOTES || arg->next->type == TOKEN_DOLLAR
 			|| arg->next->type == TOKEN_SINGLE_QUOTES)
 		join_in_qt_exp(arg, arg->next->type);
-	else if (!node->next && ft_strncmp(node->var, arg->value, ft_strlen_char(node->var, '=') - 1) != 0)
+	else if (!node->next && ft_strncmp(node->var, arg->value, ft_strlen_char(arg->value, '+') - 2) != 0)
 	{
 		tmp = ft_strndup(arg->value, ft_strlen_char(arg->value, '+') - 1);
 		tmp2 = ft_strdup(ft_strnstr(arg->value, "=", ft_strlen_char(arg->value, '=')));
@@ -186,13 +186,16 @@ static	int	inutil_exp(t_data **data, t_token **current, t_token **tkn, int *flag
 int	export_cmd(t_data **data, t_token **tkn)
 {
 	t_token		*current;
+	t_token		*copy;
 	int			flag;
 
-	current = (*tkn);
+	copy = copy_token_list(data, (*tkn));
+	current = copy;
 	flag = 0;
-	if (inutil_exp(data, &current, tkn, &flag))
-		return (1);
+	if (inutil_exp(data, &current, &copy, &flag))
+		return (g_err_state = 1, 	1);
 	if (flag == 0)
 		print_exp_env(data);
-	return (1);
+	free_list(copy);
+	return (g_err_state = 0 ,1);
 }

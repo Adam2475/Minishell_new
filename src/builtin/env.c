@@ -15,8 +15,21 @@
 int	env_cmd(t_data **data)
 {
 	t_env_list	*node;
+	t_token		*tkn;
 
 	node = (*data)->env_list;
+	tkn = (*data)->tokens->next;
+	while (tkn && tkn->type != TOKEN_EOF)
+	{
+		if (tkn->type == TOKEN_WHITESPACE)
+			tkn = tkn->next;
+		else if (tkn->type != TOKEN_DOLLAR)
+			return (g_err_state = 127, ft_printf("env: %s: No such file or directory\n",
+					tkn->value));
+		else if (tkn->type == TOKEN_DOLLAR)
+			return (g_err_state = 126, ft_printf("env: %s: Permission denied\n",
+					tkn->value));
+	}
 	while (node != NULL)
 	{
 		ft_printf("%s%s\n", node->var, node->value);

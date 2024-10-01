@@ -26,6 +26,9 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <string.h>
+# include <limits.h>
+# include <errno.h>
+# include <ctype.h>
 //# include "../inc/minishell.h"
 
 // single quotes inhibit the dollar double don't
@@ -112,6 +115,8 @@ char		*ft_strtrim2(char *s1, char *set);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 //////////////////////////////////////////////
 int			ft_atoi(const char *str);
+long long	ft_atol(const char *str);
+void		*ft_check_l(char *str, char **endptr);
 char		*ft_itoa(int n);
 //////////////////////////////////////////////
 void		*ft_calloc(size_t nmemb, size_t size);
