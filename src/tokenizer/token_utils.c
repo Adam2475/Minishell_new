@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/25 19:08:21 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:00:43 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 
 void	append_token_list(t_token_list **list, t_token *head)
 {
-	t_token_list *new_node = create_token_list_node(head);
+	t_token_list	*new_node;
+	t_token_list	*current;
 
+	new_node = create_token_list_node(head);
 	if (!new_node)
-		return;
+		return ;
 	if (*list == NULL)
 		*list = new_node;
 	else
 	{
-		t_token_list *current = *list;
+		current = *list;
 		while (current->next)
 			current = current->next;
 		current->next = new_node;
@@ -51,8 +53,8 @@ t_token	*copy_token(t_token *token)
 t_token	*token_reformatting_special(t_token *current)
 {
 	current = current->next;
-	while (current->type == TOKEN_WHITESPACE || current->type == TOKEN_DOUBLE_QUOTES
-			|| current->type == TOKEN_SINGLE_QUOTES)
+	while (current->type == 11 || current->type == 9
+		|| current->type == TOKEN_SINGLE_QUOTES)
 		current = current->next;
 	while (current && current->type == 0)
 		current->type = TOKEN_APPENDICE;
@@ -86,4 +88,16 @@ t_token	*copy_token_list(t_data **data, t_token *tokens)
 		i++;
 	}
 	return (new_list);
+}
+
+void	parent_process2(t_data **data, int i, int *end, int parent)
+{
+	if (i > 0)
+		close((*data)->prev_fd);
+	if (i < (*data)->pipes)
+	{
+		close(end[i * 2 + 1]);
+		(*data)->prev_fd = end[i * 2];
+	}
+	waitpid(parent, NULL, 0);
 }

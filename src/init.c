@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 18:05:55 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:36:09 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,32 @@ int	init_data(t_data **data, int argc, char **argv, t_token **tokens)
 	}
 	else
 		return (1);
+	return (0);
+}
+
+int	tokenizer(t_data **data, t_token **tokens)
+{
+	char	*buffer;
+	char	*tmp;
+	char	*end;
+
+	end = NULL;
+	if (!(*data)->input)
+		free_exit(data);
+	tmp = ft_strndup((*data)->input, ft_strlen((*data)->input));
+	if (init_state(data, tokens, tmp) > 0)
+	{
+		free(tmp);
+		free_exit(data);
+	}
+	buffer = tmp;
+	end = buffer;
+	recognizer(buffer, tokens, end, data);
+	token_reformatting(tokens);
+	if (check_quotes(tokens) != 0)
+		return (1);
+	expand_var(tokens, data);
+	(*data)->tokens = copy_token_list(data, *tokens);
+	free (tmp);
 	return (0);
 }

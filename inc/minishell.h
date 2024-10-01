@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 19:10:36 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:59:36 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ typedef struct s_data
 	char			**cmd_args;
 	char			*cmd2;
 	char			*tmp9;
+	char			*tmp6;
 	int				command_found;
+	int				pipes;
+	int				prev_fd;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -118,7 +121,7 @@ int				redirect_parser(t_data **data, t_token *current);
 // Redireciton
 char			*expander_doc(char *line, t_data **data);
 char			*exp_word(char *line, t_data **data, int *i);
-void			handle_heredoc(char *delimiter, t_data **data, char *tmp);
+int				handle_heredoc(char *delimiter, t_data **data);
 // Executer
 void			execute_command_single(char **command, t_data **data,
 					char **envp, t_token **token);
@@ -183,6 +186,9 @@ char			*token_to_command(t_token *head);
 int				count_pipes(t_token *head);
 int				set_redirection(t_token *tokens, t_data **data);
 int				execute_command(char *command, t_data **data, char **envp);
+void			space_helper(t_token **head, t_token **current,
+					t_token **prev, int flag);
+char			*trim_whitespace(char *str);
 
 ///////////
 char			*ft_strjoin(char const *s1, char const *s2);
@@ -226,5 +232,16 @@ void			free_token_segment2(t_token *start);
 void			handle_parent_process(pid_t parent, int *status);
 void			setup_pipe(int i, int pipes, int prev_fd, int *end);
 void			create_pipes(int *end, int pipes);
+void			close_pipes(int *end, int pipes);
+void			append_token(t_token **list, t_token *new_token);
+t_token			*create_token(t_token_type type, char *value);
+int				init_state(t_data **data, t_token **tokens, char *tmp);
+void			recognizer(char *buffer, t_token **tokens,
+					char *end, t_data **data);
+void			token_reformatting(t_token **tokens);
+void			token_builder(t_token **tokens, char *buffer,
+					char *end, int flag);
+int				find_special(char c);
+void			parent_process2(t_data **data, int i, int *end, int parent);
 
 #endif

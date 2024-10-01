@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 19:05:59 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 08:56:44 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	free_char_array(char **array)
 		array[i] = NULL;
 		i++;
 	}
-	free(array);
+	if (array)
+		free(array);
 	array = NULL;
 }
 

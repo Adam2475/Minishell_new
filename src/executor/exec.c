@@ -74,3 +74,42 @@ void	execute_command_single(char **command, t_data **data,
 		g_err_state = parent_process();
 	return ;
 }
+
+void	append_token(t_token **list, t_token *new_token)
+{
+	t_token	*temp;
+
+	if (!*list)
+	{
+		*list = new_token;
+		return ;
+	}
+	temp = *list;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new_token;
+}
+
+void	remove_whitespace_nodes(t_token **head)
+{
+	t_token	*current;
+	t_token	*prev;
+
+	current = *head;
+	prev = NULL;
+	while (current != NULL)
+	{
+		if (is_whitespace(current->value))
+		{
+			if (prev == NULL)
+				space_helper(head, &current, &prev, 0);
+			else
+				space_helper(head, &current, &prev, 1);
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+}

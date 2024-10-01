@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 19:03:49 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:08:25 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,14 @@ int	main(int argc, char **argv, char **envp)
 
 // Multi Cmd:
 //
+// cat merda | cat ciao | OK
 // < outfile grep -rl ada | cat -e > out2 | OK
 // < src/init.c grep -rl int | cat -e > out2 | OK
 // cat src/main.c | cat src/init.c | OK
 // env | sort | grep -v SHLVL | grep -v ^_ | OK
 
 // multi cmd still have issues when run as second command ?!
+
+
+// cat << << eof
+// env | sort | grep -v SHLVL | grep -v ^_ 

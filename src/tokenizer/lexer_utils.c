@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 19:09:06 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:16:30 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_token	*token_reformatting_command(t_token *current)
 			current = current->next;
 		if (current->type == TOKEN_WORD || current->type == TOKEN_OPTION)
 			current->type = TOKEN_APPENDICE;
-		if (current->next && current->next->type != TOKEN_EOF && current->type != TOKEN_PIPE)
+		if (current->next && current->next->type != 7 && current->type != 2)
 			current = current->next;
 		else if (current->next && current->next->type == TOKEN_EOF)
 			current = current->next;

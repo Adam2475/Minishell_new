@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 15:59:16 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:40:25 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@ static	int	call_for_command(t_token **tokens, t_data **data,
 
 	i = 0;
 	current = *origin;
-	(*data)->command[i] = ft_strdup(current->value);
-	i++;
+	(*data)->command[i++] = ft_strdup(current->value);
 	current = current->next;
-	while (current->type == 13 || current->type == 1 ||
-		current->type == 8 || current->type == TOKEN_WHITESPACE)
+	while (current->type == 13 || current->type == 1
+		|| current->type == 8 || current->type == 11)
 	{
 		if (current->type == TOKEN_WHITESPACE)
 			current = current->next;

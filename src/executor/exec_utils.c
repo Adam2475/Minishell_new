@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/30 18:27:34 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/01 09:41:43 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,62 +44,6 @@ char	*find_cmd(char *cmd, t_data **data)
 	return (NULL);
 }
 
-t_token_list	*create_token_list_node(t_token *token_head)
-{
-	t_token_list	*new_node;
-
-	new_node = ft_calloc(sizeof(t_token_list), 1);
-	if (!new_node)
-		return NULL;
-	new_node->head = token_head;
-	new_node->next = NULL;
-	return (new_node);
-}
-
-void free_token(t_token *token)
-{
-	if (token)
-	{
-		free(token->value);
-		free(token);
-	}
-}
-
-t_token_list	*terminate_segment(t_token *prev)
-{
-	if (prev)
-		prev->next = NULL;
-	return (NULL);
-}
-
-t_token_list	*create_and_link(t_token *start, t_token_list *result,
-					t_token_list *current_list)
-{
-	t_token_list	*new_list;
-
-	new_list = create_token_list_node(start);
-	if (!new_list)
-		return (result);
-	if (!result)
-		return (new_list);
-	current_list->next = new_list;
-	return (new_list);
-}
-
-void	free_token_segment2(t_token *start)
-{
-	t_token	*tmp;
-	t_token	*next_token;
-
-	tmp = start;
-	while (tmp)
-	{
-		next_token = tmp->next;
-		free_token(tmp);
-		tmp = next_token;
-	}
-}
-
 t_token_list	*split_tokens_by_pipe(t_token *token_list)
 {
 	t_token_list	*result;
@@ -128,18 +72,38 @@ t_token_list	*split_tokens_by_pipe(t_token *token_list)
 	return (result);
 }
 
-void	print_token_lists(t_token_list *token_lists)
+static	void	init_extraction(t_token **result, t_token **current,
+	t_data **data, t_token *tokens)
 {
-	int list_num = 1;
-	while (token_lists)
+	(*result) = NULL;
+	(*data)->command_found = 0;
+	(*current) = tokens;
+}
+
+t_token	*extract_command_and_appendices(t_data **data, t_token *tokens)
+{
+	t_token		*result;
+	t_token		*current;
+
+	init_extraction(&result, &current, data, tokens);
+	while (current)
 	{
-		printf("List %d:\n", list_num++);
-		t_token *current_token = token_lists->head;
-		while (current_token)
+		if (current->type == TOKEN_WHITESPACE)
 		{
-			printf("  Value: %s, Type: %d\n", current_token->value, current_token->type);
-			current_token = current_token->next;
+			current = current->next;
+			continue ;
 		}
-		token_lists = token_lists->next;
+		if (current->type == TOKEN_COMMAND)
+		{
+			(*data)->command_found = 1;
+			append_token(&result, create_token(current->type, current->value));
+		}
+		else if ((*data)->command_found && (current->type == 13
+				|| current->type == 1))
+			append_token(&result, create_token(current->type, current->value));
+		else if ((*data)->command_found)
+			break ;
+		current = current->next;
 	}
+	return (result);
 }
