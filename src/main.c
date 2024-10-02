@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 11:08:25 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:51:55 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,11 @@ int	main(int argc, char **argv, char **envp)
 // ljsdbhhds hdsdsh  > | lhsdb<dshh !?
 // t_token *result; = NULL; | OK
 
+// echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ciao !?
+// echo -n -n -n -n -n ciao !?
+// echo -n -n -nf -n ciao !?
+// a << s << z << x
+
 // Single Command:
 // echo ciao | OK
 // echo "ciao" ciao | OK
@@ -135,8 +140,12 @@ int	main(int argc, char **argv, char **envp)
 // env | sort | grep -v SHLVL | grep -v ^_ | OK
 
 // multi cmd still have issues when run as second command ?!
-
+// unset home e cd senza argomenti
 // cat << << eof
+
+//unset $PATH
+//program should not work
+//absolute command
 // env | sort | grep -v SHLVL | grep -v ^_ 
 
 // TODO: rimozione del file .heredoc alla conclusione dell'operazione
