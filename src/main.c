@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 // echo ciao | OK
 // echo "ciao" ciao | OK
 // ls -l | OK
-// exit
+// exit | OK
 // ls -l > outfile
 // cat outfile
 // < outfile grep -rl out
@@ -135,6 +135,7 @@ int	main(int argc, char **argv, char **envp)
 
 // multi cmd still have issues when run as second command ?!
 
-
 // cat << << eof
 // env | sort | grep -v SHLVL | grep -v ^_ 
+
+// TODO: rimozione del file .heredoc alla conclusione dell'operazione

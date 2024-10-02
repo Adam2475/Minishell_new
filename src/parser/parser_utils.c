@@ -72,6 +72,7 @@ int	parser_case_herdoc(t_token *current, t_data **data)
 	{
 		(*data)->fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0600);
 		(*data)->redirect_state = 0;
+		(*data)->heredoc_flag = 1;
 		parent = fork();
 		if (parent < 0)
 			exit(0);

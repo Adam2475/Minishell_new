@@ -55,7 +55,9 @@ t_token	*token_reformatting_command(t_token *current)
 		else if (current->next && current->next->type == TOKEN_EOF)
 			current = current->next;
 	}
-	if (current->type != TOKEN_DOLLAR)
+	if (current->type != TOKEN_DOLLAR && current->type != TOKEN_REDIRECT_IN
+		&& current->type != TOKEN_REDIRECT_OUT && current->type != TOKEN_APPEND
+		&& current->type != TOKEN_HEREDOC)
 		current = current->next;
 	return (current);
 }

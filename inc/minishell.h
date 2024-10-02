@@ -88,6 +88,7 @@ typedef struct s_data
 	int				command_found;
 	int				pipes;
 	int				prev_fd;
+	int				heredoc_flag;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -147,7 +148,15 @@ int				manual_cmd(char **cmd_args, t_data **data, t_token **token);
 int				unset_env(t_token **token, t_env_list **env);
 int				ft_strsearch(char *str, int c);
 // export
+int				util_exp(t_data **data, t_token **current, t_token **tkn);
+int				inutil_exp(t_data **data, t_token **current,
+					t_token **tkn, int *flag);
+void			util_join_in_qt(t_token *tkn,
+					t_token *current, t_token_type type, char *tmp);
+void			join_in_qt_exp(t_token *tkn, t_token_type type);
 int				export_cmd(t_data **data, t_token **tkn);
+int				add_to_env(t_token *arg, t_data **data);
+int				join_to_env(t_token *arg, t_data **data);
 int				is_numeric(char *str);
 // chdir
 int				cd_cmd(t_data **data, t_token **tkn);

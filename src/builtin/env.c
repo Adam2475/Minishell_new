@@ -24,7 +24,8 @@ int	env_cmd(t_data **data)
 		if (tkn->type == TOKEN_WHITESPACE)
 			tkn = tkn->next;
 		else if (tkn->type != TOKEN_DOLLAR)
-			return (g_err_state = 127, ft_printf("env: %s: No such file or directory\n",
+			return (g_err_state = 127,
+				ft_printf("env: %s: No such file or directory\n",
 					tkn->value));
 		else if (tkn->type == TOKEN_DOLLAR)
 			return (g_err_state = 126, ft_printf("env: %s: Permission denied\n",

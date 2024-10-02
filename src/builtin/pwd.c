@@ -26,8 +26,9 @@ int	pwd_cmd(t_data **data)
 		else
 			return (ft_printf("pwd: too many arguments\n"));
 	}
-	while (ft_strncmp(node->var, "PWD=", 4))
+	while (node && ft_strncmp(node->var, "PWD=", 4))
 		node = node->next;
-	ft_printf("%s\n", node->value);
+	if (node)
+		ft_printf("%s\n", node->value);
 	return (g_err_state = 0, 1);
 }

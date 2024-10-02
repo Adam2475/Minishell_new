@@ -50,31 +50,6 @@ void	free_char_array(char **array)
 	array = NULL;
 }
 
-void	free_tokens(t_data **data, t_token *tokens)
-{
-	if (tokens)
-		free_list(tokens);
-	if ((*data)->tokens)
-		free_list((*data)->tokens);
-	if ((*data)->token_list != NULL)
-		free_token_list((*data)->token_list);
-	if ((*data)->fd >= 0)
-		(*data)->fd = -1;
-	if ((*data)->path_from_envp)
-		free((*data)->path_from_envp);
-	if ((*data)->command)
-		free_char_array((*data)->command);
-	if ((*data)->my_paths)
-		free_char_array((*data)->my_paths);
-	if ((*data)->my_line)
-		free((*data)->my_line);
-	if ((*data)->cmd2)
-		free((*data)->cmd2);
-	if ((*data)->cmd_args)
-		free_char_array((*data)->cmd_args);
-	free((*data)->input);
-}
-
 void	free_token_segment(t_token *token_segment)
 {
 	t_token	*current;

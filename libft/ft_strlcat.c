@@ -27,11 +27,10 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	return (ft_strlen(dest) + ft_strlen(&src[i]));
 }
 
-
-char *ft_strcat(char *dest, char *src)
+char	*ft_strcat(char *dest, char *src)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (dest[i] != '\0')

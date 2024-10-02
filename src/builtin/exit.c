@@ -62,7 +62,7 @@ static void	*ft_check_lon(char *s)
 		result = result * 10 + digit;
 		s++;
 	}
-	return ((void *)NULL);
+	return (NULL);
 }
 
 static	int	ft_too_long(char *val, t_data **data, t_token **token)

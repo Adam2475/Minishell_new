@@ -12,6 +12,41 @@
 
 #include "../../inc/minishell.h"
 
+static	void	heredoc_unlink(t_data **data)
+{
+	if ((*data)->heredoc_flag > 0)
+	{
+		(*data)->heredoc_flag = 0;
+		unlink(".heredoc.txt");
+	}
+}
+
+void	free_tokens(t_data **data, t_token *tokens)
+{
+	if (tokens)
+		free_list(tokens);
+	heredoc_unlink(data);
+	if ((*data)->tokens)
+		free_list((*data)->tokens);
+	if ((*data)->token_list != NULL)
+		free_token_list((*data)->token_list);
+	if ((*data)->fd >= 0)
+		(*data)->fd = -1;
+	if ((*data)->path_from_envp)
+		free((*data)->path_from_envp);
+	if ((*data)->command)
+		free_char_array((*data)->command);
+	if ((*data)->my_paths)
+		free_char_array((*data)->my_paths);
+	if ((*data)->my_line)
+		free((*data)->my_line);
+	if ((*data)->cmd2)
+		free((*data)->cmd2);
+	if ((*data)->cmd_args)
+		free_char_array((*data)->cmd_args);
+	free((*data)->input);
+}
+
 static	void	print_in_qt(t_token **node, t_token_type type)
 {
 	(*node) = (*node)->next;
@@ -34,6 +69,7 @@ static int	inutils_num(t_token *node)
 	if (ft_strncmp(tmp->value, "-n", 3) == 0)
 	{
 		tmp = tmp->next;
+		node->type = TOKEN_OPTION;
 		flag = 1;
 	}
 	return (flag);
@@ -65,5 +101,3 @@ int	echo_cmd(t_token **tkn)
 		ft_printf("\n");
 	return (g_err_state = 0, 1);
 }
-
-// TODO: problemi 'echo cioa disod ios'

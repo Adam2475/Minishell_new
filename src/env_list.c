@@ -92,6 +92,7 @@ int	gen_list_env(t_data **data, char **envp)
 
 	i = 0;
 	head = (*data)->env_list;
+	(*data)->heredoc_flag = 0;
 	while (envp[i] != NULL)
 	{
 		node = new_node_env(envp[i]);
