@@ -60,7 +60,8 @@ static	int	read_input(t_data *data)
 	data->input = readline("myprompt$ ");
 	if (!data->input)
 		return (0);
-	add_history(data->input);
+	if (data->input[0] != '\0')
+		add_history(data->input);
 	return (1);
 }
 
@@ -93,7 +94,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!read_input(data))
 			return (ft_printf("exit\n"), free_exit(&data), 1);
-		if (tokenizer(&data, &tokens))
+		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
 		env_parser(&data, envp);
 		if (piper(&tokens) == 0)
