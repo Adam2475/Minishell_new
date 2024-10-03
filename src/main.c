@@ -113,6 +113,7 @@ int	main(int argc, char **argv, char **envp)
 // ljsdbhhds hdsdsh  > | lhsdb<dshh !?
 // t_token *result; = NULL; | OK
 // "/usr/bin/ls" | OK
+// "    " !? (only spaces case) || only as second command
 
 // Single Command:
 // echo ciao | OK
