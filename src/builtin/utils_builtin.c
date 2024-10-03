@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:47:19 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,12 @@ char	*tmp_set(char *val)
 	tmp = ft_strjoin(tmp2, "=");
 	free(tmp2);
 	return (tmp);
+}
+
+void	process_command2(t_data **data, char **command)
+{
+	if (!(*data)->merdoso)
+		(*data)->cmd2 = find_cmd(command[0], data);
+	else
+		(*data)->cmd2 = ft_strndup((*data)->input, ft_strlen((*data)->input));
 }

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 09:09:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:30:15 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,40 @@ char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-void	env_parser(t_data **data, char **envp)
+int	env_parser(t_data **data, char **envp)
 {
-	if ((*data)->env_list == NULL)
+	if (!(*data)->env_list)
 		gen_list_env(data, envp);
-	(*data)->my_line = retrieve_line(envp);
+	if ((*data)->input[0] == '/')
+	{
+		(*data)->merdoso = 1;
+		(*data)->path_from_envp = NULL;
+		(*data)->my_paths = NULL;
+		(*data)->my_line = NULL;
+		return (0);
+	}
+	(*data)->my_line = retrieve_line((*data)->env_list);
 	if (!(*data)->my_line)
-		exit(write(1, "PATH not found\n", 15));
+	{
+		(*data)->path_from_envp = NULL;
+		(*data)->my_paths = NULL;
+		return (write(1, "PATH not found!\n", 16));
+	}
 	(*data)->path_from_envp = ft_substr((*data)->my_line, 5, 500);
 	(*data)->my_paths = ft_split((*data)->path_from_envp, ':');
+	return (0);
 }
 
-char	*retrieve_line(char **envp)
+char	*retrieve_line(t_env_list *envp)
 {
-	int	i;
+	t_env_list	*node;
 
-	i = 0;
-	while (envp[i] != NULL)
+	node = envp;
+	while (node != NULL)
 	{
-		if (ft_strnstr(envp[i], "PATH=", 5))
-			return (ft_strndup(envp[i], ft_strlen(envp[i])));
-		i++;
+		if (!ft_strncmp(node->var, "PATH=", 5))
+			return (ft_strjoin(node->var, node->value));
+		node = node->next;
 	}
 	return (NULL);
 }

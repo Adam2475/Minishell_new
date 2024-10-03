@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexers_utils.c                                     :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:12:32 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,15 @@ void	free_tokens(t_data **data, t_token *tokens)
 	if ((*data)->my_line)
 		free((*data)->my_line);
 	if ((*data)->cmd2)
+	{
 		free((*data)->cmd2);
+		(*data)->cmd2 = NULL;
+	}
 	if ((*data)->cmd_args)
+	{
 		free_char_array((*data)->cmd_args);
+		(*data)->cmd_args = NULL;
+	}
 	free((*data)->input);
 }
 
