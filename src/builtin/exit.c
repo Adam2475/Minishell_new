@@ -44,12 +44,12 @@ static	void	join_in_qt(t_token *tkn,
 static void	*ft_check_lon(char *s)
 {
 	static long		result = 0;
-	static int		sign = 0;
+	//static int		sign = 0;
 	static int		digit = 0;
 
 	if (*s == '-')
 	{
-		sign = -1;
+		//sign = -1;
 		s++;
 	}
 	else if (*s == '+')

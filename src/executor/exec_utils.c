@@ -19,6 +19,7 @@ int	init_execution(t_data **data, int *i)
 	return (0);
 }
 
+
 char	*find_cmd(char *cmd, t_data **data)
 {
 	int		i;
@@ -30,6 +31,8 @@ char	*find_cmd(char *cmd, t_data **data)
 	{
 		tmp = ft_strjoin((*data)->my_paths[i], "/");
 		holder = ft_strjoin(tmp, cmd);
+		//ft_printf("%s\n", tmp);
+		//ft_printf("%s\n", holder);
 		if (access(holder, X_OK) == 0)
 			return (free(tmp), holder);
 		if (holder)
@@ -38,7 +41,7 @@ char	*find_cmd(char *cmd, t_data **data)
 			free(tmp);
 		i++;
 	}
-	write(2, "command not found : ", 20);
+	write(2, "non a file or directory: ", 26);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, "\n", 1);
 	return (NULL);

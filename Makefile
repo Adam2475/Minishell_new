@@ -33,17 +33,9 @@ MAGENTA = \033[0;95m
 GRAY = \033[0;90m
 WHITE = \033[0;97m
 
-BANNER = \
-"$(GREEN)\
-\n  __  __          _____ _          _ _ \n\
- |  \/  |        / ____| |        | | |\n\
- | \  / |___  __| (___ | |__   ___| | |\n\
- | |\/| / _ \/ _ \___ \| '_ \ / _ \ | |\n\
- | |  | |__/  /  ____| ) | | | |__/ | |\n\
- |_|  |_|\___|  |_____/|_| |_|\___|_|_|\n\
-$(DEFAULT)"
+#$(DEFAULT)
 
-all: banner lib $(OBJ_DIR) $(NAME)
+all: lib $(OBJ_DIR) $(NAME)
 
 lib:
 		make -sC libft
@@ -72,6 +64,3 @@ fclean: clean
 		@echo "$(RED)$(NAME) rimossa con successo❗️ ❌$(DEFAULT)"
 
 re: fclean all
-
-banner:
-		@echo $(BANNER)
