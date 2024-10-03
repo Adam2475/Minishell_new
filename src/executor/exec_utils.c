@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 17:03:22 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:45:12 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,39 @@ int	init_execution(t_data **data, int *i)
 	(*data)->cmd2 = NULL;
 	return (0);
 }
+
 static	int	compare_path(char *str)
 {
 	if (str[0] == '/')
 		return (1);
 	return (0);
 }
-char *trim_quotes(char *str)
-{
-    int len = strlen(str);
-    char *trimmed = (char *)ft_calloc(sizeof(char), (len + 1)); // Allocate memory for the trimmed string
-    if (!trimmed)
-        return NULL; // Return NULL if memory allocation fails
 
-    int j = 0; // Index for trimmed string
-    for (int i = 0; i < len; i++)
-    {
-        if (str[i] != '\'' && str[i] != '\"') // Skip ' and "
-        {
-            trimmed[j] = str[i];
-            j++;
-        }
-    }
-    trimmed[j] = '\0'; // Null-terminate the new string
+char	*trim_quotes(char *str)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*trimmed;
+
+	len = ft_strlen(str);
+	trimmed = (char *)ft_calloc(sizeof(char), (len + 1));
+	if (!trimmed)
+		return NULL;
+	i = 0;
+	j = 0;
+	while (i < len)
+	{
+		if (str[i] != '\'' && str[i] != '\"')
+		{
+			trimmed[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	trimmed[j] = '\0';
 	free(str);
-    return trimmed;
+	return (trimmed);
 }
 
 char	*find_cmd(char *cmd, t_data **data)
@@ -62,7 +70,6 @@ char	*find_cmd(char *cmd, t_data **data)
 		else
 			holder = ft_strjoin(tmp, cmd);
 		free(tmp2);
-		//printf("%s\n", holder);
 		holder = trim_quotes(holder);
 		if (access(holder, X_OK) == 0)
 			return (ft_free_null(tmp), holder);
@@ -106,7 +113,7 @@ t_token_list	*split_tokens_by_pipe(t_token *token_list)
 	return (result);
 }
 
-static	void	init_extraction(t_token **result, t_token **current,
+void	init_extraction(t_token **result, t_token **current,
 	t_data **data, t_token *tokens)
 {
 	(*result) = NULL;

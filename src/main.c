@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 17:06:53 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:28:27 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static	int	read_input(t_data *data)
 {
 	data->token_list = NULL;
 	data->tokens = NULL;
+	data->merdoso = 0;
 	data->input = readline("myprompt$ ");
 	if (!data->input)
 		return (0);
@@ -76,6 +77,14 @@ static	void	do_pipe(t_data *data, t_token *tokens, char **envp)
 	free_list(tmp);
 }
 
+void	command_init(t_data *data, t_token *tokens, char **envp)
+{
+	if (piper(&tokens) == 0)
+		token_parser(&tokens, &data, envp);
+	else
+		do_pipe(data, tokens, envp);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
@@ -88,20 +97,18 @@ int	main(int argc, char **argv, char **envp)
 	fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 	if (!envp)
 		return (1);
-	gen_list_env(&data, envp);
 	set_signal();
 	while (1)
 	{
+		if (tokens)
+			free_tokens(&data, tokens);
 		if (!read_input(data))
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		env_parser(&data, envp);
-		if (piper(&tokens) == 0)
-			token_parser(&tokens, &data, envp);
-		else
-			do_pipe(data, tokens, envp);
-		free_tokens(&data, tokens);
+		if (env_parser(&data, envp) > 0)
+			continue ;
+		command_init(data, tokens, envp);
 	}
 }
 
@@ -113,7 +120,7 @@ int	main(int argc, char **argv, char **envp)
 // ljsdbhhds hdsdsh  > | lhsdb<dshh !?
 // t_token *result; = NULL; | OK
 // "/usr/bin/ls" | OK
-// "    " !? (only spaces case) || only as second command
+// "           "  (only as second command) | OK
 
 // Single Command:
 // echo ciao | OK

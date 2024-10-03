@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/23 14:51:20 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:35:32 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,10 @@ static	void	join_in_qt(t_token *tkn,
 static void	*ft_check_lon(char *s)
 {
 	static long		result = 0;
-	//static int		sign = 0;
 	static int		digit = 0;
 
 	if (*s == '-')
-	{
-		//sign = -1;
 		s++;
-	}
 	else if (*s == '+')
 		s++;
 	while ((*s) && ft_isdigit(*s))

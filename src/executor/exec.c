@@ -60,7 +60,7 @@ void	execute_command_single(char **command, t_data **data,
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
 		return (free((*data)->tmp9));
-	(*data)->cmd2 = find_cmd(command[0], data);
+	process_command2(data, command);
 	holder = NULL;
 	while (command[i])
 	{

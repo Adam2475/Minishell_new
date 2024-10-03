@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 10:59:36 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:47:55 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_data
 	int				command_found;
 	int				pipes;
 	int				prev_fd;
+	int				merdoso;
 	int				heredoc_flag;
 	t_token			*new_token;
 	t_token			*tmp;
@@ -231,8 +232,8 @@ void			split_tokens_new(t_data	**data);
 t_token			*copy_token(t_token *token);
 void			free_token_list(t_token_list *list);
 void			print_token_lists(t_token_list *token_lists);
-char			*retrieve_line(char **envp);
-void			env_parser(t_data **data, char **envp);
+char			*retrieve_line(t_env_list *envp);
+int				env_parser(t_data **data, char **envp);
 char			*ft_strcat(char *dest, char *src);
 void			free_token_segment(t_token *start);
 t_token_list	*create_and_link(t_token *start, t_token_list *result,
@@ -253,5 +254,9 @@ void			token_builder(t_token **tokens, char *buffer,
 					char *end, int flag);
 int				find_special(char c);
 void			parent_process2(t_data **data, int i, int *end, int parent);
+void			process_command2(t_data **data, char **command);
+void			init_extraction(t_token **result, t_token **current,
+					t_data **data, t_token *tokens);
+void			command_init(t_data *data, t_token *tokens, char **envp);
 
 #endif
