@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexers_utils.c                                     :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:00:39 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 int	pwd_cmd(t_data **data)
 {
-	t_env_list	*node;
+	char		cwd[PATH_MAX];
 	t_token		*tkn;
 
-	node = (*data)->env_list;
 	tkn = (*data)->tokens->next;
 	while (tkn && tkn->type != TOKEN_EOF)
 	{
@@ -26,9 +25,15 @@ int	pwd_cmd(t_data **data)
 		else
 			return (ft_printf("pwd: too many arguments\n"));
 	}
-	while (node && ft_strncmp(node->var, "PWD=", 4))
-		node = node->next;
-	if (node)
-		ft_printf("%s\n", node->value);
-	return (g_err_state = 0, 1);
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{
+		ft_printf("%s\n", cwd);
+		return (g_err_state = 0, 1);
+	}
+	else
+	{
+		perror("getcwd");
+		return (g_err_state = 1, 1);
+	}
 }

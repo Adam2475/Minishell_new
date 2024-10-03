@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 18:47:55 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:54:02 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define TRUE 1
 # define FALSE 0
 # define WHITESPACE 32
+# define PATH_MAX 4096
 
 # define SINGLE_QUOTES '\''
 # define DOUBLE_QUOTES '\"'

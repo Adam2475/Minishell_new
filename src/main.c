@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 19:03:28 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:00:54 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,3 +153,6 @@ int	main(int argc, char **argv, char **envp)
 //program should not work
 //absolute command
 // env | sort | grep -v SHLVL | grep -v ^_
+
+// TODO : add lexical control to export
+// TODO : add getcwd to make pwd work with unset || OK
