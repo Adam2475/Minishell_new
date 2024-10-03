@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 18:28:27 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:03:28 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,6 @@ int	main(int argc, char **argv, char **envp)
 		command_init(data, tokens, envp);
 	}
 }
-
-// Testing
 
 // Edge Cases:
 // diomerda | OK

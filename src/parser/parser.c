@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 10:40:25 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:24:52 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,22 @@ static	int	parser_init(t_data **data)
 
 int	redirect_parser(t_data **data, t_token *current)
 {
-	if ((*data)->fd >= 0)
-		return (0);
+	int	i;
+
+	i = 0;
 	while (current != NULL)
 	{
 		if (current->type == TOKEN_REDIRECT_OUT)
-			return (parser_case_redo(current, data));
+			i = parser_case_redo(current, data);
 		else if (current->type == TOKEN_REDIRECT_IN)
-			return (parser_case_redi(current, data));
+			i = parser_case_redi(current, data);
 		else if (current->type == TOKEN_APPEND)
-			return (parser_case_append(current, data));
+			i = parser_case_append(current, data);
 		else if (current->type == TOKEN_HEREDOC)
-			return (parser_case_herdoc(current, data));
-		else
-			current = current->next;
+			i = parser_case_herdoc(current, data);
+		current = current->next;
 	}
-	return (0);
+	return (i);
 }
 
 int	token_parser(t_token **tokens, t_data **data, char **envp)
