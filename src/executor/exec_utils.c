@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 09:41:43 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:03:22 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static	int	compare_path(char *str)
 char *trim_quotes(char *str)
 {
     int len = strlen(str);
-    char *trimmed = (char *)malloc(len + 1); // Allocate memory for the trimmed string
+    char *trimmed = (char *)ft_calloc(sizeof(char), (len + 1)); // Allocate memory for the trimmed string
     if (!trimmed)
         return NULL; // Return NULL if memory allocation fails
 
@@ -50,22 +50,26 @@ char	*find_cmd(char *cmd, t_data **data)
 	int		i;
 	char	*tmp;
 	char	*holder;
+	char	*tmp2;
 
 	i = 0;
 	while ((*data)->my_paths[i])
 	{
-		tmp = ft_strjoin((*data)->my_paths[i], "/");
+		tmp2 = ft_strdup((*data)->my_paths[i]);
+		tmp = ft_strjoin(tmp2, "/");
 		if (compare_path(cmd) > 0)
 			holder = ft_strdup(cmd);
 		else
 			holder = ft_strjoin(tmp, cmd);
+		free(tmp2);
+		//printf("%s\n", holder);
 		holder = trim_quotes(holder);
 		if (access(holder, X_OK) == 0)
-			return (free(tmp), holder);
+			return (ft_free_null(tmp), holder);
 		if (holder)
-			free(holder);
+			ft_free_null(holder);
 		if (tmp)
-			free(tmp);
+			ft_free_null(tmp);
 		i++;
 	}
 	write(2, "non a file or directory: ", 26);
