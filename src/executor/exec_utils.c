@@ -18,7 +18,32 @@ int	init_execution(t_data **data, int *i)
 	(*data)->cmd2 = NULL;
 	return (0);
 }
+static	int	compare_path(char *str)
+{
+	if (str[0] == '/')
+		return (1);
+	return (0);
+}
+char *trim_quotes(char *str)
+{
+    int len = strlen(str);
+    char *trimmed = (char *)malloc(len + 1); // Allocate memory for the trimmed string
+    if (!trimmed)
+        return NULL; // Return NULL if memory allocation fails
 
+    int j = 0; // Index for trimmed string
+    for (int i = 0; i < len; i++)
+    {
+        if (str[i] != '\'' && str[i] != '\"') // Skip ' and "
+        {
+            trimmed[j] = str[i];
+            j++;
+        }
+    }
+    trimmed[j] = '\0'; // Null-terminate the new string
+	free(str);
+    return trimmed;
+}
 
 char	*find_cmd(char *cmd, t_data **data)
 {
@@ -30,9 +55,11 @@ char	*find_cmd(char *cmd, t_data **data)
 	while ((*data)->my_paths[i])
 	{
 		tmp = ft_strjoin((*data)->my_paths[i], "/");
-		holder = ft_strjoin(tmp, cmd);
-		//ft_printf("%s\n", tmp);
-		//ft_printf("%s\n", holder);
+		if (compare_path(cmd) > 0)
+			holder = ft_strdup(cmd);
+		else
+			holder = ft_strjoin(tmp, cmd);
+		holder = trim_quotes(holder);
 		if (access(holder, X_OK) == 0)
 			return (free(tmp), holder);
 		if (holder)

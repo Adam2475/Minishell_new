@@ -198,6 +198,7 @@ int				execute_command(char *command, t_data **data, char **envp);
 void			space_helper(t_token **head, t_token **current,
 					t_token **prev, int flag);
 char			*trim_whitespace(char *str);
+char			*trim_quotes(char *str);
 
 ///////////
 char			*ft_strjoin(char const *s1, char const *s2);

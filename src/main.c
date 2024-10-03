@@ -112,14 +112,13 @@ int	main(int argc, char **argv, char **envp)
 // = current_list->head; | OK
 // ljsdbhhds hdsdsh  > | lhsdb<dshh !?
 // t_token *result; = NULL; | OK
-
-// echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ciao !?
-// echo -n -n -n -n -n ciao !?
-// echo -n -n -nf -n ciao !?
-// a << s << z << x
+// "/usr/bin/ls" | OK
 
 // Single Command:
 // echo ciao | OK
+// echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ciao !?
+// echo -n -n -n -n -n ciao !?
+// echo -n -n -nf -n ciao !?
 // echo "ciao" ciao | OK
 // ls -l | OK
 // exit | OK
@@ -127,6 +126,7 @@ int	main(int argc, char **argv, char **envp)
 // cat outfile
 // < outfile grep -rl out
 // cat << eof | OK
+// a << s << z << x !?
 // ls -l >> out | OK
 // export a=32 b=78 c=4647 | OK
 // echo cioa$PWD ciao | OK
@@ -146,6 +146,4 @@ int	main(int argc, char **argv, char **envp)
 //unset $PATH
 //program should not work
 //absolute command
-// env | sort | grep -v SHLVL | grep -v ^_ 
-
-// TODO: rimozione del file .heredoc alla conclusione dell'operazione
+// env | sort | grep -v SHLVL | grep -v ^_

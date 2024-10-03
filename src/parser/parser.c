@@ -102,7 +102,7 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 	{
 		if (redirect_parser(data, current) > 0)
 			return (ft_printf("command not found!\n"));
-		if (current->type == 12)
+		if (current->type == 12 || current->type == TOKEN_WORD_QT)
 		{
 			if (!call_for_command(tokens, data, &current, envp))
 				return (0);

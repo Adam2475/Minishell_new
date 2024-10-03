@@ -28,7 +28,11 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 		}
 	}
 	if ((*data)->cmd2 && cmd_args)
-		execve((*data)->cmd2, cmd_args, envp);
+	{
+		(*data)->cmd2 = trim_quotes((*data)->cmd2);
+		if (execve((*data)->cmd2, cmd_args, envp) != 0)
+			exit(ft_printf("fuck off nigga, bad command!\n"));
+	}
 	else
 	{
 		g_err_state = 127;
