@@ -12,45 +12,13 @@
 
 #include "../../inc/minishell.h"
 
-static	void	heredoc_unlink(t_data **data)
+void	heredoc_unlink(t_data **data)
 {
 	if ((*data)->heredoc_flag > 0)
 	{
 		(*data)->heredoc_flag = 0;
 		unlink(".heredoc.txt");
 	}
-}
-
-void	free_tokens(t_data **data, t_token *tokens)
-{
-	if (tokens)
-		free_list(tokens);
-	heredoc_unlink(data);
-	if ((*data)->tokens)
-		free_list((*data)->tokens);
-	if ((*data)->token_list != NULL)
-		free_token_list((*data)->token_list);
-	if ((*data)->fd >= 0)
-		(*data)->fd = -1;
-	if ((*data)->path_from_envp)
-		free((*data)->path_from_envp);
-	if ((*data)->command)
-		free_char_array((*data)->command);
-	if ((*data)->my_paths)
-		free_char_array((*data)->my_paths);
-	if ((*data)->my_line)
-		free((*data)->my_line);
-	if ((*data)->cmd2)
-	{
-		free((*data)->cmd2);
-		(*data)->cmd2 = NULL;
-	}
-	if ((*data)->cmd_args)
-	{
-		free_char_array((*data)->cmd_args);
-		(*data)->cmd_args = NULL;
-	}
-	free((*data)->input);
 }
 
 static	void	do_some(t_token **tmp, char **n_s)
@@ -95,7 +63,7 @@ int	echo_cmd(t_token **tkn)
 
 	node = (*tkn)->next;
 	flag_n = 0;
-	while (node->type != TOKEN_EOF && node->type == TOKEN_WHITESPACE)
+	while (node->type != 7 && (node->type == 11 || node->type == 12))
 		node = node->next;
 	inutils_num(node, &flag_n);
 	node = (*tkn)->next;

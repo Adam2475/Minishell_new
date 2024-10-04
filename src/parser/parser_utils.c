@@ -32,7 +32,11 @@ int	parser_case_redi(t_token *current, t_data **data)
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current->type == TOKEN_APPENDICE)
+	{
 		(*data)->fd = open(current->value, O_RDONLY);
+		if ((*data)->fd < 0)
+			return (1);
+	}
 	else
 		return (1);
 	return (0);

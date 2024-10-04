@@ -63,39 +63,20 @@ void	free_exit(t_data **data)
 	exit(1);
 }
 
-int	init_data(t_data **data, int argc, char **argv, t_token **tokens)
-{
-	*data = ft_calloc(1, sizeof(t_data));
-	if (!argc)
-		return (1);
-	*argv = NULL;
-	(*tokens) = NULL;
-	if (data)
-	{
-		(*data)->my_line = NULL;
-		(*data)->my_paths = NULL;
-		(*data)->path_from_envp = NULL;
-		(*data)->env_list = NULL;
-		(*data)->redirect_state = -1;
-		(*data)->input = NULL;
-		(*data)->fd = -1;
-		(*data)->command = NULL;
-	}
-	else
-		return (1);
-	return (0);
-}
-
-static	void	join_in_qt_tk(t_token *tkn)
+static	void	join_in_qt_tk(t_token **tkn)
 {
 	t_token			*current;
 	t_token_type	type;
 	char			*tmp;
 
-	current = tkn;
-	while (current && current->type == 11)
+	current = (*tkn);
+	tmp = NULL;
+	type = current->type;
+	if (helper_function2(&current, type, tkn) > 0)
+		return ;
+	while (current && current->type == 11 && current->type == 12)
 		current = current->next;
-	if (current->type != 9 && current->type != 10)
+	if (current && current->type != 9 && current->type != 10)
 		return ;
 	type = current->type;
 	current = current->next;
@@ -130,7 +111,7 @@ int	tokenizer(t_data **data, t_token **tokens)
 	end = buffer;
 	recognizer(buffer, tokens, end, data);
 	token_reformatting(tokens);
-	join_in_qt_tk((*tokens));
+	join_in_qt_tk(tokens);
 	if (check_quotes(tokens) != 0)
 		return (1);
 	expand_var(tokens, data);

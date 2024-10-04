@@ -66,7 +66,7 @@ static	int	read_input(t_data *data)
 	return (1);
 }
 
-static	void	do_pipe(t_data *data, t_token *tokens, char **envp)
+void	do_pipe(t_data *data, t_token *tokens, char **envp)
 {
 	t_token	*tmp;
 
@@ -75,14 +75,6 @@ static	void	do_pipe(t_data *data, t_token *tokens, char **envp)
 	free_list(data->tmp);
 	pipe_case(&tokens, &data, envp, &data->token_list);
 	free_list(tmp);
-}
-
-void	command_init(t_data *data, t_token *tokens, char **envp)
-{
-	if (piper(&tokens) == 0)
-		token_parser(&tokens, &data, envp);
-	else
-		do_pipe(data, tokens, envp);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -123,17 +115,17 @@ int	main(int argc, char **argv, char **envp)
 
 // Single Command:
 // echo ciao | OK
-// echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ciao !?
-// echo -n -n -n -n -n ciao !?
-// echo -n -n -nf -n ciao !?
+// echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ciao OK
+// echo -n -n -n -n -n ciao OK
+// echo -n -n -nf -n ciao OK
 // echo "ciao" ciao | OK
 // ls -l | OK
 // exit | OK
-// ls -l > outfile
-// cat outfile
-// < outfile grep -rl out
+// ls -l > outfile OK
+// cat outfile OK
+// < outfile grep -rl out OK
 // cat << eof | OK
-// a << s << z << x !?
+// a << s << z << x OK
 // ls -l >> out | OK
 // export a=32 b=78 c=4647 | OK
 // echo cioa$PWD ciao | OK
@@ -145,6 +137,8 @@ int	main(int argc, char **argv, char **envp)
 // < src/init.c grep -rl int | cat -e > out2 | OK
 // cat src/main.c | cat src/init.c | OK
 // env | sort | grep -v SHLVL | grep -v ^_ | OK
+// < out env | sort | grep -v SHLVL | grep -v ^_ | OK
+// out < env | sort | grep -v SHLVL | grep -v ^_ | segfault
 
 // multi cmd still have issues when run as second command ?!
 // unset home e cd senza argomenti

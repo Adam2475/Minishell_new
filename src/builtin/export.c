@@ -22,9 +22,8 @@ int	add_to_env(t_token *arg, t_data **data)
 		if (ft_strncmp(arg->value, node->var,
 				(ft_strlen_char(arg->value, '=') - 1)) == 0)
 		{
-			if (arg->next->type == 9 || arg->next->type == 8
-				|| arg->next->type == TOKEN_SINGLE_QUOTES)
-				join_in_qt_exp(arg, arg->next->type);
+			if (arg->next->type == 14 || arg->next->type == 8)
+				join_in_qt_exp(arg);
 			node->next = new_node_env(arg->value);
 			free_node_env(node);
 			return (0);
@@ -33,9 +32,8 @@ int	add_to_env(t_token *arg, t_data **data)
 			break ;
 		node = node->next;
 	}
-	if (arg->next->type == 9 || arg->next->type == 8
-		|| arg->next->type == TOKEN_SINGLE_QUOTES)
-		join_in_qt_exp(arg, arg->next->type);
+	if (arg->next->type == 14 || arg->next->type == 8)
+		join_in_qt_exp(arg);
 	node = new_node_env(arg->value);
 	return (add_back_env(&(*data)->env_list, node), 0);
 }
@@ -45,9 +43,8 @@ static	int	util_join_to_env(t_env_list *node, t_token *arg, t_data **data)
 	char		*tmp;
 	char		*tmp2;
 
-	if (arg->next->type == 9 || arg->next->type == 8
-		|| arg->next->type == TOKEN_SINGLE_QUOTES)
-		join_in_qt_exp(arg, arg->next->type);
+	if (arg->next->type == 14 || arg->next->type == 8)
+		join_in_qt_exp(arg);
 	else if (!node->next && ft_strncmp(node->var, arg->value,
 			ft_strlen_char(arg->value, '+') - 2) != 0)
 	{

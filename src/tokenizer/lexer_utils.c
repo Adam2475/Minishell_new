@@ -15,20 +15,22 @@
 t_token	*token_reformatting_pipe(t_token *current)
 {
 	current = current->next;
-	while (current->type == TOKEN_WHITESPACE)
+	while (current && current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current && current->type == TOKEN_WORD)
 		current->type = TOKEN_COMMAND;
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
-	current = current->next;
+	if (current && current->next)
+		current = current->next;
 	while ((current && current->type == TOKEN_WORD)
 		|| current->type == TOKEN_WHITESPACE)
 	{
-		while (current->type == TOKEN_WHITESPACE)
+		while (current && current->type != 7 && current->type == 11)
 			current = current->next;
-		current->type = TOKEN_APPENDICE;
-		if (current && current->next)
+		if (current->type != TOKEN_PIPE)
+			current->type = TOKEN_APPENDICE;
+		if (current && current->next && current->type != TOKEN_PIPE)
 			current = current->next;
 	}
 	return (current);

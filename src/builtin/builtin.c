@@ -78,6 +78,32 @@ int	ft_strsearch(char *str, int c)
 	return (0);
 }
 
+static	t_token	*join_in_qt_cm(t_token *tkn)
+{
+	t_token			*current;
+	t_token_type	type;
+	char			*tmp;
+
+	current = tkn;
+	while (current && current->type == 11)
+		current = current->next;
+	if (current->type != 9 && current->type != 10)
+		return (tkn);
+	type = current->type;
+	current = current->next;
+	while (current->next && current->next->type != type)
+	{
+		tmp = current->value;
+		current->value = ft_strjoin(current->value, current->next->value);
+		free(tmp);
+		tkn_delone(&current, current->next);
+	}
+	if (current->type == 12 || current->type == 9
+		|| current->type == 10 || current->type == 14)
+		current = current->next;
+	return (current);
+}
+
 static	void	clean_qt(t_token **tkn)
 {
 	t_token	*node;
@@ -85,11 +111,21 @@ static	void	clean_qt(t_token **tkn)
 	node = *tkn;
 	while (node && node->type != TOKEN_EOF)
 	{
+		if (node->type == 9 || node->type == 10)
+			node = join_in_qt_cm(node);
+		if (node && node->type != TOKEN_EOF)
+			node = node->next;
+	}
+	node = *tkn;
+	while (node && node->type != TOKEN_EOF)
+	{
 		if (node->next->type == 9 || node->next->type == 10)
 			tkn_delone(&node, node->next);
-		node = node->next;
+		if (node && node->type != TOKEN_EOF)
+			node = node->next;
 	}
 }
+
 
 int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 {
@@ -99,7 +135,6 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	(*data)->cmd_args = NULL;
 	clean_qt(token);
-	print_tokens((*token));
 	if (tmp->cmd == CH_DIR)
 		return (ft_remove_ws(token), cd_cmd(data, token));
 	if (tmp->cmd == ECHO)

@@ -40,9 +40,24 @@ int	util_exp(t_data **data, t_token **current, t_token **tkn)
 	return (0);
 }
 
+// static	int	ft_join_val(t_token *current, t_token *join)
+// {
+// 	char	*tmp;
+
+// 	tmp = current->value;
+// 	if (current && join && join->type != 7)
+// 	{
+// 		current->value = ft_strjoin(current->value, join->value);
+// 		ft_free_null(tmp);
+// 		tkn_delone(&current, join);
+// 		return (0);
+// 	}
+// 	return (1);
+// }
+
 int	inutil_exp(t_data **data, t_token **current, t_token **tkn, int *flag)
 {
-	while (current && (*current)->type != TOKEN_EOF)
+	while (current && (*current) && (*current)->type != TOKEN_EOF)
 	{
 		while ((*current)->type != TOKEN_EOF
 			&& ((*current)->type == TOKEN_WHITESPACE
@@ -68,44 +83,42 @@ int	inutil_exp(t_data **data, t_token **current, t_token **tkn, int *flag)
 	return (0);
 }
 
-void	util_join_in_qt(t_token *tkn, t_token *current,
-	t_token_type type, char *tmp)
-{
-	current = tkn;
-	if (current->next && current->next->type == type && type != TOKEN_DOLLAR)
-		tkn_delone(&current, current->next);
-	while (current->next && current->next->type != type)
-	{
-		tmp = current->value;
-		current->value = ft_strjoin(current->value, current->next->value);
-		free(tmp);
-		tkn_delone(&current, current->next);
-	}
-	if (current->next && current->next->type == type && type != TOKEN_DOLLAR)
-		tkn_delone(&current, current->next);
-}
+// void	util_join_in_qt(t_token *tkn, t_token *current,
+// 	t_token_type type, char *tmp)
+// {
+// 	current = tkn;
+// 	if (current->next && current->next->type == type && type != TOKEN_DOLLAR)
+// 		tkn_delone(&current, current->next);
+// 	while (current->next && current->next->type != type)
+// 	{
+// 		tmp = current->value;
+// 		current->value = ft_strjoin(current->value, current->next->value);
+// 		free(tmp);
+// 		tkn_delone(&current, current->next);
+// 	}
+// 	if (current->next && current->next->type == type && type != TOKEN_DOLLAR)
+// 		tkn_delone(&current, current->next);
+// }
 
-void	join_in_qt_exp(t_token *tkn, t_token_type type)
+void	join_in_qt_exp(t_token *tkn)
 {
 	t_token	*current;
 	char	*tmp;
-	int		i;
 
-	i = 0;
-	if (tkn->next->next && i == 0)
-		current = tkn->next->next;
+	if (tkn->next && tkn->next->type == 14)
+		current = tkn->next;
 	else
 		current = NULL;
-	while (current->next && current->next->type != type)
+	while (current->next && current->next->type != 11 && current->next->type != 7)
 	{
 		tmp = current->value;
 		current->value = ft_strjoin(current->value, current->next->value);
 		free(tmp);
 		tkn_delone(&current, current->next);
 	}
-	util_join_in_qt(tkn, current, type, tmp);
 	tmp = tkn->value;
 	tkn->value = ft_strjoin(tkn->value, tkn->next->value);
 	free(tmp);
+	tkn_delone(&tkn, tkn->next);
 	return ;
 }

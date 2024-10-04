@@ -36,7 +36,7 @@ char	*trim_quotes(char *str)
 	len = ft_strlen(str);
 	trimmed = (char *)ft_calloc(sizeof(char), (len + 1));
 	if (!trimmed)
-		return NULL;
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (i < len)
@@ -60,8 +60,6 @@ char	*find_cmd(char *cmd, t_data **data)
 	char	*holder;
 	char	*tmp2;
 
-	// print_tokens((*data)->tokens);
-
 	i = 0;
 	while ((*data)->my_paths[i])
 	{
@@ -73,7 +71,6 @@ char	*find_cmd(char *cmd, t_data **data)
 			holder = ft_strjoin(tmp, cmd);
 		free(tmp2);
 		holder = trim_quotes(holder);
-		//ft_printf("%s\n", holder);
 		if (access(holder, X_OK) == 0)
 			return (ft_free_null(tmp), holder);
 		if (holder)

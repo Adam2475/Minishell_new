@@ -153,9 +153,9 @@ int				ft_strsearch(char *str, int c);
 int				util_exp(t_data **data, t_token **current, t_token **tkn);
 int				inutil_exp(t_data **data, t_token **current,
 					t_token **tkn, int *flag);
-void			util_join_in_qt(t_token *tkn,
-					t_token *current, t_token_type type, char *tmp);
-void			join_in_qt_exp(t_token *tkn, t_token_type type);
+// void			util_join_in_qt(t_token *tkn,
+// 					t_token *current, t_token_type type, char *tmp);
+void			join_in_qt_exp(t_token *tkn);
 void			join_in_qt(t_token *tkn, t_token_type type, int flag);
 int				export_cmd(t_data **data, t_token **tkn);
 int				add_to_env(t_token *arg, t_data **data);
@@ -191,7 +191,7 @@ t_token_list	*create_token_list_node(t_token *head);
 t_token			*extract_command_and_appendices(t_data **data, t_token *tokens);
 size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
-void			pipe_case(t_token **tokens, t_data **data, char **envp,
+int				pipe_case(t_token **tokens, t_data **data, char **envp,
 					t_token_list **token_list);
 void			append_token_list(t_token_list **list, t_token *head);
 char			*token_to_command(t_token *head);
@@ -202,6 +202,7 @@ void			space_helper(t_token **head, t_token **current,
 					t_token **prev, int flag);
 char			*trim_whitespace(char *str);
 char			*trim_quotes(char *str);
+void			free_tokens_helper(t_data **data);
 
 ///////////
 char			*ft_strjoin(char const *s1, char const *s2);
@@ -214,13 +215,17 @@ char			*ft_line(char *buffer);
 char			*read_file(int fd, char *res);
 char			*get_next_line2(int fd);
 void			free_token(t_token *token);
+void			do_pipe(t_data *data, t_token *tokens, char **envp);
 
 ////////////////////////
 void			print_tokens(t_token *tokens);
+int				helper_function2(t_token **current,
+					t_token_type type, t_token **tkn);
 
 ////////////////////////
 int				is_whitespace(const char *str);
 void			remove_whitespace_nodes(t_token **head);
+void			heredoc_unlink(t_data **data);
 t_token			*new_node(const char *content);
 void			print_list(t_token *head);
 void			free_token_list2(t_token_list *list);

@@ -65,11 +65,11 @@ static	void	init_pipe(t_data **data, t_token **tokens, int **end, int *i)
 {
 	(*data)->prev_fd = 0;
 	(*data)->pipes = count_pipes(*tokens);
-	*i = 0;
+	*i = -1;
 	*end = ft_calloc(sizeof(int), (*data)->pipes * 2);
 }
 
-void	pipe_case(t_token **tokens, t_data **data,
+int	pipe_case(t_token **tokens, t_data **data,
 	char **envp, t_token_list **token_list)
 {
 	int				*end;
@@ -80,7 +80,7 @@ void	pipe_case(t_token **tokens, t_data **data,
 	init_pipe(data, tokens, &end, &i);
 	current = *token_list;
 	pipe_opener(data, end);
-	while (i <= (*data)->pipes)
+	while (++i <= (*data)->pipes)
 	{
 		remove_whitespace_nodes(&current->head);
 		parent = fork();
@@ -88,13 +88,13 @@ void	pipe_case(t_token **tokens, t_data **data,
 		{
 			setup_pipe(i, (*data)->pipes, (*data)->prev_fd, end);
 			close_pipes(end, (*data)->pipes);
-			redirect_parser(data, current->head);
+			if (redirect_parser(data, current->head))
+				exit(ft_printf("not a file or directory!\n"));
 			child_process_pipe(envp, data, current->head);
 		}
 		else
 			parent_process2(data, i, end, parent);
 		current = current->next;
-		i++;
 	}
-	free(end);
+	return (free(end), 0);
 }

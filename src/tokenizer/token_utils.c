@@ -52,12 +52,16 @@ t_token	*copy_token(t_token *token)
 
 t_token	*token_reformatting_special(t_token *current)
 {
+	if (!current || current->type == TOKEN_EOF)
+		return (current);
 	current = current->next;
-	while (current->type == 11 || current->type == 9
-		|| current->type == TOKEN_SINGLE_QUOTES)
+	while (current && (current->type == 11 || current->type == 9
+		|| current->type == 10))
 		current = current->next;
 	while (current && current->type == 0)
 		current->type = TOKEN_APPENDICE;
+	if (!current || current->type == TOKEN_EOF)
+		return (current);
 	current = current->next;
 	return (current);
 }
