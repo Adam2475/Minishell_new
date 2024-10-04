@@ -36,7 +36,7 @@ char	*tmp_set(char *val)
 	tmp = ft_strndup(val, ft_strlen(val));
 	tmp2 = ft_strtrim2(tmp, "$");
 	tmp = ft_strjoin(tmp2, "=");
-	free(tmp2);
+	ft_free_null(tmp2);
 	return (tmp);
 }
 

@@ -97,6 +97,7 @@ int	main(int argc, char **argv, char **envp)
 	fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 	if (!envp)
 		return (1);
+	gen_list_env(&data, envp);
 	set_signal();
 	while (1)
 	{

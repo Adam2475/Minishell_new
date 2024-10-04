@@ -61,8 +61,17 @@ static	void	print_in_qt(t_token **node, t_token_type type)
 		ft_printf("%s", (*node)->value);
 		(*node) = (*node)->next;
 	}
-	if ((int)(*node)->next->type == 11 && (*node)->type == type)
+	if ((int)(*node)->type != 7 && (int)(*node)->next->type == 11 && (*node)->type == type)
 		ft_printf(" ");
+}
+
+static	void	do_some(t_token **tmp, char **n_s)
+{
+	(*tmp)->type = TOKEN_OPTION;
+	(*tmp) = (*tmp)->next;
+	while ((*tmp)->type != 7 && (*tmp)->type == 11)
+		(*tmp) = (*tmp)->next;
+	(*n_s) = (*tmp)->value;
 }
 
 static void	inutils_num(t_token *tmp, int *flag_n)
@@ -70,6 +79,8 @@ static void	inutils_num(t_token *tmp, int *flag_n)
 	char	*n_s;
 
 	n_s = tmp->value;
+	if (tmp->type == 9 || tmp->type == 10)
+		return ;
 	while (tmp && tmp->type != 7)
 	{
 		if (ft_strncmp(n_s, "-n", 1) == 0)
@@ -81,17 +92,12 @@ static void	inutils_num(t_token *tmp, int *flag_n)
 		}
 		else if (!*n_s || *n_s == '\0')
 		{
-			tmp->type = TOKEN_OPTION;
-			tmp = tmp->next;
-			while (tmp->type != 7 && tmp->type == 11)
-				tmp = tmp->next;
-			n_s = tmp->value;
+			do_some(&tmp, &n_s);
 			(*flag_n) += 1;
 		}
 		else if (*n_s && *n_s != '\0' && *n_s != 'n')
 			break ;
 	}
-	tmp->type = TOKEN_APPENDICE;
 }
 
 int	echo_cmd(t_token **tkn)
