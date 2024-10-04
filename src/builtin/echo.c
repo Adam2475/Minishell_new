@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 17:12:32 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:41:42 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,6 @@ void	free_tokens(t_data **data, t_token *tokens)
 		(*data)->cmd_args = NULL;
 	}
 	free((*data)->input);
-}
-
-static	void	print_in_qt(t_token **node, t_token_type type)
-{
-	(*node) = (*node)->next;
-	while ((*node)->type != type && (*node)->type != TOKEN_EOF)
-	{
-		ft_printf("%s", (*node)->value);
-		(*node) = (*node)->next;
-	}
-	if ((int)(*node)->type != 7 && (int)(*node)->next->type == 11 && (*node)->type == type)
-		ft_printf(" ");
 }
 
 static	void	do_some(t_token **tmp, char **n_s)
@@ -113,14 +101,14 @@ int	echo_cmd(t_token **tkn)
 	node = (*tkn)->next;
 	while (node && node->type != TOKEN_EOF)
 	{
-		if (((int)node->type == 8 || (int)node->type == 13)
-			&& (int)node->next->type == 11)
+		if (((int)node->type == 8 || (int)node->type == 13
+			|| (int)node->type == 14)
+				&& (int)node->next->type == 11)
 			ft_printf("%s ", node->value);
-		if (((int)node->type == 8 || (int)node->type == 13)
-			&& (int)node->next->type != 11)
+		if (((int)node->type == 8 || (int)node->type == 13
+			|| (int)node->type == 14)
+				&& (int)node->next->type != 11)
 			ft_printf("%s", node->value);
-		if ((int)node->type == 9 || (int)node->type == 10)
-			print_in_qt(&node, node->type);
 		node = node->next;
 	}
 	if (flag_n == 0)

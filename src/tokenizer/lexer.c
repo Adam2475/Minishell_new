@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 10:36:35 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:11:50 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	token_reformatting(t_token **tokens)
 	while (current && current->type != TOKEN_EOF)
 	{
 		while (current->type == TOKEN_WHITESPACE)
+			current = current->next;
+		while (current->type == TOKEN_DOUBLE_QUOTES)
 			current = current->next;
 		if ((current && current->type == TOKEN_EOF) || current == NULL)
 			return ;

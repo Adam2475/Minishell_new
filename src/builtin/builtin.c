@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/22 19:26:45 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:44:14 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,19 @@ int	ft_strsearch(char *str, int c)
 	return (0);
 }
 
+static	void	clean_qt(t_token **tkn)
+{
+	t_token	*node;
+
+	node = *tkn;
+	while (node && node->type != TOKEN_EOF)
+	{
+		if (node->next->type == 9 || node->next->type == 10)
+			tkn_delone(&node, node->next);
+		node = node->next;
+	}
+}
+
 int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 {
 	t_data	*tmp;
@@ -85,6 +98,8 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	tmp = (*data);
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	(*data)->cmd_args = NULL;
+	clean_qt(token);
+	print_tokens((*token));
 	if (tmp->cmd == CH_DIR)
 		return (ft_remove_ws(token), cd_cmd(data, token));
 	if (tmp->cmd == ECHO)

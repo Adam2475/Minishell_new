@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:23:38 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 static t_token	*ft_set_zero(t_token *current, int flag)
 {
 	while ((int)current->type != 7 && flag == 0
-		&& (int)current->type != 10)
+		&& (int)current->type != 10 && (int)current->type != 12)
 	{
 		current->type = TOKEN_WORD_QT;
 		current = current->next;
@@ -75,7 +75,7 @@ static t_token	*ft_set_zero(t_token *current, int flag)
 	while ((int)current->type != 7 && (int)current->type != 9
 		&& flag == 1)
 	{
-		if ((int)current->type != 8)
+		if ((int)current->type != 8 && (int)current->type != 12)
 			current->type = TOKEN_WORD_QT;
 		else if ((int)current->type == 8
 			&& (int)current->next->type == 13)
