@@ -43,7 +43,7 @@ int	expand_doll(t_token **current, t_data **data)
 	}
 	if (!node)
 		return (case_err(current, tmp));
-	free(tmp);
+	ft_free_null(tmp);
 	free((*current)->value);
 	return ((*current)->value = ft_strndup(node->value,
 			ft_strlen(node->value)), 0);

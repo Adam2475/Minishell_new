@@ -25,8 +25,13 @@ static int	ft_err_chdir(int err, char *val)
 
 void	ft_free_null(void *null)
 {
-	free(null);
+	char	*tmp;
+
+	tmp = (char *)null;
+	if (null && tmp && tmp[0])
+		free(null);
 	null = NULL;
+	tmp = NULL;
 }
 
 static	void	chpwd(t_data **data)

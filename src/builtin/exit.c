@@ -23,7 +23,7 @@ static	void	free_exit_cmd(t_data **data, t_token *tokens)
 	exit(1);
 }
 
-static	void	join_in_qt(t_token *tkn,
+void	join_in_qt(t_token *tkn,
 			t_token_type type, int flag)
 {
 	t_token	*current;

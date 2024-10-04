@@ -156,6 +156,7 @@ int				inutil_exp(t_data **data, t_token **current,
 void			util_join_in_qt(t_token *tkn,
 					t_token *current, t_token_type type, char *tmp);
 void			join_in_qt_exp(t_token *tkn, t_token_type type);
+void			join_in_qt(t_token *tkn, t_token_type type, int flag);
 int				export_cmd(t_data **data, t_token **tkn);
 int				add_to_env(t_token *arg, t_data **data);
 int				join_to_env(t_token *arg, t_data **data);

@@ -20,7 +20,7 @@ int	util_exp(t_data **data, t_token **current, t_token **tkn)
 	var = NULL;
 	flag = 0;
 	if ((*current)->value && !ft_isalpha((*current)->value[0])
-		&& (*current)->type != TOKEN_WHITESPACE)
+		&& (*current)->value[0] != '_' && (*current)->type != TOKEN_WHITESPACE)
 	{
 		if (ft_strsearch((*current)->value, '='))
 		{
@@ -48,7 +48,7 @@ int	inutil_exp(t_data **data, t_token **current, t_token **tkn, int *flag)
 			&& ((*current)->type == TOKEN_WHITESPACE
 				|| ft_strncmp((*current)->value, "export", 6) == 0))
 			(*current) = (*current)->next;
-		if ((*current)->type != TOKEN_EOF && (*current)->type != TOKEN_DOLLAR
+		if ((*current)->type != 7 && (*current)->type != 8
 			&& util_exp(data, current, tkn) == 1)
 			return (1);
 		else if ((*current)->type != 7 && (*current)->type != 8
