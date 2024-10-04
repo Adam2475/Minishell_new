@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 10:36:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:57:09 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,29 @@ int	init_data(t_data **data, int argc, char **argv, t_token **tokens)
 	return (0);
 }
 
+static	void	join_in_qt_tk(t_token *tkn)
+{
+	t_token			*current;
+	t_token_type	type;
+	char			*tmp;
+
+	current = tkn;
+	while (current && current->type == 11)
+		current = current->next;
+	if (current->type != 9 && current->type != 10)
+		return ;
+	type = current->type;
+	current = current->next;
+	while (current->next && current->next->type != type)
+	{
+		tmp = current->value;
+		current->value = ft_strjoin(current->value, current->next->value);
+		free(tmp);
+		tkn_delone(&current, current->next);
+	}
+	return ;
+}
+
 int	tokenizer(t_data **data, t_token **tokens)
 {
 	char	*buffer;
@@ -107,10 +130,10 @@ int	tokenizer(t_data **data, t_token **tokens)
 	end = buffer;
 	recognizer(buffer, tokens, end, data);
 	token_reformatting(tokens);
+	join_in_qt_tk((*tokens));
 	if (check_quotes(tokens) != 0)
 		return (1);
 	expand_var(tokens, data);
 	(*data)->tokens = copy_token_list(data, *tokens);
-	free (tmp);
-	return (0);
+	return (free(tmp), 0);
 }

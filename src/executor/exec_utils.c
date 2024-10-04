@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 18:45:12 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:33:26 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char	*find_cmd(char *cmd, t_data **data)
 	char	*holder;
 	char	*tmp2;
 
+	// print_tokens((*data)->tokens);
+
 	i = 0;
 	while ((*data)->my_paths[i])
 	{
@@ -71,6 +73,7 @@ char	*find_cmd(char *cmd, t_data **data)
 			holder = ft_strjoin(tmp, cmd);
 		free(tmp2);
 		holder = trim_quotes(holder);
+		//ft_printf("%s\n", holder);
 		if (access(holder, X_OK) == 0)
 			return (ft_free_null(tmp), holder);
 		if (holder)
