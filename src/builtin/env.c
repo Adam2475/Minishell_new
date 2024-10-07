@@ -19,7 +19,8 @@ int	env_cmd(t_data **data)
 
 	node = (*data)->env_list;
 	tkn = (*data)->tokens->next;
-	while (tkn && tkn->type != TOKEN_EOF)
+	while (tkn && tkn->type != 7 && tkn->type != 4
+		&& tkn->type != 3 && tkn->type != 6)
 	{
 		if (tkn->type == TOKEN_WHITESPACE)
 			tkn = tkn->next;

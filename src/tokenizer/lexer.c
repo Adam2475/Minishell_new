@@ -29,8 +29,11 @@ void	token_reformatting(t_token **tokens)
 			return ;
 		if (current && current->type == TOKEN_PIPE)
 			current = token_reformatting_pipe(current);
+		if (current->type == TOKEN_DOLLAR)
+			current = current->next;
 		if (current && current->type != TOKEN_WORD
-			&& current->type != TOKEN_OPTION)
+			&& current->type != TOKEN_OPTION
+			&& current->type != 11)
 			current = token_reformatting_special(current);
 		if (current && current->type == TOKEN_WORD)
 			current = token_reformatting_command(current);
