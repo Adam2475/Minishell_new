@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 19:54:02 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:37:44 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ int				ft_strsearch(char *str, int c);
 int				util_exp(t_data **data, t_token **current, t_token **tkn);
 int				inutil_exp(t_data **data, t_token **current,
 					t_token **tkn, int *flag);
+int				conf_man_cmd(char *str);
+void			ft_remove_ws(t_token **token);
 // void			util_join_in_qt(t_token *tkn,
 // 					t_token *current, t_token_type type, char *tmp);
 void			join_in_qt_exp(t_token *tkn);
@@ -161,6 +163,9 @@ int				export_cmd(t_data **data, t_token **tkn);
 int				add_to_env(t_token *arg, t_data **data);
 int				join_to_env(t_token *arg, t_data **data);
 int				is_numeric(char *str);
+int				manual_cmd(char **cmd_args, t_data **data, t_token **token);
+void			clean_qt(t_token **tkn);
+int				compare_path(char *str);
 // chdir
 int				cd_cmd(t_data **data, t_token **tkn);
 // echo

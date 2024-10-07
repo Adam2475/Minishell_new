@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:28:02 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ void	join_in_qt_exp(t_token *tkn)
 		current = tkn->next;
 	else
 		current = NULL;
-	while (current->next && current->next->type != 11 && current->next->type != 7)
+	while (current->next && current->next->type != 11
+		&& current->next->type != 7)
 	{
 		tmp = current->value;
 		current->value = ft_strjoin(current->value, current->next->value);

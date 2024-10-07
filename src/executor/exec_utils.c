@@ -6,25 +6,11 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/04 16:33:26 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 13:37:31 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	init_execution(t_data **data, int *i)
-{
-	*i = 1;
-	(*data)->cmd2 = NULL;
-	return (0);
-}
-
-static	int	compare_path(char *str)
-{
-	if (str[0] == '/')
-		return (1);
-	return (0);
-}
 
 char	*trim_quotes(char *str)
 {
@@ -53,6 +39,13 @@ char	*trim_quotes(char *str)
 	return (trimmed);
 }
 
+static	void	helper3(char *cmd)
+{
+	write(2, "non a file or directory: ", 26);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, "\n", 1);
+}
+
 char	*find_cmd(char *cmd, t_data **data)
 {
 	int		i;
@@ -63,7 +56,7 @@ char	*find_cmd(char *cmd, t_data **data)
 	i = 0;
 	while ((*data)->my_paths[i])
 	{
-		tmp2 = ft_strdup((*data)->my_paths[i]);
+		tmp2 = ft_strdup((*data)->my_paths[i++]);
 		tmp = ft_strjoin(tmp2, "/");
 		if (compare_path(cmd) > 0)
 			holder = ft_strdup(cmd);
@@ -77,11 +70,8 @@ char	*find_cmd(char *cmd, t_data **data)
 			ft_free_null(holder);
 		if (tmp)
 			ft_free_null(tmp);
-		i++;
 	}
-	write(2, "non a file or directory: ", 26);
-	write(2, cmd, ft_strlen(cmd));
-	write(2, "\n", 1);
+	helper3(cmd);
 	return (NULL);
 }
 
@@ -110,41 +100,5 @@ t_token_list	*split_tokens_by_pipe(t_token *token_list)
 	}
 	if (start)
 		current_list = create_and_link(start, result, current_list);
-	return (result);
-}
-
-void	init_extraction(t_token **result, t_token **current,
-	t_data **data, t_token *tokens)
-{
-	(*result) = NULL;
-	(*data)->command_found = 0;
-	(*current) = tokens;
-}
-
-t_token	*extract_command_and_appendices(t_data **data, t_token *tokens)
-{
-	t_token		*result;
-	t_token		*current;
-
-	init_extraction(&result, &current, data, tokens);
-	while (current)
-	{
-		if (current->type == TOKEN_WHITESPACE)
-		{
-			current = current->next;
-			continue ;
-		}
-		if (current->type == TOKEN_COMMAND)
-		{
-			(*data)->command_found = 1;
-			append_token(&result, create_token(current->type, current->value));
-		}
-		else if ((*data)->command_found && (current->type == 13
-				|| current->type == 1))
-			append_token(&result, create_token(current->type, current->value));
-		else if ((*data)->command_found)
-			break ;
-		current = current->next;
-	}
 	return (result);
 }

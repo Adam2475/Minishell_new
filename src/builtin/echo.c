@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/04 17:41:42 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:24:20 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	echo_cmd(t_token **tkn)
 	while (node && node->type != TOKEN_EOF)
 	{
 		if (((int)node->type == 8 || (int)node->type == 13
-			|| (int)node->type == 14)
-				&& (int)node->next->type == 11)
+				|| (int)node->type == 14)
+			&& (int)node->next->type == 11)
 			ft_printf("%s ", node->value);
 		if (((int)node->type == 8 || (int)node->type == 13
-			|| (int)node->type == 14)
-				&& (int)node->next->type != 11)
+				|| (int)node->type == 14)
+			&& (int)node->next->type != 11)
 			ft_printf("%s", node->value);
 		node = node->next;
 	}
