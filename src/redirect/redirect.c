@@ -61,6 +61,8 @@ static	int	exec_exit2(t_data **data, t_token **tokens, char **cmd_args, int prin
 	g_err_state = errno;
 	if (cmd_args)
 		free_char_array(cmd_args);
+	if ((*data)->env_p)
+		free_char_array((*data)->env_p);
 	free_env_list((*data)->env_list);
 	free_tokens(data, (*tokens));
 	free((*data)->end);

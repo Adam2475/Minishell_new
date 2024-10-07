@@ -12,12 +12,48 @@
 
 #include "../../inc/minishell.h"
 
+static	int copy_mtx1(t_data **data)
+{
+	t_env_list	*node;
+	int			i;
+	int			j;
+
+	i = 0;
+	node = (*data)->env_list;
+	while (node)
+	{
+		if (!node->next)
+		{
+			i++;
+			break;
+		}
+		else
+		{
+			i++;
+			node = node->next;
+		}
+	}
+	(*data)->env_p = ft_calloc(sizeof(char *), i + 1);
+	if (!(*data)->env_p)
+		return (0);
+	node = (*data)->env_list;
+	j = 0;
+	while (node && j <= i)
+	{
+		(*data)->env_p[j] = ft_strndup(node->content, ft_strlen(node->content));
+		node = node->next;
+		j++;
+	}
+	return (1);
+}
+
 static	int	exec_exit(t_data **data, t_token **tokens, int print)
 {
 	print = 0;
 	g_err_state = errno;
 	free_env_list((*data)->env_list);
 	free_tokens(data, (*tokens));
+	free_char_array((*data)->env_p);
 	free((*data));
 	exit(g_err_state);
 }
@@ -38,7 +74,7 @@ static	int	child_process(char **cmd_args, t_data **data,
 				return (-1);
 		}
 	}
-	if ((*data)->cmd2 && cmd_args)
+	if ((*data)->cmd2 && cmd_args && copy_mtx1(data))
 	{
 		(*data)->cmd2 = trim_quotes((*data)->cmd2);
 		if (execve((*data)->cmd2, cmd_args, envp) != 0)
@@ -49,7 +85,7 @@ static	int	child_process(char **cmd_args, t_data **data,
 		g_err_state = 127;
 		exec_exit(data, tokens, 0);
 	}
-	return (EXIT_SUCCESS);
+	return (free_char_array((*data)->env_p), EXIT_SUCCESS);
 }
 
 static	int	parent_process(void)
@@ -59,6 +95,7 @@ static	int	parent_process(void)
 	waitpid(-1, &status, 0);
 	return (status);
 }
+
 
 void	execute_command_single(char **command, t_data **data,
 		char **envp, t_token **tokens)
@@ -71,15 +108,15 @@ void	execute_command_single(char **command, t_data **data,
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
 	{
-		if ((*data)->saved_fd >= 0)
-		{
-			if ((*data)->redirect_state == 1)
-				dup2((*data)->saved_fd, STDOUT_FILENO);
-			else if ((*data)->redirect_state == 0)
-				dup2((*data)->saved_fd, STDIN_FILENO);
-			close((*data)->saved_fd);
-			close((*data)->fd);
-		}
+		// if ((*data)->saved_fd >= 0)
+		// {
+		// 	if ((*data)->redirect_state == 1)
+		// 		dup2((*data)->saved_fd, STDOUT_FILENO);
+		// 	else if ((*data)->redirect_state == 0)
+		// 		dup2((*data)->saved_fd, STDIN_FILENO);
+		// 	close((*data)->saved_fd);
+		// 	close((*data)->fd);
+		// }
 		return (free((*data)->tmp9));
 	}
 	process_command2(data, command);

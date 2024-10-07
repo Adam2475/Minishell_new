@@ -25,6 +25,40 @@ t_token	*create_token(t_token_type type, char *value)
 	return (new_token);
 }
 
+static	void copy_mtx2(t_data **data)
+{
+	t_env_list	*node;
+	int			i;
+	int			j;
+
+	i = 0;
+	node = (*data)->env_list;
+	while (node)
+	{
+		if (!node->next)
+		{
+			i++;
+			break;
+		}
+		else
+		{
+			i++;
+			node = node->next;
+		}
+	}
+	(*data)->env_p = ft_calloc(sizeof(char *), i + 1);
+	if (!(*data)->env_p)
+		return ;
+	node = (*data)->env_list;
+	j = 0;
+	while (node && j < i)
+	{
+		(*data)->env_p[j] = ft_strndup(node->content, ft_strlen(node->content));
+		node = node->next;
+		j++;
+	}
+}
+
 static	int	child_process_pipe(char **envp, t_data **data, t_token *tokens, t_token **tkn)
 {
 	char		*holder;
@@ -32,6 +66,7 @@ static	int	child_process_pipe(char **envp, t_data **data, t_token *tokens, t_tok
 
 	new_tokens = extract_command_and_appendices(data, tokens);
 	holder = token_to_command(new_tokens);
+	envp = NULL;
 	if (!((*data)->fd < 0))
 	{
 		if ((*data)->redirect_state == 1)
@@ -46,8 +81,9 @@ static	int	child_process_pipe(char **envp, t_data **data, t_token *tokens, t_tok
 		}
 	}
 	free_list(new_tokens);
-	execute_command(holder, data, envp, tkn);
-	return (EXIT_SUCCESS);
+	copy_mtx2(data);
+	execute_command(holder, data, (*data)->env_p, tkn);
+	return (free_char_array((*data)->env_p), EXIT_SUCCESS);
 }
 
 static	void	pipe_opener(t_data **data, int *end)
@@ -69,6 +105,7 @@ static	void	init_pipe(t_data **data, t_token **tokens, int *i)
 	*i = -1;
 	(*data)->end = ft_calloc(sizeof(int), (*data)->pipes * 2);
 }
+
 
 int	pipe_case(t_token **tokens, t_data **data,
 	char **envp, t_token_list **token_list)
@@ -96,5 +133,5 @@ int	pipe_case(t_token **tokens, t_data **data,
 			parent_process2(data, i, (*data)->end, parent);
 		current = current->next;
 	}
-	return (free((*data)->end), 0);
+	return (free_char_array((*data)->env_p), free((*data)->end), 0);
 }

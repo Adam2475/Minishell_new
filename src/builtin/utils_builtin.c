@@ -48,33 +48,33 @@ void	process_command2(t_data **data, char **command)
 		(*data)->cmd2 = ft_strndup((*data)->input, ft_strlen((*data)->input));
 }
 
-static	int	redirect_builtin(t_data **data)
-{
-	if (!((*data)->fd < 0))
-	{
-		if ((*data)->redirect_state == 1)
-		{
-			(*data)->saved_fd = STDOUT_FILENO;
-			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
-				return (-1);
-		}
-		if ((*data)->redirect_state == 0)
-		{
-			(*data)->saved_fd = STDIN_FILENO;
-			if (dup2((*data)->fd, STDIN_FILENO) < 0)
-				return (-1);
-		}
-	}
-	return (0);
-}
+// static	int	redirect_builtin(t_data **data)
+// {
+// 	if (!((*data)->fd < 0))
+// 	{
+// 		if ((*data)->redirect_state == 1)
+// 		{
+// 			(*data)->saved_fd = STDOUT_FILENO;
+// 			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
+// 				return (-1);
+// 		}
+// 		if ((*data)->redirect_state == 0)
+// 		{
+// 			(*data)->saved_fd = STDIN_FILENO;
+// 			if (dup2((*data)->fd, STDIN_FILENO) < 0)
+// 				return (-1);
+// 		}
+// 	}
+// 	return (0);
+// }
 
 int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 {
 	t_data	*tmp;
 
 	tmp = (*data);
-	if (redirect_builtin(data) < 0)
-		return (-1);
+	// if (redirect_builtin(data) < 0)
+	// 	return (-1);
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	(*data)->cmd_args = NULL;
 	clean_qt(token);

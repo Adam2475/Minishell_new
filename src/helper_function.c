@@ -96,6 +96,8 @@ void	free_tokens(t_data **data, t_token *tokens)
 		free((*data)->path_from_envp);
 	if ((*data)->command)
 		free_char_array((*data)->command);
+	// if ((*data)->env_p && *(*data)->env_p)
+	// 	free_char_array((*data)->env_p);
 	if ((*data)->my_paths)
 		free_char_array((*data)->my_paths);
 	if ((*data)->my_line)

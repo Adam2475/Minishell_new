@@ -83,6 +83,7 @@ typedef struct s_data
 	char			**my_paths;
 	char			**command;
 	char			**cmd_args;
+	char			**env_p;
 	char			*cmd2;
 	char			*tmp9;
 	char			*tmp6;
