@@ -12,7 +12,18 @@
 
 #include "../../inc/minishell.h"
 
-static	int	child_process(char **cmd_args, t_data **data, char **envp)
+static	int	exec_exit(t_data **data, t_token **tokens, int print)
+{
+	print = 0;
+	g_err_state = errno;
+	free_env_list((*data)->env_list);
+	free_tokens(data, (*tokens));
+	free((*data));
+	exit(g_err_state);
+}
+
+static	int	child_process(char **cmd_args, t_data **data,
+	char **envp, t_token **tokens)
 {
 	if (!((*data)->fd < 0))
 	{
@@ -31,12 +42,12 @@ static	int	child_process(char **cmd_args, t_data **data, char **envp)
 	{
 		(*data)->cmd2 = trim_quotes((*data)->cmd2);
 		if (execve((*data)->cmd2, cmd_args, envp) != 0)
-			exit(ft_printf("fuck off nigga, bad command!\n"));
+			exec_exit(data, tokens, ft_printf("Bad command (nigga)!"));
 	}
 	else
 	{
 		g_err_state = 127;
-		exit(g_err_state);
+		exec_exit(data, tokens, 0);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -59,7 +70,18 @@ void	execute_command_single(char **command, t_data **data,
 	init_execution(data, &i);
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
+	{
+		if ((*data)->saved_fd >= 0)
+		{
+			if ((*data)->redirect_state == 1)
+				dup2((*data)->saved_fd, STDOUT_FILENO);
+			else if ((*data)->redirect_state == 0)
+				dup2((*data)->saved_fd, STDIN_FILENO);
+			close((*data)->saved_fd);
+			close((*data)->fd);
+		}
 		return (free((*data)->tmp9));
+	}
 	process_command2(data, command);
 	holder = NULL;
 	while (command[i])
@@ -73,25 +95,10 @@ void	execute_command_single(char **command, t_data **data,
 	if (parent < 0)
 		free_exit(data);
 	if (!parent)
-		child_process(command, data, envp);
+		child_process(command, data, envp, tokens);
 	else
 		g_err_state = parent_process();
 	return ;
-}
-
-void	append_token(t_token **list, t_token *new_token)
-{
-	t_token	*temp;
-
-	if (!*list)
-	{
-		*list = new_token;
-		return ;
-	}
-	temp = *list;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new_token;
 }
 
 void	remove_whitespace_nodes(t_token **head)

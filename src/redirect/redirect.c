@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 10:25:06 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:36:33 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,20 @@ t_token	*new_node(const char *content)
 	return (node);
 }
 
-int	execute_command(char *command, t_data **data, char **envp)
+static	int	exec_exit2(t_data **data, t_token **tokens, char **cmd_args, int print)
+{
+	print = 0;
+	g_err_state = errno;
+	if (cmd_args)
+		free_char_array(cmd_args);
+	free_env_list((*data)->env_list);
+	free_tokens(data, (*tokens));
+	free((*data)->end);
+	free((*data));
+	exit(g_err_state);
+}
+
+int	execute_command(char *command, t_data **data, char **envp, t_token **tkn)
 {
 	char	*cmd;
 	char	**cmd_args;
@@ -63,6 +76,7 @@ int	execute_command(char *command, t_data **data, char **envp)
 	int		i;
 
 	cmd_args = ft_split(command, 32);
+	free(command);
 	cmd = cmd_args[0];
 	(*data)->tmp6 = NULL;
 	holder = find_cmd(cmd, data);
@@ -73,7 +87,13 @@ int	execute_command(char *command, t_data **data, char **envp)
 				trim_whitespace(cmd_args[i]));
 		i++;
 	}
-	execve (holder, cmd_args, envp);
+	if (!holder)
+		holder = ft_strndup(cmd, ft_strlen(cmd));
+	if (execve (holder, cmd_args, envp) != 0)
+	{
+		free(holder);
+		exec_exit2(data, tkn, cmd_args, 0);
+	}
 	return (0);
 }
 

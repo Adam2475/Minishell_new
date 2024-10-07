@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 12:37:44 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:36:41 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,13 @@ typedef struct s_data
 	char			*cmd2;
 	char			*tmp9;
 	char			*tmp6;
+	int				*end;
 	int				command_found;
 	int				pipes;
 	int				prev_fd;
 	int				merdoso;
 	int				heredoc_flag;
+	int				saved_fd;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -202,7 +204,7 @@ void			append_token_list(t_token_list **list, t_token *head);
 char			*token_to_command(t_token *head);
 int				count_pipes(t_token *head);
 int				set_redirection(t_token *tokens, t_data **data);
-int				execute_command(char *command, t_data **data, char **envp);
+int				execute_command(char *command, t_data **data, char **envp, t_token **tkn);
 void			space_helper(t_token **head, t_token **current,
 					t_token **prev, int flag);
 char			*trim_whitespace(char *str);

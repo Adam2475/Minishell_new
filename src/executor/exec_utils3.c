@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:29:18 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 12:37:32 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:15:46 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,19 @@ int	compare_path(char *str)
 	if (str[0] == '/')
 		return (1);
 	return (0);
+}
+
+void	append_token(t_token **list, t_token *new_token)
+{
+	t_token	*temp;
+
+	if (!*list)
+	{
+		*list = new_token;
+		return ;
+	}
+	temp = *list;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new_token;
 }

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 13:37:31 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:50:03 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ char	*find_cmd(char *cmd, t_data **data)
 		if (tmp)
 			ft_free_null(tmp);
 	}
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
 	helper3(cmd);
+	
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/04 16:36:14 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:22:55 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	do_pipe(t_data *data, t_token *tokens, char **envp)
 	tmp = copy_token_list(&data, tokens);
 	split_tokens(&data, tmp);
 	free_list(data->tmp);
-	pipe_case(&tokens, &data, envp, &data->token_list);
 	free_list(tmp);
+	pipe_case(&tokens, &data, envp, &data->token_list);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -99,6 +99,8 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
+		print_tokens(tokens);
+		//exit(1);
 		if (env_parser(&data, envp) > 0)
 			continue ;
 		command_init(data, tokens, envp);
