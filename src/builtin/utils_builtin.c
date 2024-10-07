@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 16:37:41 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:08:18 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,18 @@ static	int	redirect_builtin(t_data **data)
 	{
 		if ((*data)->redirect_state == 1)
 		{
-			(*data)->saved_fd = STDOUT_FILENO;
+			(*data)->saved_fd = dup(STDOUT_FILENO);
 			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
 				return (-1);
 		}
 		if ((*data)->redirect_state == 0)
 		{
-			(*data)->saved_fd = STDIN_FILENO;
+			(*data)->saved_fd = dup(STDIN_FILENO);
 			if (dup2((*data)->fd, STDIN_FILENO) < 0)
 				return (-1);
 		}
+		//close((*data)->fd);
+		//close(STDOUT_FILENO);
 	}
 	return (0);
 }
@@ -75,6 +77,9 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	tmp = (*data);
 	if (redirect_builtin(data) < 0)
 		return (-1);
+	///////////////////
+	close((*data)->fd);
+	///////////////////
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	(*data)->cmd_args = NULL;
 	clean_qt(token);
