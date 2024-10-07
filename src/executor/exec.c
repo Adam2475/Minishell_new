@@ -104,19 +104,22 @@ void	execute_command_single(char **command, t_data **data,
 	char	*holder;
 	int		i;
 
+	(*data)->saved_fd = -1;
 	init_execution(data, &i);
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
 	{
-		// if ((*data)->saved_fd >= 0)
-		// {
-		// 	if ((*data)->redirect_state == 1)
-		// 		dup2((*data)->saved_fd, STDOUT_FILENO);
-		// 	else if ((*data)->redirect_state == 0)
-		// 		dup2((*data)->saved_fd, STDIN_FILENO);
-		// 	close((*data)->saved_fd);
-		// 	close((*data)->fd);
-		// }
+		if ((*data)->saved_fd >= 0)
+		{
+			//close(STDOUT_FILENO);
+			if ((*data)->redirect_state == 1)
+				dup2(STDIN_FILENO, STDOUT_FILENO);
+			else if ((*data)->redirect_state == 0)
+				dup2((*data)->saved_fd, STDIN_FILENO);
+			close((*data)->saved_fd);
+			//close((*data)->fd);
+			//close(STDOUT_FILENO);
+		}
 		return (free((*data)->tmp9));
 	}
 	process_command2(data, command);
