@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 14:50:03 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:52:41 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ char	*find_cmd(char *cmd, t_data **data)
 	char	*tmp2;
 
 	i = 0;
-	while ((*data)->my_paths[i])
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
+	while ((*data)->merdoso == 0 &&  (*data)->my_paths[i])
 	{
 		tmp2 = ft_strdup((*data)->my_paths[i++]);
 		tmp = ft_strjoin(tmp2, "/");
@@ -71,10 +73,7 @@ char	*find_cmd(char *cmd, t_data **data)
 		if (tmp)
 			ft_free_null(tmp);
 	}
-	if (access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
 	helper3(cmd);
-	
 	return (NULL);
 }
 

@@ -47,7 +47,7 @@ static	int copy_mtx1(t_data **data)
 	return (1);
 }
 
-static	int	exec_exit(t_data **data, t_token **tokens, int print)
+int	exec_exit(t_data **data, t_token **tokens, int print)
 {
 	print = 0;
 	g_err_state = errno;
@@ -111,14 +111,11 @@ void	execute_command_single(char **command, t_data **data,
 	{
 		if ((*data)->saved_fd >= 0)
 		{
-			//close(STDOUT_FILENO);
 			if ((*data)->redirect_state == 1)
 				dup2(STDIN_FILENO, STDOUT_FILENO);
 			else if ((*data)->redirect_state == 0)
 				dup2((*data)->saved_fd, STDIN_FILENO);
 			close((*data)->saved_fd);
-			//close((*data)->fd);
-			//close(STDOUT_FILENO);
 		}
 		return (free((*data)->tmp9));
 	}

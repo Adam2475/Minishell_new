@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 17:08:18 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:53:35 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ char	*tmp_set(char *val)
 
 void	process_command2(t_data **data, char **command)
 {
-	if (!(*data)->merdoso)
-		(*data)->cmd2 = find_cmd(command[0], data);
-	else
-		(*data)->cmd2 = ft_strndup((*data)->input, ft_strlen((*data)->input));
+	(*data)->cmd2 = find_cmd(command[0], data);
 }
 
 static	int	redirect_builtin(t_data **data)
@@ -92,7 +89,7 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	if (tmp->cmd == UNSET)
 		return (unset_env(token, &tmp->env_list));
 	if (tmp->cmd == ENV)
-		return (env_cmd(data));
+		return (env_cmd(data) && (*data)->merdoso);
 	if (tmp->cmd == EXIT)
 		return (cmd_exit(data, token));
 	if (tmp->cmd == PWD)

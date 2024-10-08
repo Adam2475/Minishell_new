@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 16:36:41 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:14:18 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,5 +273,6 @@ void			process_command2(t_data **data, char **command);
 void			init_extraction(t_token **result, t_token **current,
 					t_data **data, t_token *tokens);
 void			command_init(t_data *data, t_token *tokens, char **envp);
+int				exec_exit(t_data **data, t_token **tokens, int print);
 
 #endif

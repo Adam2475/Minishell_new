@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 15:36:33 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:27:15 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,18 @@ int	execute_command(char *command, t_data **data, char **envp, t_token **tkn)
 	free(command);
 	cmd = cmd_args[0];
 	(*data)->tmp6 = NULL;
+	if (manual_cmd(cmd_args, data, tkn))
+	{
+		if ((*data)->saved_fd >= 0)
+		{
+			if ((*data)->redirect_state == 1)
+				dup2(STDIN_FILENO, STDOUT_FILENO);
+			else if ((*data)->redirect_state == 0)
+				dup2((*data)->saved_fd, STDIN_FILENO);
+			close((*data)->saved_fd);
+		}
+		return (exec_exit2(data, tkn, cmd_args, 0));
+	}
 	holder = find_cmd(cmd, data);
 	i = 1;
 	while (cmd_args[i])
@@ -91,9 +103,10 @@ int	execute_command(char *command, t_data **data, char **envp, t_token **tkn)
 	}
 	if (!holder)
 		holder = ft_strndup(cmd, ft_strlen(cmd));
-	if (execve (holder, cmd_args, envp) != 0)
+	if (execve(holder, cmd_args, envp) != 0)
 	{
 		free(holder);
+		free((*data)->tmp6);
 		exec_exit2(data, tkn, cmd_args, 0);
 	}
 	return (0);
