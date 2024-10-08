@@ -49,6 +49,34 @@ int	expand_doll(t_token **current, t_data **data)
 			ft_strlen(node->value)), 0);
 }
 
+static	void	cmd_in_qt(t_token *current)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	while (current && current->type != TOKEN_EOF)
+	{
+		if (current && current->next
+			&& current->type == 12 && current->next->type != 11
+			&& current->next->type != 7)
+		{
+			tmp = current->value;
+			if (current && current->next
+				&& current->next->type != 9 && current->next->type != 10)
+			{
+				current->value = ft_strjoin(current->value,
+					current->next->value);
+				if (tmp != NULL)
+					free(tmp);
+			}
+			tkn_delone(&current, current->next);
+			continue ;
+		}
+		if (current && current->next)
+			current = current->next;
+	}
+}
+
 int	expand_var(t_token **tkn_lst, t_data **data)
 {
 	t_token	*current;
@@ -60,6 +88,8 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 			expand_doll(&current, data);
 		current = current->next;
 	}
+	current = (*tkn_lst);
+	cmd_in_qt(current);
 	current = (*tkn_lst);
 	return (0);
 }
