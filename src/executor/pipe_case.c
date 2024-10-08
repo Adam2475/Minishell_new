@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/08 18:29:03 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:31:05 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,19 +128,6 @@ static	void	init_pipe(t_data **data, t_token **tokens, int *i)
 }
 
 
-static	int	exec_exit3(t_data **data, t_token **tokens, int print)
-{
-	print = 0;
-	g_err_state = errno;
-	if ((*data)->env_p)
-		free_char_array((*data)->env_p);
-	free_env_list((*data)->env_list);
-	free_tokens(data, (*tokens));
-	free((*data)->end);
-	free((*data));
-	exit(g_err_state);
-}
-
 int	pipe_case(t_token **tokens, t_data **data,
 	char **envp, t_token_list **token_list)
 {
@@ -160,7 +147,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 			setup_pipe(i, (*data)->pipes, (*data)->prev_fd, (*data)->end);
 			close_pipes((*data)->end, (*data)->pipes);
 			if (redirect_parser(data, current->head))
-				exec_exit3(data, tokens, ft_printf("not a file or directory!\n"));
+				exec_exit3(data, tokens, (*data)->end, ft_printf("not a file or directory!\n"));
 			child_process_pipe(envp, data, current->head, tokens);
 		}
 		else
