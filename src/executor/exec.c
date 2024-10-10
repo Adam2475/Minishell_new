@@ -66,12 +66,12 @@ static	int	child_process(char **cmd_args, t_data **data,
 		if ((*data)->redirect_state == 1)
 		{
 			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
-				return (-1);
+				exit(2);
 		}
 		if ((*data)->redirect_state == 0)
 		{
 			if (dup2((*data)->fd, STDIN_FILENO) < 0)
-				return (-1);
+				exit(2);
 		}
 	}
 	if ((*data)->cmd2 && cmd_args && copy_mtx1(data))
@@ -85,7 +85,8 @@ static	int	child_process(char **cmd_args, t_data **data,
 		g_err_state = 127;
 		exec_exit(data, tokens, 0);
 	}
-	return (free_char_array((*data)->env_p), EXIT_SUCCESS);
+	free_char_array((*data)->env_p);
+	exit(EXIT_FAILURE);
 }
 
 static	int	parent_process(void)

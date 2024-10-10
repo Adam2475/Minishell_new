@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/08 18:31:05 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:20:09 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ static	int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	if ((*data)->env_p)
 		free_char_array((*data)->env_p);
 	// close((*data)->fd);
-	while (i < (*data)->pipes)
+	//close
+	//dup2(STDOUT_FILENO, (*data)->fd_tmp);
+	//close((*data)->fd_tmp);
+	while (i < (*data)->pipes * 2)
 	{
-		close(end[i * 2 + 1]);
+		close(end[i]);
 		i++;
 	}
 	free_env_list((*data)->env_list);
@@ -93,18 +96,19 @@ static	int	child_process_pipe(char **envp, t_data **data, t_token *tokens, t_tok
 		if ((*data)->redirect_state == 1)
 		{
 			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
-				return (-1);
+				exit (-1);
 		}
 		if ((*data)->redirect_state == 0)
 		{
 			if (dup2((*data)->fd, STDIN_FILENO) < 0)
-				return (-1);
+				exit (-1);
 		}
 	}
 	free_list(new_tokens);
 	copy_mtx2(data);
 	execute_command(holder, data, (*data)->env_p, tkn);
-	return (free_char_array((*data)->env_p), EXIT_SUCCESS);
+	free_char_array((*data)->env_p);
+	exit (EXIT_FAILURE);
 }
 
 static	void	pipe_opener(t_data **data, int *end)
@@ -144,7 +148,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 		parent = fork();
 		if (parent == 0)
 		{
-			setup_pipe(i, (*data)->pipes, (*data)->prev_fd, (*data)->end);
+			setup_pipe(data, i, (*data)->pipes, (*data)->prev_fd, (*data)->end);
 			close_pipes((*data)->end, (*data)->pipes);
 			if (redirect_parser(data, current->head))
 				exec_exit3(data, tokens, (*data)->end, ft_printf("not a file or directory!\n"));

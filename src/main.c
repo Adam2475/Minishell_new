@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/08 18:21:56 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:29:33 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		print_tokens(tokens);
+		//print_tokens(tokens);
 		if (env_parser(&data, envp) > 0)
 			;
 			// continue ;
@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **envp)
 // Edge Cases:
 // diomerda | OK
 // = current_list->head; | OK
-// ljsdbhhds hdsdsh > | lhsdb<dshh !? (leaks)
+// ljsdbhhds hdsdsh > | lhsdb<dshh !?
 // t_token *result; = NULL; | OK
 // "/usr/bin/ls" | OK
 // "           "  (only as second command) | OK
@@ -151,6 +151,7 @@ int	main(int argc, char **argv, char **envp)
 // program should not work
 // absolute command
 // env | sort | grep -v SHLVL | grep -v ^_
+
 
 // TODO : add lexical control to export 
 // TODO : add getcwd to make pwd work with unset || OK

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/08 16:14:18 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:39:44 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_data
 	int				merdoso;
 	int				heredoc_flag;
 	int				saved_fd;
+	int				fd_tmp;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -256,7 +257,7 @@ t_token_list	*create_and_link(t_token *start, t_token_list *result,
 t_token_list	*terminate_segment(t_token *prev);
 void			free_token_segment2(t_token *start);
 void			handle_parent_process(pid_t parent, int *status);
-void			setup_pipe(int i, int pipes, int prev_fd, int *end);
+void			setup_pipe(t_data **data, int i, int pipes, int prev_fd, int *end);
 void			create_pipes(int *end, int pipes);
 void			close_pipes(int *end, int pipes);
 void			append_token(t_token **list, t_token *new_token);
