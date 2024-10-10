@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 16:39:44 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:11:45 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_data
 	int				heredoc_flag;
 	int				saved_fd;
 	int				fd_tmp;
+	//int				redi_multi_flag();
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -149,7 +150,7 @@ int				expand_doll(t_token **current, t_data **data);
 int				expand_var(t_token **tkn_lst, t_data **data);
 // builtins
 char			*find_cmd(char *cmd, t_data **data);
-int				manual_cmd(char **cmd_args, t_data **data, t_token **token);
+int				manual_cmd(char **cmd_args, t_data **data, t_token **token, t_token **tkn);
 // unset
 int				unset_env(t_token **token, t_env_list **env);
 int				ft_strsearch(char *str, int c);
@@ -161,11 +162,11 @@ void			ft_remove_ws(t_token **token);
 // void			util_join_in_qt(t_token *tkn,
 // 					t_token *current, t_token_type type, char *tmp);
 void			join_in_qt_exp(t_token *tkn);
+void			join_in_qt(t_token *tkn, t_token_type type, int flag);
 int				export_cmd(t_data **data, t_token **tkn);
 int				add_to_env(t_token *arg, t_data **data);
 int				join_to_env(t_token *arg, t_data **data);
 int				is_numeric(char *str);
-int				manual_cmd(char **cmd_args, t_data **data, t_token **token);
 void			clean_qt(t_token **tkn);
 int				compare_path(char *str);
 // chdir
@@ -203,7 +204,7 @@ void			append_token_list(t_token_list **list, t_token *head);
 char			*token_to_command(t_token *head);
 int				count_pipes(t_token *head);
 int				set_redirection(t_token *tokens, t_data **data);
-int				execute_command(char *command, t_data **data, char **envp, t_token **tkn);
+int				execute_command(char *command, t_data **data, char **envp, t_token **tkn, t_token **tokens);
 void			space_helper(t_token **head, t_token **current,
 					t_token **prev, int flag);
 char			*trim_whitespace(char *str);

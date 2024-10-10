@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_env.c                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:08:15 by marco             #+#    #+#             */
-/*   Updated: 2024/09/15 17:55:29 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:59:02 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	env_cmd(t_data **data)
 			tkn = tkn->next;
 		else if (tkn->type != TOKEN_DOLLAR)
 			return (g_err_state = 127, errno = 127,
-					write(2, "not file or directory\n", 23), 0);
+					write(2, "Not file or directory\n", 23), 0);
 		else if (tkn->type == TOKEN_DOLLAR)
 			return (g_err_state = 126, errno = 126,
 					write(2, "Permission denied\n", 19), 0);

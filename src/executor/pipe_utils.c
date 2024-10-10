@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 16:39:40 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:13:56 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	setup_pipe(t_data **data, int i, int pipes, int prev_fd, int *end)
 	}
 	if (i < pipes)
 	{
-		(*data)->fd_tmp = dup(STDOUT_FILENO);
+		//(*data)->fd_tmp = dup(STDOUT_FILENO);
 		dup2(end[i * 2 + 1], STDOUT_FILENO);
 	}
 }

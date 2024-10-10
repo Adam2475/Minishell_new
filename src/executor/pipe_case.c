@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 17:20:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:06:40 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ static	int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 		close(end[i]);
 		i++;
 	}
+	printf("helloworld;\n");
+	close(STDOUT_FILENO);
+	//close(STDIN_FILENO);
+	//close(STDERR_FILENO);
 	free_env_list((*data)->env_list);
 	free_tokens(data, *tokens);
 	free((*data)->end);
@@ -92,8 +96,10 @@ static	int	child_process_pipe(char **envp, t_data **data,
 	new_tokens = extract_command_and_appendices(data, tokens);
 	holder = token_to_command(new_tokens);
 	envp = NULL;
+	//print_tokens(new_tokens);
 	if (!((*data)->fd < 0) && !envp)
 	{
+		//(*data)->redi_multi_flag = 1;
 		if ((*data)->redirect_state == 1)
 		{
 			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
@@ -107,7 +113,7 @@ static	int	child_process_pipe(char **envp, t_data **data,
 	}
 	free_list(new_tokens);
 	copy_mtx2(data);
-	execute_command(holder, data, (*data)->env_p, tkn);
+	execute_command(holder, data, (*data)->env_p, tkn, &tokens);
 	free_char_array((*data)->env_p);
 	exit (EXIT_FAILURE);
 }
@@ -152,11 +158,13 @@ int	pipe_case(t_token **tokens, t_data **data,
 			setup_pipe(data, i, (*data)->pipes, (*data)->prev_fd, (*data)->end);
 			close_pipes((*data)->end, (*data)->pipes);
 			if (redirect_parser(data, current->head))
-				exec_exit3(data, tokens, (*data)->end, ft_printf("not a file or directory!\n"));
+				exec_exit3(data, tokens, (*data)->end, write(2, "not a file or directory!\n", 26));
+			ft_tokenadd_back(&current->head, ft_lstnewtoken(7, NULL));
 			child_process_pipe(envp, data, current->head, tokens);
 		}
 		else
 			parent_process2(data, i, (*data)->end, parent);
+		print_tokens(current->head);
 		current = current->next;
 	}
 	return (free_char_array((*data)->env_p), free((*data)->end), 0);

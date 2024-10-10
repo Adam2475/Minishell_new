@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:29:18 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 15:15:46 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:12:10 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ t_token	*extract_command_and_appendices(t_data **data, t_token *tokens)
 	init_extraction(&result, &current, data, tokens);
 	while (current)
 	{
-		if (current->type == TOKEN_WHITESPACE)
+		if (current->type == TOKEN_WHITESPACE || current->type == TOKEN_SINGLE_QUOTES
+			|| current->type == TOKEN_DOUBLE_QUOTES)
 		{
 			current = current->next;
 			continue ;
@@ -39,7 +40,7 @@ t_token	*extract_command_and_appendices(t_data **data, t_token *tokens)
 			append_token(&result, create_token(current->type, current->value));
 		}
 		else if ((*data)->command_found && (current->type == 13
-				|| current->type == 1))
+				|| current->type == 1 || current->type == 14))
 			append_token(&result, create_token(current->type, current->value));
 		else if ((*data)->command_found)
 			break ;

@@ -105,7 +105,7 @@ void	execute_command_single(char **command, t_data **data,
 	(*data)->saved_fd = -1;
 	init_execution(data, &i);
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
-	if (manual_cmd(command, data, tokens))
+	if (manual_cmd(command, data, tokens, NULL))
 	{
 		if ((*data)->saved_fd >= 0)
 		{
