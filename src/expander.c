@@ -24,14 +24,38 @@ static	int	case_err(t_token **current, char *tmp)
 	return (free(tmp), 0);
 }
 
+static	int	ft_isalpha_len2(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (-1);
+	while (str[i])
+	{
+		if ((str[i] <= 122 && str[i] >= 97) || (str[i] <= 90 && str[i] >= 65))
+			i++;
+		else if (str[i] == '_')
+			i++;
+		else if (str[i] != '\0')
+			return (i);
+		else
+			return (-1);
+	}
+	return (-1);
+}
+
 int	expand_doll(t_token **current, t_data **data)
 {
 	t_env_list	*node;
 	char		*tmp;
+	int			len;
 
 	node = (*data)->env_list;
-	tmp = tmp_set((*current)->value);
-	while (node && ft_strncmp(tmp, node->var, ft_strlen(tmp) - 1) != 0)
+	len = 0;
+	if ((*current)->value)
+		tmp = tmp_set((*current)->value);
+	while (node && tmp && ft_strncmp(tmp, node->var, ft_strlen(tmp) - 1) != 0)
 	{
 		if (node->next)
 			node = node->next;
@@ -41,10 +65,22 @@ int	expand_doll(t_token **current, t_data **data)
 			break ;
 		}
 	}
-	if (!node)
+	if (!node || *tmp == '?')
 		return (case_err(current, tmp));
 	ft_free_null(tmp);
-	free((*current)->value);
+	tmp = ft_strtrim2((*current)->value, "$");
+	(*current)->value = ft_strdup(tmp);
+	ft_free_null(tmp);
+	len = ft_isalpha_len2((*current)->value);
+	if (len > 0)
+	{
+		tmp = ft_strndup((*current)->value + len, ft_strlen((*current)->value) - len);
+		ft_free_null((*current)->value);
+		(*current)->value = ft_strjoin(node->value, tmp);
+		return (ft_free_null(tmp), 0);
+	}
+	else
+		ft_free_null((*current)->value);
 	return ((*current)->value = ft_strndup(node->value,
 			ft_strlen(node->value)), 0);
 }
@@ -97,7 +133,7 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 static t_token	*ft_set_zero(t_token *current, int flag)
 {
 	while ((int)current->type != 7 && flag == 0
-		&& (int)current->type != 10 && (int)current->type != 12)
+		&& (int)current->type != 10)
 	{
 		current->type = TOKEN_WORD_QT;
 		current = current->next;
@@ -105,7 +141,7 @@ static t_token	*ft_set_zero(t_token *current, int flag)
 	while ((int)current->type != 7 && (int)current->type != 9
 		&& flag == 1)
 	{
-		if ((int)current->type != 8 && (int)current->type != 12)
+		if ((int)current->type != 8)
 			current->type = TOKEN_WORD_QT;
 		else if ((int)current->type == 8
 			&& (int)current->next->type == 13)

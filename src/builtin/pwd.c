@@ -12,19 +12,10 @@
 
 #include "../../inc/minishell.h"
 
-int	pwd_cmd(t_data **data)
+int	pwd_cmd(void)
 {
 	char		cwd[PATH_MAX];
-	t_token		*tkn;
 
-	tkn = (*data)->tokens->next;
-	while (tkn && tkn->type != TOKEN_EOF)
-	{
-		if (tkn->type == TOKEN_WHITESPACE)
-			tkn = tkn->next;
-		else
-			return (ft_printf("pwd: too many arguments\n"));
-	}
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		ft_printf("%s\n", cwd);

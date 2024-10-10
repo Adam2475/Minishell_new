@@ -49,7 +49,7 @@ static	int copy_mtx1(t_data **data)
 
 int	exec_exit(t_data **data, t_token **tokens, int print)
 {
-	print = 0;
+	errno = print;
 	g_err_state = errno;
 	free_env_list((*data)->env_list);
 	free_tokens(data, (*tokens));
@@ -77,15 +77,13 @@ static	int	child_process(char **cmd_args, t_data **data,
 	if ((*data)->cmd2 && cmd_args && copy_mtx1(data))
 	{
 		(*data)->cmd2 = trim_quotes((*data)->cmd2);
+		errno = errno % 256;
 		if (execve((*data)->cmd2, cmd_args, envp) != 0)
-			exec_exit(data, tokens, ft_printf("Bad command (nigga)!"));
+			exec_exit(data, tokens, 126);
 	}
 	else
-	{
-		g_err_state = 127;
-		exec_exit(data, tokens, 0);
-	}
-	return (free_char_array((*data)->env_p), EXIT_SUCCESS);
+		exec_exit(data, tokens, 127);
+	exit(EXIT_FAILURE);
 }
 
 static	int	parent_process(void)
@@ -117,7 +115,7 @@ void	execute_command_single(char **command, t_data **data,
 				dup2((*data)->saved_fd, STDIN_FILENO);
 			close((*data)->saved_fd);
 		}
-		return (free((*data)->tmp9));
+		return (errno = g_err_state, free((*data)->tmp9));
 	}
 	process_command2(data, command);
 	holder = NULL;

@@ -67,20 +67,20 @@ int	echo_cmd(t_token **tkn)
 		node = node->next;
 	inutils_num(node, &flag_n);
 	node = (*tkn)->next;
-	while (node && node->type != 7 && node->type != 3
-			&& node->type != 4 && node->type != 6)
+	while (node && node->type != 7 && node->type != 3 && node->type != 5
+			&& node->type != 4 && node->type != 6 && node->type != 2)
 	{
 		if (((int)node->type == 8 || (int)node->type == 13
-				|| (int)node->type == 14)
+				|| (int)node->type == 14 || (int)node->type == 12)
 			&& (int)node->next->type == 11)
 			ft_printf("%s ", node->value);
 		if (((int)node->type == 8 || (int)node->type == 13
-				|| (int)node->type == 14)
+				|| (int)node->type == 14 || (int)node->type == 12)
 			&& (int)node->next->type != 11)
 			ft_printf("%s", node->value);
 		node = node->next;
 	}
 	if (flag_n == 0)
 		ft_printf("\n");
-	return (g_err_state = 0, 1);
+	return (g_err_state = 0, errno = 0, 1);
 }

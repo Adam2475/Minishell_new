@@ -18,7 +18,7 @@ static	int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	i = 0;
 	print = 0;
 	g_err_state = errno;
-	if ((*data)->env_p)
+	if ((*data)->env_p && print == 0)
 		free_char_array((*data)->env_p);
 	// close((*data)->fd);
 	while (i < (*data)->pipes)
@@ -80,7 +80,8 @@ static	void copy_mtx2(t_data **data)
 	}
 }
 
-static	int	child_process_pipe(char **envp, t_data **data, t_token *tokens, t_token **tkn)
+static	int	child_process_pipe(char **envp, t_data **data,
+	t_token *tokens, t_token **tkn)
 {
 	char		*holder;
 	t_token		*new_tokens;
@@ -88,7 +89,7 @@ static	int	child_process_pipe(char **envp, t_data **data, t_token *tokens, t_tok
 	new_tokens = extract_command_and_appendices(data, tokens);
 	holder = token_to_command(new_tokens);
 	envp = NULL;
-	if (!((*data)->fd < 0))
+	if (!((*data)->fd < 0) && !envp)
 	{
 		if ((*data)->redirect_state == 1)
 		{

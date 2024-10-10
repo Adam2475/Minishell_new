@@ -26,6 +26,8 @@ int	init_data(t_data **data, int argc, char **argv, t_token **tokens)
 	if (!argc)
 		return (1);
 	*argv = NULL;
+	g_err_state = 0;
+	errno = 0;
 	(*tokens) = NULL;
 	if (data)
 	{

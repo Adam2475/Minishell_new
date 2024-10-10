@@ -20,25 +20,7 @@ static	void	free_exit_cmd(t_data **data, t_token *tokens)
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
 	free(*data);
-	exit(1);
-}
-
-void	join_in_qt(t_token *tkn,
-			t_token_type type, int flag)
-{
-	t_token	*current;
-	char	*tmp;
-
-	current = tkn;
-	while (current->next && current->next->type != type && flag == 0)
-	{
-		tmp = current->value;
-		current->value = ft_strjoin(current->value, current->next->value);
-		free(tmp);
-		tkn_delone(&current, current->next);
-	}
-	ft_printf("exit: %s: numeric argument required\n", tkn->value);
-	return ;
+	exit(g_err_state);
 }
 
 static void	*ft_check_lon(char *s)
@@ -69,16 +51,45 @@ static	int	ft_too_long(char *val, t_data **data, t_token **token)
 	if (!val)
 		return (0);
 	if ((ft_strlen(val) - 1) > ft_strlen("-9223372036854775808"))
-		return (ft_printf("exit: %s: numeric argument required 1\n", val),
+		return (write(2, "exit: numeric argument required\n", 33),
 			free_exit_cmd(data, *token), 1);
 	if (ft_check_lon(ptr) != NULL)
-		return (ft_printf("exit: %s: numeric argument required 2\n", val),
+		return (write(2, "exit: numeric argument required\n", 33),
 			free_exit_cmd(data, *token), 1);
-	if (ft_atol(val) > 255)
-		g_err_state = ft_atol(val) / 256;
+	if (ft_atol(val) > 255 || ft_atol < 0)
+		g_err_state = ft_atol(val) % 256;
 	else
 		g_err_state = ft_atol(val);
+	errno = g_err_state;
 	return (0);
+}
+
+static	int	ft_is_numeric(t_token *tkn)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	if (!tkn->value || !tkn->value[0])
+		return (0);
+	if (tkn->value[0] == '-' || tkn->value[0] == '+')
+	{
+		i++;
+		if (tkn->value[i] == '\0' && tkn->next->type == 14)
+		{
+			tmp = tkn->value;
+			tkn->value = ft_strjoin(tkn->value, tkn->next->value);
+			free(tmp);
+			tkn_delone(&tkn, tkn->next);
+		}			
+	}
+	while (tkn->value[i])
+	{
+		if (!ft_isdigit(tkn->value[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	cmd_exit(t_data **data, t_token **token)
@@ -90,12 +101,20 @@ int	cmd_exit(t_data **data, t_token **token)
 		tkn = tkn->next;
 	if ((int)tkn->type == 7)
 		free_exit_cmd(data, *token);
-	if (tkn->type == TOKEN_DOUBLE_QUOTES || tkn->type == TOKEN_SINGLE_QUOTES)
-		(join_in_qt(tkn->next, tkn->type, 0),
-			free_exit_cmd(data, *token));
-	if (!is_numeric(tkn->value) || ft_too_long(tkn->value, data, token))
-		join_in_qt(tkn, tkn->type, 1);
-	if (is_numeric(tkn->value))
+	if (!ft_is_numeric(tkn))
+	{
+		write(2, "exit: numeric argument required\n", 33);
+		g_err_state = 2;
+		errno = 2;
+		free_exit_cmd(data, *token);
+	}
+	if (ft_too_long(tkn->value, data, token))
+	{
+		g_err_state = 100;
+		errno = 100;
+		free_exit_cmd(data, *token);
+	}
+	if (ft_is_numeric(tkn))
 	{
 		while ((int)tkn->type != 7 || (int)tkn->type == 11)
 		{
@@ -104,8 +123,8 @@ int	cmd_exit(t_data **data, t_token **token)
 				break ;
 		}
 		if ((int)tkn->type != 7)
-			return (ft_printf("exit\nbash: exit: too many arguments\n"));
+			return (g_err_state = 1, write(2, "exit: too many arguments\n", 26));
 		free_exit_cmd(data, *token);
 	}
-	return (0);
+	return (errno = 0, 0);
 }

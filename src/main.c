@@ -60,7 +60,7 @@ static	int	read_input(t_data *data)
 	data->merdoso = 0;
 	data->input = readline("myprompt$ ");
 	if (!data->input)
-		return (0);
+		return (errno = 126, 0);
 	if (data->input[0] != '\0')
 		add_history(data->input);
 	return (1);
@@ -99,9 +99,7 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		print_tokens(tokens);
-		if (env_parser(&data, envp) > 0)
-			;
+		env_parser(&data, envp);
 			// continue ;
 		command_init(data, tokens, envp);
 	}

@@ -12,16 +12,16 @@
 
 #include "../../inc/minishell.h"
 
-static int	ft_err_chdir(int err, char *val)
-{
-	if (err == ENOENT)
-		return (g_err_state = err,
-			ft_printf("bash: cd: %s: No such file or directory\n", val));
-	else if (err == ENOTDIR)
-		return (g_err_state = err,
-			ft_printf("bash: cd: %s: Not a directory\n", val));
-	return (0);
-}
+// static int	ft_err_chdir(int err)
+// {
+// 	if (err == ENOENT)
+// 		return (g_err_state = err, errno = err,
+// 			perror(""), err);
+// 	else if (err == ENOTDIR)
+// 		return (g_err_state = err, errno = err,
+// 			perror(""), err);
+// 	return (0);
+// }
 
 void	ft_free_null(void *null)
 {
@@ -61,6 +61,29 @@ static	void	chpwd(t_data **data)
 	return ;
 }
 
+static	int	check_err_tkn(t_token **tkn)
+{
+	t_token	*node;
+
+	node = *tkn;
+	while (node->type != 7 && (node->type == 11 || node->type == 12))
+		node = node->next;
+	if (node && node->type != 7 && node->next)
+		node = node->next;
+	while (node->type != 3 && node->type != 4
+			&& node->type != 2 && node->type != 6
+			&& node->type != 7 && node)
+	{
+		if (node->type != 11)
+			return (1);
+		if (node->type == 11)
+			node = node->next;
+		if (!node || node->type == 7)
+			return (0);
+	}
+	return (0);
+}
+
 int	cd_cmd(t_data **data, t_token **tkn)
 {
 	t_token		*current;
@@ -68,12 +91,9 @@ int	cd_cmd(t_data **data, t_token **tkn)
 
 	current = (*tkn)->next;
 	node = (*data)->env_list;
-	if ((ft_lstsize_token((*tkn)) - 1) > 3
-		&& (current->next->value[0] != '>'
-			|| current->next->value[0] != '<'
-			|| current->next->value[0] != '|'))
-		return (g_err_state = 1,
-			ft_printf("bash: cd: too many arguments\n"));
+	if (check_err_tkn(tkn))
+		return (g_err_state = 1, errno = 1,
+			write(2, "too many arguments\n", 20), 1);
 	node = (*data)->env_list;
 	if (current->value[0] == '\0')
 	{
@@ -83,7 +103,7 @@ int	cd_cmd(t_data **data, t_token **tkn)
 		current->value = ft_strndup(node->value, ft_strlen(node->value));
 	}
 	if (chdir(current->value) != 0)
-		return (ft_err_chdir((int)errno, current->value));
+		return (perror(""), g_err_state = 1, 0);
 	chpwd(data);
 	return (g_err_state = 0, 1);
 }
