@@ -17,6 +17,8 @@ char	*expand_err_state(char *tmp)
 	char	*err;
 	char	*tmp2;
 
+	if (g_err_state > 256 || g_err_state < 0)
+		g_err_state = g_err_state % 255;
 	err = ft_itoa(g_err_state);
 	tmp2 = ft_strtrim2(tmp, "=");
 	tmp = ft_strtrim2(tmp2, "?");
@@ -28,21 +30,60 @@ char	*expand_err_state(char *tmp)
 	return (tmp);
 }
 
+static	int	ft_isalpha_len(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (-1);
+	while (str[i])
+	{
+		if ((str[i] <= 122 && str[i] >= 97) || (str[i] <= 90 && str[i] >= 65))
+			i++;
+		else if (str[i] == '_')
+			i++;
+		else if (str[i] != '\0')
+			return (i);
+	}
+	return (-1);
+}
+
 char	*tmp_set(char *val)
 {
+	int		i;
 	char	*tmp;
 	char	*tmp2;
 
 	tmp = ft_strndup(val, ft_strlen(val));
 	tmp2 = ft_strtrim2(tmp, "$");
-	tmp = ft_strjoin(tmp2, "=");
+	if (*tmp2 && *tmp2 == '?')
+		return (tmp2);
+	i = ft_isalpha_len(tmp2);
+	if (i > 0)
+		tmp = ft_strndup(tmp2, i);
+	else
+		tmp = ft_strndup(tmp2, ft_strlen(tmp2));
+	if (i > 0 && tmp2[i] && tmp2[i] != '=')
+	{
+		if (tmp)
+			ft_free_null(tmp);
+		tmp = ft_strtrim2(tmp2, &tmp2[i]);
+		tmp2 = ft_strjoin(tmp, "=");
+		return (ft_free_null(tmp), tmp2);
+	}
+	else if (i > 0 && tmp2[i] && tmp2[i] == '=')
+		tmp = ft_strndup(tmp2, i + 1);
 	ft_free_null(tmp2);
 	return (tmp);
 }
 
 void	process_command2(t_data **data, char **command)
 {
-	(*data)->cmd2 = find_cmd(command[0], data);
+	if ((*data)->merdoso == 0)
+		(*data)->cmd2 = find_cmd(command[0], data);
+	else if ((*data)->merdoso == 1)
+		(*data)->merdoso = 0;
 }
 
 static	int	redirect_builtin(t_data **data)
@@ -81,19 +122,19 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	(*data)->cmd_args = NULL;
 	clean_qt(token);
 	if (tmp->cmd == CH_DIR)
-		return (ft_remove_ws(token), cd_cmd(data, token));
+		return (ft_remove_ws(token), cd_cmd(data, token), 1);
 	if (tmp->cmd == ECHO)
-		return (echo_cmd(token));
+		return (echo_cmd(token), 1);
 	if (tmp->cmd == EXPORT)
-		return (export_cmd(data, token));
+		return (export_cmd(data, token), 1);
 	if (tmp->cmd == UNSET)
-		return (unset_env(token, &tmp->env_list));
-	if (tmp->cmd == ENV)
-		return (env_cmd(data) && (*data)->merdoso);
+		return (unset_env(token, &tmp->env_list), 1);
+	if (tmp->cmd == ENV && !(*data)->merdoso)
+		return (env_cmd(data), 1);
 	if (tmp->cmd == EXIT)
-		return (cmd_exit(data, token));
+		return (cmd_exit(data, token), 1);
 	if (tmp->cmd == PWD)
-		return (pwd_cmd(data));
+		return (pwd_cmd(), 1);
 	return (0);
 }
 

@@ -105,6 +105,22 @@ static	void	print_exp_env(t_data **data)
 	}
 }
 
+static	int	check_for_flag(t_token **tkn)
+{
+	t_token	*node;
+
+	node = *tkn;
+	while (node && node->type != TOKEN_EOF)
+	{
+		if (node->type != 12 && node->type != 3
+			&& node->type != 3 && node->type != 4
+			&& node->type != 2 && node->type != 6)
+			return (1);
+		node = node->next;
+	}
+	return (0);
+}
+
 int	export_cmd(t_data **data, t_token **tkn)
 {
 	t_token		*current;
@@ -113,9 +129,10 @@ int	export_cmd(t_data **data, t_token **tkn)
 
 	copy = copy_token_list(data, (*tkn));
 	current = copy;
-	flag = 0;
-	if (inutil_exp(data, &current, &copy, &flag))
-		return (g_err_state = 1, 1);
+	flag = check_for_flag(tkn);
+	if (inutil_exp(data, &current, &copy))
+		return (write(2, "not a valid identifier\n", 24),
+				g_err_state = 1, errno = 1, 1);
 	if (flag == 0)
 		print_exp_env(data);
 	free_list(copy);

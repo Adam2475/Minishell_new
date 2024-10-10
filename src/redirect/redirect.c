@@ -55,11 +55,12 @@ t_token	*new_node(const char *content)
 	return (node);
 }
 
-static	int	exec_exit2(t_data **data, t_token **tokens, char **cmd_args, int print)
+static	int	exec_exit2(t_data **data, t_token **tokens,
+		char **cmd_args, int print)
 {
 	print = 0;
 	g_err_state = errno;
-	if (cmd_args)
+	if (cmd_args && print == 0)
 		free_char_array(cmd_args);
 	if ((*data)->env_p)
 		free_char_array((*data)->env_p);

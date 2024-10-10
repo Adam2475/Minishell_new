@@ -60,7 +60,7 @@ void	free_exit(t_data **data)
 	if ((*data)->input)
 		free((*data)->input);
 	free(*data);
-	exit(1);
+	exit(errno);
 }
 
 static	void	join_in_qt_tk(t_token **tkn)

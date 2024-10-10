@@ -155,14 +155,12 @@ int				unset_env(t_token **token, t_env_list **env);
 int				ft_strsearch(char *str, int c);
 // export
 int				util_exp(t_data **data, t_token **current, t_token **tkn);
-int				inutil_exp(t_data **data, t_token **current,
-					t_token **tkn, int *flag);
+int				inutil_exp(t_data **data, t_token **current, t_token **tkn);
 int				conf_man_cmd(char *str);
 void			ft_remove_ws(t_token **token);
 // void			util_join_in_qt(t_token *tkn,
 // 					t_token *current, t_token_type type, char *tmp);
 void			join_in_qt_exp(t_token *tkn);
-void			join_in_qt(t_token *tkn, t_token_type type, int flag);
 int				export_cmd(t_data **data, t_token **tkn);
 int				add_to_env(t_token *arg, t_data **data);
 int				join_to_env(t_token *arg, t_data **data);
@@ -175,7 +173,7 @@ int				cd_cmd(t_data **data, t_token **tkn);
 // echo
 int				echo_cmd(t_token **tkn);
 // pwd
-int				pwd_cmd(t_data **data);
+int				pwd_cmd(void);
 // env
 int				env_cmd(t_data **data);
 // exit
@@ -187,7 +185,6 @@ void			free_node_env(t_env_list *node);
 void			free_char_array(char **array);
 void			free_env_list(t_env_list *head);
 void			free_tokens(t_data **data, t_token *tokens);
-int				pwd_cmd(t_data **data);
 // free functions
 void			ft_free_null(void *null);
 void			free_char_array(char **array);

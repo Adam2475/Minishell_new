@@ -37,6 +37,7 @@ static void	signal_handler(int signo)
 	if (signo == SIGINT)
 	{
 		g_err_state = 130;
+		errno = 130;
 		if (pid == -1)
 			sig_int();
 		else
