@@ -83,7 +83,10 @@ void	process_command2(t_data **data, char **command)
 	if ((*data)->merdoso == 0)
 		(*data)->cmd2 = find_cmd(command[0], data);
 	else if ((*data)->merdoso == 1)
+	{
+		(*data)->cmd2 = find_cmd(command[0], data);
 		(*data)->merdoso = 0;
+	}
 }
 
 static	int	redirect_builtin(t_data **data)
@@ -116,8 +119,6 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token, t_token **tkn)
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	if (!tmp->cmd)
 		return (0);
-	if (tkn && *tkn)
-		free_list(*tkn);
 	(*data)->cmd_args = NULL;
 	clean_qt(token);
 	if (tmp->cmd == CH_DIR)

@@ -88,6 +88,8 @@ int	cd_cmd(t_data **data, t_token **tkn)
 {
 	t_token		*current;
 	t_env_list	*node;
+	char		*tmp;
+	char		*tmp2;
 
 	current = (*tkn)->next;
 	node = (*data)->env_list;
@@ -100,7 +102,46 @@ int	cd_cmd(t_data **data, t_token **tkn)
 		while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
 			node = node->next;
 		ft_free_null(current->value);
-		current->value = ft_strndup(node->value, ft_strlen(node->value));
+		if (node)
+			current->value = ft_strndup(node->value, ft_strlen(node->value));
+		else
+			current->value = ft_strndup("", 1);
+	}
+	if (current->value[0] == '-')
+	{
+		while (node && ft_strncmp(node->var, "OLDPWD=", 7) != 0)
+			node = node->next;
+		if (node)
+		{
+			tmp = ft_strndup(node->value, ft_strlen(node->value));
+			tmp2 = current->value;
+			current->value = ft_strjoin(tmp, current->value + 1);
+			ft_free_null(tmp);
+			ft_free_null(tmp2);
+		}
+		else
+		{
+			ft_free_null(current->value);
+			current->value = ft_strndup("", 1);
+		}
+	}
+	if (current->value[0] == '~')
+	{
+		while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
+			node = node->next;
+		if (node)
+		{
+			tmp = ft_strndup(node->value, ft_strlen(node->value));
+			tmp2 = current->value;
+			current->value = ft_strjoin(tmp, current->value + 1);
+			ft_free_null(tmp);
+			ft_free_null(tmp2);
+		}
+		else
+		{
+			ft_free_null(current->value);
+			current->value = ft_strndup("", 1);
+		}
 	}
 	if (chdir(current->value) != 0)
 		return (perror(""), g_err_state = 1, 0);

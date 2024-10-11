@@ -12,11 +12,18 @@
 
 #include "../../inc/minishell.h"
 
+int	ft_isspace(int c)
+{
+	if (c == 32 || (c >= 7 && c <= 13))
+		return (1);
+	return (0);
+}
+
 int	is_whitespace(const char *str)
 {
 	while (*str)
 	{
-		if (!isspace((unsigned char)*str))
+		if (!ft_isspace((unsigned char)*str))
 			return (0);
 		str++;
 	}

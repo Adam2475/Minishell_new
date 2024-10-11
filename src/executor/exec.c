@@ -145,7 +145,7 @@ void	remove_whitespace_nodes(t_token **head)
 	prev = NULL;
 	while (current != NULL)
 	{
-		if (is_whitespace(current->value))
+		if (is_whitespace(current->value) && current->type != 14)
 		{
 			if (prev == NULL)
 				space_helper(head, &current, &prev, 0);

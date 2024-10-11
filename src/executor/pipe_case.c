@@ -164,7 +164,6 @@ int	pipe_case(t_token **tokens, t_data **data,
 		}
 		else
 			parent_process2(data, i, (*data)->end, parent);
-		print_tokens(current->head);
 		current = current->next;
 	}
 	return (free_char_array((*data)->env_p), free((*data)->end), 0);

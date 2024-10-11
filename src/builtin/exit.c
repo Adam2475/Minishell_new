@@ -51,17 +51,17 @@ static	int	ft_too_long(char *val, t_data **data, t_token **token)
 	if (!val)
 		return (0);
 	if ((ft_strlen(val) - 1) > ft_strlen("-9223372036854775808"))
-		return (write(2, "exit: numeric argument required\n", 33),
+		return (free(ptr), write(2, "exit: numeric argument required\n", 33),
 			free_exit_cmd(data, *token), 1);
 	if (ft_check_lon(ptr) != NULL)
-		return (write(2, "exit: numeric argument required\n", 33),
+		return (free(ptr), write(2, "exit: numeric argument required\n", 33),
 			free_exit_cmd(data, *token), 1);
 	if (ft_atol(val) > 255 || ft_atol < 0)
 		g_err_state = ft_atol(val) % 256;
 	else
 		g_err_state = ft_atol(val);
 	errno = g_err_state;
-	return (0);
+	return (free(ptr), 0);
 }
 
 static	int	ft_is_numeric(t_token *tkn)

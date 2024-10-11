@@ -75,7 +75,6 @@ int	redirect_parser(t_data **data, t_token *current)
 {
 	int	i;
 
-	print_tokens(current);
 	i = 0;
 	while (current != NULL)
 	{

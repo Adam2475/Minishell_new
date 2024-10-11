@@ -41,7 +41,7 @@ char	*trim_quotes(char *str)
 
 static	void	helper3(char *cmd)
 {
-	write(2, "not a file or directory: ", 26);
+	write(2, "command not found: ", 20);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, "\n", 1);
 	errno = 127;

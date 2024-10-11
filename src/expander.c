@@ -49,12 +49,19 @@ int	expand_doll(t_token **current, t_data **data)
 {
 	t_env_list	*node;
 	char		*tmp;
+	char		*tmp2;
 	int			len;
 
 	node = (*data)->env_list;
 	len = 0;
 	if ((*current)->value)
 		tmp = tmp_set((*current)->value);
+	if (tmp && ft_strlen(tmp) == 1 && (ft_isalpha(tmp[0]) || tmp[0] == '_'))
+	{
+		tmp2 = tmp;
+		tmp = ft_strjoin(tmp2, "=");
+		ft_free_null(tmp2);
+	}
 	while (node && tmp && ft_strncmp(tmp, node->var, ft_strlen(tmp) - 1) != 0)
 	{
 		if (node->next)
