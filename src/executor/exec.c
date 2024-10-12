@@ -51,6 +51,12 @@ int	exec_exit(t_data **data, t_token **tokens, int print)
 {
 	errno = print;
 	g_err_state = errno;
+
+	if ((*data)->fd >= 0)
+		close((*data)->fd);
+	if ((*data)->saved_fd >= 0)
+		close((*data)->saved_fd);
+	close(STDOUT_FILENO);
 	free_env_list((*data)->env_list);
 	free_tokens(data, (*tokens));
 	free_char_array((*data)->env_p);
@@ -65,6 +71,7 @@ static	int	child_process(char **cmd_args, t_data **data,
 	{
 		if ((*data)->redirect_state == 1)
 		{
+			(*data)->saved_fd = dup(STDOUT_FILENO);
 			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
 				exit(2);
 		}

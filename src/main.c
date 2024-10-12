@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 17:43:36 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:20:12 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 	if (init_data(&data, argc, argv, &tokens) > 0)
 		return (1);
 	flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-	fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+	//fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 	if (!envp)
 		return (1);
 	gen_list_env(&data, envp);
@@ -100,9 +100,7 @@ int	main(int argc, char **argv, char **envp)
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
 		//print_tokens(tokens);
-		if (env_parser(&data, envp) > 0)
-			;
-			// continue ;
+		env_parser(&data, envp);
 		command_init(data, tokens, envp);
 	}
 }
@@ -110,31 +108,30 @@ int	main(int argc, char **argv, char **envp)
 // Edge Cases:
 // diomerda | OK
 // = current_list->head; | OK
-// ljsdbhhds hdsdsh > | lhsdb<dshh !?
+// ljsdbhhds hdsdsh > | lhsdb<dshh | OK
 // t_token *result; = NULL; | OK
 // "/usr/bin/ls" | OK
 // "           "  (only as second command) | OK
-
+////////////////////////////////////////////////////////
 // Single Command:
 // echo ciao | OK
-// echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ciao OK
-// echo -n -n -n -n -n ciao OK
-// echo -n -n -nf -n ciao OK
+// echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ciao | OK
+// echo -n -n -n -n -n ciao | OK
+// echo -n -n -nf -n ciao | OK
 // echo "ciao" ciao | OK
 // ec"ho" ciao | KO
 // ls -l | OK
 // exit | OK
-// ls -l > outfile OK
+// ls -l > outfile | OK
 // cat outfile OK
-// < outfile grep -rl out OK
+// < outfile grep -rl out | OK
 // cat << eof | OK
-// a << s << z << x OK
+// a << s << z << x | OK
 // ls -l >> out | OK
 // export a=32 b=78 c=4647 | OK
 // echo cioa$PWD ciao | OK
-
+//////////////////////////////////////////////////////////
 // Multi Cmd:
-//
 // cat merda | cat ciao | OK
 // < outfile grep -rl ada | cat -e > out2 | OK
 // < src/init.c grep -rl int | cat -e > out2 | OK
@@ -143,7 +140,6 @@ int	main(int argc, char **argv, char **envp)
 // < out env | sort | grep -v SHLVL | grep -v ^_ | OK
 // out < env | sort | grep -v SHLVL | grep -v ^_ | segfault
 
-// multi cmd still have issues when run as second command ?!
 // unset home e cd senza argomenti
 // cat << << eof
 
@@ -152,7 +148,6 @@ int	main(int argc, char **argv, char **envp)
 // absolute command
 // env | sort | grep -v SHLVL | grep -v ^_
 
-
-// TODO : add lexical control to export 
-// TODO : add getcwd to make pwd work with unset || OK
-// TODO : comand env && builtins usage with >> & <<
+////////////////////////////////////////////////
+// TODO : fix heredoc process leaks
+// TODO : fix non-blocking mode for cat command
