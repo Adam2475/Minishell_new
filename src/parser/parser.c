@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 18:48:20 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:49:45 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static	int	parser_init(t_data **data)
 	return (0);
 }
 
-int	redirect_parser(t_data **data, t_token *current)
+int	redirect_parser(t_data **data, t_token *current, t_token **tokens)
 {
 	int	i;
 
@@ -85,7 +85,7 @@ int	redirect_parser(t_data **data, t_token *current)
 		else if (current->type == TOKEN_APPEND)
 			i = parser_case_append(current, data);
 		else if (current->type == TOKEN_HEREDOC)
-			i = parser_case_herdoc(current, data);
+			i = parser_case_herdoc(current, data, tokens);
 		current = current->next;
 	}
 	return (i);
@@ -100,9 +100,9 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 	current = *tokens;
 	while (current && current->type != TOKEN_EOF)
 	{
-		if (redirect_parser(data, current) > 0)
+		if (redirect_parser(data, current, tokens) > 0)
 			return (errno = 2, write(2, "command not found!\n", 20), 1);
-		if (current->type == 12 || current->type == TOKEN_WORD_QT)
+		if (current->type == 12 || current->type == 14)
 		{
 			if (!call_for_command(tokens, data, &current, envp))
 				return (0);

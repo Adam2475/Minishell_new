@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/12 17:20:12 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/12 18:17:46 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	main(int argc, char **argv, char **envp)
 // < outfile grep -rl out | OK
 // cat << eof | OK
 // a << s << z << x | OK
+// cat << << eof | OK
 // ls -l >> out | OK
 // export a=32 b=78 c=4647 | OK
 // echo cioa$PWD ciao | OK
@@ -139,9 +140,6 @@ int	main(int argc, char **argv, char **envp)
 // env | sort | grep -v SHLVL | grep -v ^_ | OK
 // < out env | sort | grep -v SHLVL | grep -v ^_ | OK
 // out < env | sort | grep -v SHLVL | grep -v ^_ | segfault
-
-// unset home e cd senza argomenti
-// cat << << eof
 
 // unset $PATH
 // program should not work

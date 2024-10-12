@@ -117,7 +117,7 @@ void	execute_command_single(char **command, t_data **data,
 		if ((*data)->saved_fd >= 0)
 		{
 			if ((*data)->redirect_state == 1)
-				dup2(STDIN_FILENO, STDOUT_FILENO);
+				dup2((*data)->saved_fd, STDOUT_FILENO);
 			else if ((*data)->redirect_state == 0)
 				dup2((*data)->saved_fd, STDIN_FILENO);
 			close((*data)->saved_fd);

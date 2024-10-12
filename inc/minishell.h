@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 19:11:45 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:37:27 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ int				token_parser(t_token **tokens, t_data **data, char **envp);
 int				parser_case_redo(t_token *current, t_data **data);
 int				parser_case_redi(t_token *current, t_data **data);
 int				parser_case_append(t_token *current, t_data **data);
-int				parser_case_herdoc(t_token *current, t_data **data);
-int				redirect_parser(t_data **data, t_token *current);
+int				parser_case_herdoc(t_token *current, t_data **data, t_token **tokens);
+int				redirect_parser(t_data **data, t_token *current, t_token **tokens);
 // Redireciton
 char			*expander_doc(char *line, t_data **data);
 char			*exp_word(char *line, t_data **data, int *i);
