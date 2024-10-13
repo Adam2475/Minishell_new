@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:17:46 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/13 18:07:49 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		if (tokens)
+		{
 			free_tokens(&data, tokens);
+			tokens = NULL;
+		}
 		if (!read_input(data))
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))

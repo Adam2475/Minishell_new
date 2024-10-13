@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/12 17:49:45 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:31:44 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,13 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 	current = *tokens;
 	while (current && current->type != TOKEN_EOF)
 	{
-		if (redirect_parser(data, current, tokens) > 0)
-			return (errno = 2, write(2, "command not found!\n", 20), 1);
+		if ((*data)->heredoc_flag == 0)
+		{
+			if (redirect_parser(data, current, tokens) > 0)
+			{
+				return (errno = 2, write(2, "command not found!\n", 20), 1);
+			}
+		}
 		if (current->type == 12 || current->type == 14)
 		{
 			if (!call_for_command(tokens, data, &current, envp))
@@ -111,5 +116,7 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 		}
 		current = current->next;
 	}
+	if ((*data)->fd)
+		close((*data)->fd);
 	return (0);
 }

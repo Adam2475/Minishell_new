@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:01:45 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:17:57 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 			exit_free_heredoc(data, tokens);
 			//exit(0);
 		}
-		else if (parent)
+		if (parent)
 			parent_here_doc();
 	}
 	else
