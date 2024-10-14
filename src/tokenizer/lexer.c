@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/04 17:11:50 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:18:07 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	token_reformatting(t_token **tokens)
 			current = token_reformatting_special(current);
 		if (current && current->type == TOKEN_WORD)
 			current = token_reformatting_command(current);
-		else if (current && current->type != TOKEN_PIPE)
+		else if (current && current->type != TOKEN_PIPE && current->type != TOKEN_HEREDOC)
 			current = current->next;
 	}
 	current = head;

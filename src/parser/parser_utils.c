@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/13 17:17:57 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:14:06 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,16 @@ static	int	parent_here_doc(void)
 
 static	void	exit_free_heredoc(t_data **data, t_token **tokens)
 {
-	// if ((*data)->fd >= 0)
-	// 	close((*data)->fd);
-	// if ((*data)->saved_fd >= 0)
-	// 	close((*data)->saved_fd);
-	//close(STDOUT_FILENO);
 	free_env_list((*data)->env_list);
-	//free_tokens(data, (*tokens));
 	free_list(*tokens);
 	free_char_array((*data)->env_p);
 	free_list((*data)->tokens);
 	free((*data)->my_line);
 	free_char_array((*data)->my_paths);
-	//free_
 	free((*data)->command);
 	free((*data)->path_from_envp);
 	free((*data));
-	//exit(g_err_state);
-	exit(0);
+	exit(g_err_state);
 }
 
 int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
@@ -105,9 +97,7 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 		if (!parent)
 		{
 			handle_heredoc(current->value, data);
-			//exec_exit(data, tokens, 0);
 			exit_free_heredoc(data, tokens);
-			//exit(0);
 		}
 		if (parent)
 			parent_here_doc();

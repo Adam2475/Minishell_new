@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 19:08:17 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:11:23 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ int	handle_heredoc(char *delimiter, t_data **data)
 	signal_doc();
 	while (1)
 	{
+		if (g_err_state == 130)
+			return (0);
 		line = readline("> ");
 		if (!line || ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{

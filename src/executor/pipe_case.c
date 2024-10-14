@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/14 16:27:54 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:48:40 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ static	int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	g_err_state = errno;
 	if ((*data)->env_p && print == 0)
 		free_char_array((*data)->env_p);
-	// close((*data)->fd);
-	//close
-	//dup2(STDOUT_FILENO, (*data)->fd_tmp);
-	//close((*data)->fd_tmp);
 	while (i < (*data)->pipes * 2)
 	{
 		close(end[i]);
@@ -31,8 +27,6 @@ static	int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	}
 	printf("helloworld;\n");
 	close(STDOUT_FILENO);
-	//close(STDIN_FILENO);
-	//close(STDERR_FILENO);
 	free_env_list((*data)->env_list);
 	free_tokens(data, *tokens);
 	free((*data)->end);
@@ -165,10 +159,12 @@ int	pipe_case(t_token **tokens, t_data **data,
 		}
 		parent_process2(data, i, (*data)->end, parent[i]);
 		current = current->next;
+		//printf("%d\n", i);
 	}
-	while(i <= 0)
+	while(i >= 0)
 	{
-		waitpid(parent[i], NULL, 0);
+		wait(NULL);
+		// waitpid(parent[i], NULL, 0);
 		i--;
 	}
 	free(parent);
