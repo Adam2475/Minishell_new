@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/13 18:26:48 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/14 16:27:54 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,43 +143,34 @@ int	pipe_case(t_token **tokens, t_data **data,
 	char **envp, t_token_list **token_list)
 {
 	int				i;
-	pid_t			parent;
+	pid_t			*parent;
 	t_token_list	*current;
-	int flag = 0;
-	int cat_flag = 0;
 
+	parent = (pid_t *)calloc(sizeof(pid_t), (count_pipes(*tokens) + 1));
 	init_pipe(data, tokens, &i);
 	current = *token_list;
 	pipe_opener(data, (*data)->end);
 	while (++i <= (*data)->pipes)
 	{
 		remove_whitespace_nodes(&current->head);
-		//print_tokens(current->head);
-		if (flag == 0 && ft_strncmp(current->head->value, "cat", 3) == 0 && current->head->next == NULL)
-			cat_flag += 1;
-		else 
+		parent[i] = fork();
+		if (parent[i] == 0)
 		{
-			parent = fork();
-			if (parent == 0)
-			{
-				setup_pipe(data, i, (*data)->pipes, (*data)->prev_fd, (*data)->end);
-				close_pipes((*data)->end, (*data)->pipes);
-				if (redirect_parser(data, current->head, tokens))
-					exec_exit3(data, tokens, (*data)->end, write(2, "not a file or directory!\n", 26));
-				ft_tokenadd_back(&current->head, ft_lstnewtoken(7, NULL));
-				child_process_pipe(envp, data, current->head, tokens);
-			}
-			else
-				parent_process2(data, i, (*data)->end, parent);
+			setup_pipe(data, i, (*data)->pipes, (*data)->prev_fd, (*data)->end);
+			close_pipes((*data)->end, (*data)->pipes);
+			if (redirect_parser(data, current->head, tokens))
+				exec_exit3(data, tokens, (*data)->end, write(2, "not a file or directory!\n", 26));
+			ft_tokenadd_back(&current->head, ft_lstnewtoken(7, NULL));
+			child_process_pipe(envp, data, current->head, tokens);
 		}
+		parent_process2(data, i, (*data)->end, parent[i]);
 		current = current->next;
-		flag += 1;
 	}
-	if (cat_flag > 0)
+	while(i <= 0)
 	{
-		char *command = ft_strdup("/urs/bin/cat");
-		char **cmd_args = ft_split(command, 32);
-		//execve(command, cmd_args, envp);
+		waitpid(parent[i], NULL, 0);
+		i--;
 	}
+	free(parent);
 	return (free_char_array((*data)->env_p), free((*data)->end), 0);
 }

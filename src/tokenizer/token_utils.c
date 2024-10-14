@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 12:28:18 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:49:04 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,5 @@ void	parent_process2(t_data **data, int i, int *end, int parent)
 		close(end[i * 2 + 1]);
 		(*data)->prev_fd = end[i * 2];
 	}
-	waitpid(parent, NULL, 0);
+	//waitpid(parent, NULL, 0);
 }
