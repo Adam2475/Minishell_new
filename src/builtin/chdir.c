@@ -81,8 +81,11 @@ static	int	cd_null(t_token *current, t_data **data)
 	while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
 		node = node->next;
 	ft_free_null(current->value);
+	free(current->value);
 	if (node)
+	{
 		current->value = ft_strndup(node->value, ft_strlen(node->value));
+	}
 	else
 	{
 		if (chdir(current->value) != 0)
