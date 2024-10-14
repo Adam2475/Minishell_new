@@ -12,17 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-// static int	ft_err_chdir(int err)
-// {
-// 	if (err == ENOENT)
-// 		return (g_err_state = err, errno = err,
-// 			perror(""), err);
-// 	else if (err == ENOTDIR)
-// 		return (g_err_state = err, errno = err,
-// 			perror(""), err);
-// 	return (0);
-// }
-
 void	ft_free_null(void *null)
 {
 	char	*tmp;
@@ -84,12 +73,75 @@ static	int	check_err_tkn(t_token **tkn)
 	return (0);
 }
 
+static	int	cd_null(t_token *current, t_data **data)
+{
+	t_env_list	*node;
+
+	node = (*data)->env_list;
+	while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
+		node = node->next;
+	ft_free_null(current->value);
+	if (node)
+		current->value = ft_strndup(node->value, ft_strlen(node->value));
+	else
+	{
+		if (chdir(current->value) != 0)
+			return (write(2, "HOME not set\n", 14), g_err_state = 1, 1);
+	}
+	return (0);
+}
+
+static	int	cd_minus(t_token *current, t_data **data)
+{
+	t_env_list	*node;
+	char		*tmp;
+	char		*tmp2;
+
+	node = (*data)->env_list;
+	while (node && ft_strncmp(node->var, "OLDPWD=", 7) != 0)
+		node = node->next;
+	if (node)
+	{
+		tmp = ft_strndup(node->value, ft_strlen(node->value));
+		tmp2 = current->value;
+		current->value = ft_strjoin(tmp, current->value + 1);
+		ft_free_null(tmp);
+		ft_free_null(tmp2);
+	}
+	else
+	{
+		ft_free_null(current->value);
+		return (1);
+	}
+	return (0);
+}
+
+static	int	cd_tilde(t_token *current, t_data **data)
+{
+	t_env_list	*node;
+	char		*tmp;
+	char		*tmp2;
+
+	node = (*data)->env_list;
+	while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
+		node = node->next;
+	if (node)
+	{
+		tmp = ft_strndup(node->value, ft_strlen(node->value));
+		tmp2 = current->value;
+		current->value = ft_strjoin(tmp, current->value + 1);
+		ft_free_null(tmp);
+		ft_free_null(tmp2);
+	}
+	else
+		return (write(2, "HOME not set\n", 14), g_err_state = 1, 1);
+	return (0);
+}
+
 int	cd_cmd(t_data **data, t_token **tkn)
 {
 	t_token		*current;
 	t_env_list	*node;
-	char		*tmp;
-	char		*tmp2;
 
 	current = (*tkn)->next;
 	node = (*data)->env_list;
@@ -97,54 +149,14 @@ int	cd_cmd(t_data **data, t_token **tkn)
 		return (g_err_state = 1, errno = 1,
 			write(2, "too many arguments\n", 20), 1);
 	node = (*data)->env_list;
-	if (current->value[0] == '\0')
-	{
-		while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
-			node = node->next;
-		ft_free_null(current->value);
-		if (node)
-			current->value = ft_strndup(node->value, ft_strlen(node->value));
-		else
-			current->value = ft_strndup("", 1);
-	}
-	if (current->value[0] == '-')
-	{
-		while (node && ft_strncmp(node->var, "OLDPWD=", 7) != 0)
-			node = node->next;
-		if (node)
-		{
-			tmp = ft_strndup(node->value, ft_strlen(node->value));
-			tmp2 = current->value;
-			current->value = ft_strjoin(tmp, current->value + 1);
-			ft_free_null(tmp);
-			ft_free_null(tmp2);
-		}
-		else
-		{
-			ft_free_null(current->value);
-			current->value = ft_strndup("", 1);
-		}
-	}
-	if (current->value[0] == '~')
-	{
-		while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
-			node = node->next;
-		if (node)
-		{
-			tmp = ft_strndup(node->value, ft_strlen(node->value));
-			tmp2 = current->value;
-			current->value = ft_strjoin(tmp, current->value + 1);
-			ft_free_null(tmp);
-			ft_free_null(tmp2);
-		}
-		else
-		{
-			ft_free_null(current->value);
-			current->value = ft_strndup("", 1);
-		}
-	}
+	if (current->value[0] == '\0' && cd_null(current, data))
+		return (1);
+	if (current->value[0] == '-' && cd_minus(current, data))
+		current->value = ft_strndup("", 1);
+	if (current->value[0] == '~' && cd_tilde(current, data))
+		return (1);
 	if (chdir(current->value) != 0)
-		return (perror(""), g_err_state = 1, 0);
+		return (ft_free_null(current->value), perror(""), g_err_state = 1, 0);
 	chpwd(data);
 	return (g_err_state = 0, 1);
 }

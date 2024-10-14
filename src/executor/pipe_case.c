@@ -150,6 +150,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 		parent[i] = fork();
 		if (parent[i] == 0)
 		{
+			free(parent);
 			setup_pipe(data, i, (*data)->pipes, (*data)->prev_fd, (*data)->end);
 			close_pipes((*data)->end, (*data)->pipes);
 			if (redirect_parser(data, current->head, tokens))
