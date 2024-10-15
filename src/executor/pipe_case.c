@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:17:15 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:24:07 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 			pipe_helper(tokens, data, current, i);
 			child_process_pipe(envp, data, current->head, tokens);
 		}
-		parent_process2(data, i, (*data)->end, parent[i]);
+		parent_process2(data, i, (*data)->end);
 		current = current->next;
 	}
 	while(i >= 0)

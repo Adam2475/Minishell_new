@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 14:52:32 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:22:26 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	free((*data)->command2);
 	cmd = cmd_args[0];
 	(*data)->tmp6 = NULL;
-	if (manual_cmd(cmd_args, data, tokens, tkn))
+	if (manual_cmd(cmd_args, data, tokens))
 	{
 		if ((*data)->saved_fd >= 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/12 16:25:22 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:21:06 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static	int	redirect_builtin(t_data **data)
 	return (0);
 }
 
-int	manual_cmd(char **cmd_args, t_data **data, t_token **token, t_token **tkn)
+int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 {
 	t_data	*tmp;
 

@@ -6,14 +6,14 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 14:16:32 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:24:21 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 static	int	call_for_command(t_token **tokens, t_data **data,
-		t_token **origin, char **envp)
+		t_token **origin)
 {
 	t_token		*current;
 	int			i;
@@ -36,7 +36,7 @@ static	int	call_for_command(t_token **tokens, t_data **data,
 			break ;
 		i++;
 	}
-	execute_command_single((*data)->command, data, envp, tokens);
+	execute_command_single((*data)->command, data, tokens);
 	if ((*data)->fd >= 0)
 		close((*data)->fd);
 	return (0);
@@ -92,7 +92,7 @@ int	redirect_parser(t_data **data, t_token *current, t_token **tokens)
 	return (i);
 }
 
-int	token_parser(t_token **tokens, t_data **data, char **envp)
+int	token_parser(t_token **tokens, t_data **data)
 {
 	t_token		*current;
 
@@ -108,7 +108,7 @@ int	token_parser(t_token **tokens, t_data **data, char **envp)
 		}
 		if (current->type == 12 || current->type == 14)
 		{
-			if (!call_for_command(tokens, data, &current, envp))
+			if (!call_for_command(tokens, data, &current))
 				return (0);
 			else
 				free_exit(data);

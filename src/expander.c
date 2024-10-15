@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:01:12 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:22:09 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	expand_doll(t_token **current, t_data **data)
 
 	node = (*data)->env_list;
 	len = 0;
+	tmp = NULL;
 	if ((*current)->value)
 		tmp = tmp_set((*current)->value);
 	if (tmp && ft_strlen(tmp) == 1 && (ft_isalpha(tmp[0]) || tmp[0] == '_'))

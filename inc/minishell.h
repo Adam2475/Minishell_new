@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 14:52:41 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:26:10 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_token			*token_reformatting_pipe(t_token *current);
 t_token			*token_reformatting_special(t_token *current);
 // Parser
 int				piper(t_token **tokens);
-int				token_parser(t_token **tokens, t_data **data, char **envp);
+int				token_parser(t_token **tokens, t_data **data);
 int				parser_case_redo(t_token *current, t_data **data);
 int				parser_case_redi(t_token *current, t_data **data);
 int				parser_case_append(t_token *current, t_data **data);
@@ -135,7 +135,7 @@ char			*exp_word(char *line, t_data **data, int *i);
 int				handle_heredoc(char *delimiter, t_data **data);
 // Executer
 void			execute_command_single(char **command, t_data **data,
-					char **envp, t_token **token);
+					t_token **token);
 // env_list
 t_env_list		*lstlast_env(t_env_list *lst);
 t_env_list		*new_node_env(char *content);
@@ -153,8 +153,7 @@ int				expand_doll(t_token **current, t_data **data);
 int				expand_var(t_token **tkn_lst, t_data **data);
 // builtins
 char			*find_cmd(char *cmd, t_data **data);
-int				manual_cmd(char **cmd_args, t_data **data,
-					t_token **token, t_token **tkn);
+int				manual_cmd(char **cmd_args, t_data **data, t_token **token);
 // unset
 int				unset_env(t_token **token, t_env_list **env);
 int				ft_strsearch(char *str, int c);
@@ -273,7 +272,7 @@ void			token_reformatting(t_token **tokens);
 void			token_builder(t_token **tokens, char *buffer,
 					char *end, int flag);
 int				find_special(char c);
-void			parent_process2(t_data **data, int i, int *end, int parent);
+void			parent_process2(t_data **data, int i, int *end);
 void			process_command2(t_data **data, char **command);
 void			init_extraction(t_token **result, t_token **current,
 					t_data **data, t_token *tokens);
