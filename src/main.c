@@ -143,12 +143,22 @@ int	main(int argc, char **argv, char **envp)
 // env | sort | grep -v SHLVL | grep -v ^_ | OK
 // < out env | sort | grep -v SHLVL | grep -v ^_ | OK
 // out < env | sort | grep -v SHLVL | grep -v ^_ | segfault
-
+////////////////////////////////////////////////
 // unset $PATH
 // program should not work
 // absolute command
 // env | sort | grep -v SHLVL | grep -v ^_
 
 ////////////////////////////////////////////////
-// TODO : fix heredoc process leaks
-// TODO : fix non-blocking mode for cat command
+// Correction Sheet
+// /bin/ls | OK
+// "/bin/ls" src | OK
+// exit
+// /bin/ls && $? | Invalid FD in close ??
+// ctrl + C + D + /
+// echo "cat lol.c | cat > lol.c"
+// echo '$USER'
+
+// TODO : Norme
+// TODO : $? expansion to fix
+
