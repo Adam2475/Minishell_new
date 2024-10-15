@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/14 18:11:23 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:52:32 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,15 @@ static	int	exec_exit2(t_data **data, t_token **tokens,
 	exit(g_err_state);
 }
 
-int	execute_command(char *command, t_data **data, char **envp, t_token **tkn, t_token **tokens)
+int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 {
 	char	*cmd;
 	char	**cmd_args;
 	char	*holder;
 	int		i;
 
-	cmd_args = ft_split(command, 32);
-	free(command);
+	cmd_args = ft_split((*data)->command2, 32);
+	free((*data)->command2);
 	cmd = cmd_args[0];
 	(*data)->tmp6 = NULL;
 	if (manual_cmd(cmd_args, data, tokens, tkn))

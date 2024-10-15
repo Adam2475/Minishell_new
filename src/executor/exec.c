@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-static	int copy_mtx1(t_data **data)
+static	int	copy_mtx1(t_data **data)
 {
 	t_env_list	*node;
 	int			i;
@@ -25,7 +25,7 @@ static	int copy_mtx1(t_data **data)
 		if (!node->next)
 		{
 			i++;
-			break;
+			break ;
 		}
 		else
 		{

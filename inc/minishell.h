@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/14 17:56:33 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:52:41 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_data
 	int				heredoc_flag;
 	int				saved_fd;
 	int				fd_tmp;
-	//int				redi_multi_flag();
+	char			*command2;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -125,8 +125,10 @@ int				token_parser(t_token **tokens, t_data **data, char **envp);
 int				parser_case_redo(t_token *current, t_data **data);
 int				parser_case_redi(t_token *current, t_data **data);
 int				parser_case_append(t_token *current, t_data **data);
-int				parser_case_herdoc(t_token *current, t_data **data, t_token **tokens);
-int				redirect_parser(t_data **data, t_token *current, t_token **tokens);
+int				parser_case_herdoc(t_token *current, t_data **data,
+					t_token **tokens);
+int				redirect_parser(t_data **data, t_token *current,
+					t_token **tokens);
 // Redireciton
 char			*expander_doc(char *line, t_data **data);
 char			*exp_word(char *line, t_data **data, int *i);
@@ -151,7 +153,8 @@ int				expand_doll(t_token **current, t_data **data);
 int				expand_var(t_token **tkn_lst, t_data **data);
 // builtins
 char			*find_cmd(char *cmd, t_data **data);
-int				manual_cmd(char **cmd_args, t_data **data, t_token **token, t_token **tkn);
+int				manual_cmd(char **cmd_args, t_data **data,
+					t_token **token, t_token **tkn);
 // unset
 int				unset_env(t_token **token, t_env_list **env);
 int				ft_strsearch(char *str, int c);
@@ -196,7 +199,8 @@ int				env_cmd(t_data **data);
 // Pipe case
 t_token_list	*split_tokens_by_pipe(t_token *tokens);
 t_token_list	*create_token_list_node(t_token *head);
-t_token			*extract_command_and_appendices(t_data **data, t_token *tokens);
+t_token			*extract_command_and_appendices(t_data **data,
+					t_token *tokens);
 size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
 int				pipe_case(t_token **tokens, t_data **data, char **envp,
@@ -205,7 +209,8 @@ void			append_token_list(t_token_list **list, t_token *head);
 char			*token_to_command(t_token *head);
 int				count_pipes(t_token *head);
 int				set_redirection(t_token *tokens, t_data **data);
-int				execute_command(char *command, t_data **data, char **envp, t_token **tkn, t_token **tokens);
+int				execute_command(t_data **data, char **envp,
+					t_token **tkn, t_token **tokens);
 void			space_helper(t_token **head, t_token **current,
 					t_token **prev, int flag);
 char			*trim_whitespace(char *str);
@@ -256,7 +261,7 @@ t_token_list	*create_and_link(t_token *start, t_token_list *result,
 t_token_list	*terminate_segment(t_token *prev);
 void			free_token_segment2(t_token *start);
 void			handle_parent_process(pid_t parent, int *status);
-void			setup_pipe(t_data **data, int i, int pipes, int prev_fd, int *end);
+void			setup_pipe(t_data **data, int i, int prev_fd, int *end);
 void			create_pipes(int *end, int pipes);
 void			close_pipes(int *end, int pipes);
 void			append_token(t_token **list, t_token *new_token);

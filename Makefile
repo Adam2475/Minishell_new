@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror -g
-CFLAGS = -g -lreadline
+CFLAGS = -g -lreadline -Wall -Wextra -Werror
 # Source files
 SRC_DIR = src
 LIB = ./libft/libft.a
