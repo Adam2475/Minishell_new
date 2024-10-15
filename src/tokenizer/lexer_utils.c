@@ -28,7 +28,8 @@ t_token	*token_reformatting_pipe(t_token *current)
 	{
 		while (current && current->type != 7 && current->type == 11)
 			current = current->next;
-		if (current->type != 8 && current->type != 9 && current->type != 10)
+		if (current->type != 2 && current->type != 8
+			&& current->type != 9 && current->type != 10)
 			current->type = TOKEN_APPENDICE;
 		if (current && current->next && current->type != TOKEN_PIPE)
 			current = current->next;

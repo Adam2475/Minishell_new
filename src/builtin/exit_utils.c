@@ -42,7 +42,6 @@ void	*ft_check_lon(char *s)
 	}
 	return (NULL);
 }
-
 int	ft_too_long(char *val, t_data **data, t_token **token)
 {
 	char	*ptr;
@@ -56,10 +55,12 @@ int	ft_too_long(char *val, t_data **data, t_token **token)
 	if (ft_check_lon(ptr) != NULL)
 		return (free(ptr), write(2, "exit: numeric argument required\n", 33),
 			free_exit_cmd(data, *token), 1);
-	if (ft_atol(val) > 255 || ft_atol < 0)
+	if (ft_atol(val) > 255 || ft_atol(val) < 0)
 		g_err_state = ft_atol(val) % 256;
 	else
 		g_err_state = ft_atol(val);
 	errno = g_err_state;
-	return (free(ptr), 0);
+	free(ptr);
+	// free_exit_cmd(data, *token);
+	return (0);
 }

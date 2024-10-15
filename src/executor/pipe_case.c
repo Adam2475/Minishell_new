@@ -25,7 +25,6 @@ static	int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 		close(end[i]);
 		i++;
 	}
-	printf("helloworld;\n");
 	close(STDOUT_FILENO);
 	free_env_list((*data)->env_list);
 	free_tokens(data, *tokens);
@@ -154,7 +153,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 	pid_t			*parent;
 	t_token_list	*current;
 
-	parent = (pid_t *)calloc(sizeof(pid_t), (count_pipes(*tokens) + 1));
+	parent = (pid_t *)ft_calloc(sizeof(pid_t), (count_pipes(*tokens) + 1));
 	init_pipe(data, tokens, &i);
 	current = *token_list;
 	pipe_opener(data, (*data)->end);

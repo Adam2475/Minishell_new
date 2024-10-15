@@ -121,6 +121,42 @@ static	void	cmd_in_qt(t_token *current)
 	}
 }
 
+static	void	doll_to_cmd(t_token **tkn)
+{
+	t_token	*current;
+	int		flag = 1;
+
+	current = (*tkn);
+	while (current && current->type != TOKEN_EOF)
+	{
+		while (current->type == 11)
+		{
+			current = current->next;
+			continue ;
+		}
+		if (flag == 1 && current->type == TOKEN_DOLLAR)
+		{
+			current->type = TOKEN_COMMAND;
+			flag = 0;
+			current = current->next;
+			continue ;
+		}
+		if (flag == 1 && current->type != TOKEN_DOLLAR)
+		{
+			flag = 0;
+			current = current->next;
+			continue ;
+		}
+		if (current->type == TOKEN_PIPE)
+		{
+			flag = 1;
+			current = current->next;
+			continue ;
+		}
+		current = current->next;
+	}
+}
+
 int	expand_var(t_token **tkn_lst, t_data **data)
 {
 	t_token	*current;
@@ -135,6 +171,7 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 	current = (*tkn_lst);
 	cmd_in_qt(current);
 	current = (*tkn_lst);
+	doll_to_cmd(tkn_lst);
 	return (0);
 }
 
