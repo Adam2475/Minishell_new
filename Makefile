@@ -9,13 +9,13 @@ SRCS = main init tokenizer/lexer exit_handle \
 		tokenizer/lexer_utils tokenizer/token_utils \
 		main_utils parser/parser parser/parser_utils \
 		executor/exec executor/exec_utils redirect/redirect \
-		expander env_list executor/pipe_case \
+		expander env_list executor/pipe_case builtin/chdir_utils \
 		builtin/chdir builtin/builtin executor/pipe_utils \
 		builtin/exit builtin/echo builtin/export builtin/unset \
 		builtin/pwd builtin/env redirect/signal_heredoc redirect/expander_doc \
-		signals get_next_line get_next_line_utils \
-		builtin/utils_builtin executor/exec_utils2 builtin/export_utils \
-		helper_function executor/exec_utils3 \
+		signals get_next_line get_next_line_utils builtin/utils_builtin2 \
+		builtin/utils_builtin builtin/export_utils2 executor/exec_utils2 builtin/export_utils \
+		helper_function executor/exec_utils3 builtin/exit_utils \
 
 SRC = $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRCS)))
 # Object file generation

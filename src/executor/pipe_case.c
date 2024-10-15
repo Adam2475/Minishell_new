@@ -47,11 +47,29 @@ t_token	*create_token(t_token_type type, char *value)
 	return (new_token);
 }
 
+static	int	copy_mtx2_pt2(t_data **data, int i)
+{
+	t_env_list	*node;
+	int			j;
+
+	(*data)->env_p = ft_calloc(sizeof(char *), i + 1);
+	if (!(*data)->env_p)
+		return (1);
+	node = (*data)->env_list;
+	j = 0;
+	while (node && j < i)
+	{
+		(*data)->env_p[j] = ft_strndup(node->content, ft_strlen(node->content));
+		node = node->next;
+		j++;
+	}
+	return (0);
+}
+
 static	void copy_mtx2(t_data **data)
 {
 	t_env_list	*node;
 	int			i;
-	int			j;
 
 	i = 0;
 	node = (*data)->env_list;
@@ -68,17 +86,8 @@ static	void copy_mtx2(t_data **data)
 			node = node->next;
 		}
 	}
-	(*data)->env_p = ft_calloc(sizeof(char *), i + 1);
-	if (!(*data)->env_p)
-		return ;
-	node = (*data)->env_list;
-	j = 0;
-	while (node && j < i)
-	{
-		(*data)->env_p[j] = ft_strndup(node->content, ft_strlen(node->content));
-		node = node->next;
-		j++;
-	}
+	if (copy_mtx2_pt2(data, i))
+		perror("");
 }
 
 static	int	child_process_pipe(char **envp, t_data **data,
