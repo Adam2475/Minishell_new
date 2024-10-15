@@ -69,25 +69,27 @@ int	join_to_env(t_token *arg, t_data **data)
 	char		*tmp2;
 
 	node = (*data)->env_list;
-	tmp = NULL;
+	tmp = tmp_set(arg->value);
 	while (node)
 	{
-		if (ft_strncmp(node->var, arg->value,
-				ft_strlen_char(arg->value, '+') - 1) == 0)
+		if (ft_strlen(tmp) > 2 && ft_strncmp(node->var, arg->value,
+				(ft_strlen(tmp) - 2)) == 0)
+			break ;
+		if (ft_strlen(tmp) < 2 && ft_strncmp(node->var, arg->value,
+				(ft_strlen(tmp) - 1)) == 0)
 			break ;
 		else if (!node->next)
 			break ;
 		node = node->next;
 	}
 	if (!util_join_to_env(node, arg, data))
-		return (0);
+		return (free(tmp), 0);
 	tmp2 = ft_substr(arg->value, ft_strlen_char(arg->value, '='),
 			ft_strlen(arg->value));
+	ft_free_null(tmp);
 	tmp = node->value;
 	node->value = ft_strjoin(node->value, tmp2);
-	free(tmp);
-	free(tmp2);
-	return (0);
+	return (free(tmp), free(tmp2), 0);
 }
 
 static	void	print_exp_env(t_data **data)
@@ -131,7 +133,7 @@ int	export_cmd(t_data **data, t_token **tkn)
 	current = copy;
 	flag = check_for_flag(tkn);
 	if (inutil_exp(data, &current, &copy))
-		return (write(2, "not a valid identifier\n", 24),
+		return (free_list(copy), write(2, "not a valid identifier\n", 24),
 				g_err_state = 1, errno = 1, 1);
 	if (flag == 0)
 		print_exp_env(data);

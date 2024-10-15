@@ -85,7 +85,8 @@ static	int	child_process(char **cmd_args, t_data **data,
 	{
 		(*data)->cmd2 = trim_quotes((*data)->cmd2);
 		errno = errno % 256;
-		if (execve((*data)->cmd2, cmd_args, envp) != 0)
+		copy_mtx1(data);
+		if (execve((*data)->cmd2, cmd_args, (*data)->env_p) != 0)
 			exec_exit(data, tokens, 126);
 	}
 	else

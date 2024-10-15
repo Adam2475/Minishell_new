@@ -23,9 +23,13 @@ static	int	ft_isalpha_plus(char *str)
 			i++;
 		else if (str[i] == '_')
 			i++;
-		else if (str[i] != '\0' && str[i] != '=')
+		else if (str[i] != '\0' && str[i] != '=' && str[i] != '+')
 			return (1);
-		else if (str[0] == '=')
+		else if (str[0] == '=' || str[0] == '+')
+			return (1);
+		else if (str[i] == '+' && str[i + 1] == '=')
+			return (0);
+		else if (str[i] == '+' && str[i + 1] != '=')
 			return (1);
 		else if (str[i] == '\0' || str[i] == '=')
 			return (0);
