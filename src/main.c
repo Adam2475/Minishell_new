@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/13 18:07:49 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:09:44 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ int	main(int argc, char **argv, char **envp)
 // program should not work
 // absolute command
 // env | sort | grep -v SHLVL | grep -v ^_
-
 ////////////////////////////////////////////////
 // Correction Sheet
 // /bin/ls | OK
@@ -158,7 +157,6 @@ int	main(int argc, char **argv, char **envp)
 // ctrl + C + D + /
 // echo "cat lol.c | cat > lol.c"
 // echo '$USER'
-
+/////////////////////////////////////////////////
 // TODO : Norme
 // TODO : $? expansion to fix
-

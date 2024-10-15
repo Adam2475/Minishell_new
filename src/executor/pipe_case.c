@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/14 17:48:40 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:11:07 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ int	pipe_case(t_token **tokens, t_data **data,
 		}
 		parent_process2(data, i, (*data)->end, parent[i]);
 		current = current->next;
-		//printf("%d\n", i);
 	}
 	while(i >= 0)
 	{
