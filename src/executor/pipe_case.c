@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 14:11:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:17:15 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,13 @@ static	void copy_mtx2(t_data **data)
 static	int	child_process_pipe(char **envp, t_data **data,
 	t_token *tokens, t_token **tkn)
 {
-	char		*holder;
 	t_token		*new_tokens;
 
 	new_tokens = extract_command_and_appendices(data, tokens);
-	holder = token_to_command(new_tokens);
+	(*data)->command2 = token_to_command(new_tokens);
 	envp = NULL;
-	//print_tokens(new_tokens);
 	if (!((*data)->fd < 0) && !envp)
 	{
-		//(*data)->redi_multi_flag = 1;
 		if ((*data)->redirect_state == 1)
 		{
 			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
@@ -116,7 +113,7 @@ static	int	child_process_pipe(char **envp, t_data **data,
 	}
 	free_list(new_tokens);
 	copy_mtx2(data);
-	execute_command(holder, data, (*data)->env_p, tkn, &tokens);
+	execute_command(data, (*data)->env_p, tkn, &tokens);
 	free_char_array((*data)->env_p);
 	exit (EXIT_FAILURE);
 }
@@ -141,6 +138,14 @@ static	void	init_pipe(t_data **data, t_token **tokens, int *i)
 	(*data)->end = ft_calloc(sizeof(int), (*data)->pipes * 2);
 }
 
+static	void	pipe_helper(t_token **tokens, t_data **data, t_token_list *current, int i)
+{
+	setup_pipe(data, i, (*data)->prev_fd, (*data)->end);
+	close_pipes((*data)->end, (*data)->pipes);
+	if (redirect_parser(data, current->head, tokens))
+		exec_exit3(data, tokens, (*data)->end, write(2, "not a file or directory!\n", 26));
+	ft_tokenadd_back(&current->head, ft_lstnewtoken(7, NULL));
+}
 
 int	pipe_case(t_token **tokens, t_data **data,
 	char **envp, t_token_list **token_list)
@@ -160,22 +165,14 @@ int	pipe_case(t_token **tokens, t_data **data,
 		if (parent[i] == 0)
 		{
 			free(parent);
-			setup_pipe(data, i, (*data)->pipes, (*data)->prev_fd, (*data)->end);
-			close_pipes((*data)->end, (*data)->pipes);
-			if (redirect_parser(data, current->head, tokens))
-				exec_exit3(data, tokens, (*data)->end, write(2, "not a file or directory!\n", 26));
-			ft_tokenadd_back(&current->head, ft_lstnewtoken(7, NULL));
+			pipe_helper(tokens, data, current, i);
 			child_process_pipe(envp, data, current->head, tokens);
 		}
 		parent_process2(data, i, (*data)->end, parent[i]);
 		current = current->next;
 	}
 	while(i >= 0)
-	{
-		wait(NULL);
-		// waitpid(parent[i], NULL, 0);
-		i--;
-	}
+		waitpid(parent[i--], NULL, 0);
 	free(parent);
 	return (free_char_array((*data)->env_p), free((*data)->end), 0);
 }

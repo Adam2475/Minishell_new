@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 18:13:56 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:45:41 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,16 @@ void	close_pipes(int *end, int pipes)
 	}
 }
 
-void	setup_pipe(t_data **data, int i, int pipes, int prev_fd, int *end)
+void	setup_pipe(t_data **data, int i, int prev_fd, int *end)
 {
+	int	pipes;
+
+	pipes = count_pipes((*data)->tokens);
 	if (i > 0)
 	{
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
 	if (i < pipes)
-	{
-		//(*data)->fd_tmp = dup(STDOUT_FILENO);
 		dup2(end[i * 2 + 1], STDOUT_FILENO);
-	}
 }

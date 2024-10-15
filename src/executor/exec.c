@@ -17,6 +17,21 @@ static	int	copy_mtx1_pt2(t_data **data, int i)
 	t_env_list	*node;
 	int			j;
 
+	i = 0;
+	node = (*data)->env_list;
+	while (node)
+	{
+		if (!node->next)
+		{
+			i++;
+			break;
+		}
+		else
+		{
+			i++;
+			node = node->next;
+		}
+	}
 	(*data)->env_p = ft_calloc(sizeof(char *), i + 1);
 	if (!(*data)->env_p)
 		return (0);

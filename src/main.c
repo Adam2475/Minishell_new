@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 14:09:44 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:43:39 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	main(int argc, char **argv, char **envp)
 	if (init_data(&data, argc, argv, &tokens) > 0)
 		return (1);
 	flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-	//fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 	if (!envp)
 		return (1);
 	gen_list_env(&data, envp);
@@ -102,7 +101,6 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		//print_tokens(tokens);
 		env_parser(&data, envp);
 		command_init(data, tokens, envp);
 	}
@@ -115,7 +113,7 @@ int	main(int argc, char **argv, char **envp)
 // t_token *result; = NULL; | OK
 // "/usr/bin/ls" | OK
 // "           "  (only as second command) | OK
-////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
 // Single Command:
 // echo ciao | OK
 // echo -nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn ciao | OK
@@ -142,13 +140,8 @@ int	main(int argc, char **argv, char **envp)
 // cat src/main.c | cat src/init.c | OK
 // env | sort | grep -v SHLVL | grep -v ^_ | OK
 // < out env | sort | grep -v SHLVL | grep -v ^_ | OK
-// out < env | sort | grep -v SHLVL | grep -v ^_ | segfault
-////////////////////////////////////////////////
-// unset $PATH
-// program should not work
-// absolute command
-// env | sort | grep -v SHLVL | grep -v ^_
-////////////////////////////////////////////////
+// out < env | sort | grep -v SHLVL | grep -v ^_ | OK
+//////////////////////////////////////////////////////////
 // Correction Sheet
 // /bin/ls | OK
 // "/bin/ls" src | OK
@@ -157,6 +150,6 @@ int	main(int argc, char **argv, char **envp)
 // ctrl + C + D + /
 // echo "cat lol.c | cat > lol.c"
 // echo '$USER'
-/////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
 // TODO : Norme
 // TODO : $? expansion to fix
