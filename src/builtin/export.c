@@ -87,40 +87,8 @@ int	join_to_env(t_token *arg, t_data **data)
 	tmp2 = ft_substr(arg->value, ft_strlen_char(arg->value, '='),
 			ft_strlen(arg->value));
 	ft_free_null(tmp);
-	tmp = node->value;
-	node->value = ft_strjoin(node->value, tmp2);
-	return (free(tmp), free(tmp2), 0);
-}
-
-static	void	print_exp_env(t_data **data)
-{
-	t_env_list	*node;
-
-	node = (*data)->env_list;
-	while (node)
-	{
-		ft_printf("declare -x %s\"%s\"\n", node->var, node->value);
-		if (node->next)
-			node = node->next;
-		else
-			break ;
-	}
-}
-
-static	int	check_for_flag(t_token **tkn)
-{
-	t_token	*node;
-
-	node = *tkn;
-	while (node && node->type != TOKEN_EOF)
-	{
-		if (node->type != 12 && node->type != 3
-			&& node->type != 3 && node->type != 4
-			&& node->type != 2 && node->type != 6)
-			return (1);
-		node = node->next;
-	}
-	return (0);
+	return (tmp = node->value, node->value = ft_strjoin(node->value, tmp2),
+		free(tmp), free(tmp2), 0);
 }
 
 int	export_cmd(t_data **data, t_token **tkn)
@@ -134,7 +102,7 @@ int	export_cmd(t_data **data, t_token **tkn)
 	flag = check_for_flag(tkn);
 	if (inutil_exp(data, &current, &copy))
 		return (free_list(copy), write(2, "not a valid identifier\n", 24),
-				g_err_state = 1, errno = 1, 1);
+			g_err_state = 1, errno = 1, 1);
 	if (flag == 0)
 		print_exp_env(data);
 	free_list(copy);

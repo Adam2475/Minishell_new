@@ -27,10 +27,10 @@ int	env_cmd(t_data **data)
 			tkn = tkn->next;
 		else if (tkn->type != TOKEN_DOLLAR)
 			return (g_err_state = 127, errno = 127,
-					write(2, "Not file or directory\n", 23), 0);
+				write(2, "Not file or directory\n", 23), 0);
 		else if (tkn->type == TOKEN_DOLLAR)
 			return (g_err_state = 126, errno = 126,
-					write(2, "Permission denied\n", 19), 0);
+				write(2, "Permission denied\n", 19), 0);
 	}
 	while (node != NULL)
 	{

@@ -12,27 +12,11 @@
 
 #include "../../inc/minishell.h"
 
-static	int copy_mtx1(t_data **data)
+static	int	copy_mtx1_pt2(t_data **data, int i)
 {
 	t_env_list	*node;
-	int			i;
 	int			j;
 
-	i = 0;
-	node = (*data)->env_list;
-	while (node)
-	{
-		if (!node->next)
-		{
-			i++;
-			break;
-		}
-		else
-		{
-			i++;
-			node = node->next;
-		}
-	}
 	(*data)->env_p = ft_calloc(sizeof(char *), i + 1);
 	if (!(*data)->env_p)
 		return (0);
@@ -47,11 +31,35 @@ static	int copy_mtx1(t_data **data)
 	return (1);
 }
 
+static	int	copy_mtx1(t_data **data)
+{
+	t_env_list	*node;
+	int			i;
+
+	i = 0;
+	node = (*data)->env_list;
+	while (node)
+	{
+		if (!node->next)
+		{
+			i++;
+			break ;
+		}
+		else
+		{
+			i++;
+			node = node->next;
+		}
+	}
+	if (!copy_mtx1_pt2(data, i))
+		return (0);
+	return (1);
+}
+
 int	exec_exit(t_data **data, t_token **tokens, int print)
 {
 	errno = print;
 	g_err_state = errno;
-
 	if ((*data)->fd >= 0)
 		close((*data)->fd);
 	if ((*data)->saved_fd >= 0)
@@ -101,7 +109,6 @@ static	int	parent_process(void)
 	waitpid(-1, &status, 0);
 	return (status);
 }
-
 
 void	execute_command_single(char **command, t_data **data,
 		char **envp, t_token **tokens)

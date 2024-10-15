@@ -158,6 +158,8 @@ int				ft_strsearch(char *str, int c);
 // export
 int				util_exp(t_data **data, t_token **current, t_token **tkn);
 int				inutil_exp(t_data **data, t_token **current, t_token **tkn);
+void			print_exp_env(t_data **data);
+int				check_for_flag(t_token **tkn);
 int				conf_man_cmd(char *str);
 void			ft_remove_ws(t_token **token);
 // void			util_join_in_qt(t_token *tkn,
@@ -172,6 +174,9 @@ void			clean_qt(t_token **tkn);
 int				compare_path(char *str);
 // chdir
 int				cd_cmd(t_data **data, t_token **tkn);
+int				cd_minus(t_token *current, t_data **data);
+int				cd_tilde(t_token *current, t_data **data);
+int				cd_null(t_token *current, t_data **data);
 // echo
 int				echo_cmd(t_token **tkn);
 // pwd
@@ -180,7 +185,10 @@ int				pwd_cmd(void);
 int				env_cmd(t_data **data);
 // exit
 int				cmd_exit(t_data **data, t_token **token);
+int				ft_too_long(char *val, t_data **data, t_token **token);
 int				init_execution(t_data **data, int *i);
+void			*ft_check_lon(char *s);
+void			free_exit_cmd(t_data **data, t_token *tokens);
 // free functions
 void			ft_free_null(void *null);
 void			free_node_env(t_env_list *node);
