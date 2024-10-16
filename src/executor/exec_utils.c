@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/08 17:52:41 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:19:04 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ static	void	helper3(char *cmd)
 	}
 }
 
+static	void	check_cmd_free(char *holder, char *tmp)
+{
+	if (holder)
+		ft_free_null(holder);
+	if (tmp)
+		ft_free_null(tmp);
+}
+
 char	*find_cmd(char *cmd, t_data **data)
 {
 	int		i;
@@ -65,7 +73,7 @@ char	*find_cmd(char *cmd, t_data **data)
 	i = 0;
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
-	while ((*data)->merdoso == 0 &&  (*data)->my_paths[i])
+	while ((*data)->merdoso == 0 && (*data)->my_paths[i])
 	{
 		tmp2 = ft_strdup((*data)->my_paths[i++]);
 		tmp = ft_strjoin(tmp2, "/");
@@ -77,10 +85,7 @@ char	*find_cmd(char *cmd, t_data **data)
 		holder = trim_quotes(holder);
 		if (access(holder, X_OK) == 0)
 			return (ft_free_null(tmp), holder);
-		if (holder)
-			ft_free_null(holder);
-		if (tmp)
-			ft_free_null(tmp);
+		check_cmd_free(holder, tmp);
 	}
 	helper3(cmd);
 	return (NULL);

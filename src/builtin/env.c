@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:08:15 by marco             #+#    #+#             */
-/*   Updated: 2024/10/10 17:59:02 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:03:39 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	env_cmd(t_data **data)
 	{
 		if (tkn->type == TOKEN_WHITESPACE)
 			tkn = tkn->next;
-		else if (tkn->type != TOKEN_DOLLAR)
+		else if (tkn->type != TOKEN_DOLLAR && tkn->type != 2)
 			return (g_err_state = 127, errno = 127,
 				write(2, "Not file or directory\n", 23), 0);
 		else if (tkn->type == TOKEN_DOLLAR)

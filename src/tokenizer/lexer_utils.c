@@ -1,4 +1,4 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 09:16:30 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:58:36 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_token	*token_reformatting_pipe(t_token *current)
 		if (current && current->next && current->type != TOKEN_PIPE)
 			current = current->next;
 	}
-	// CAMBIO PROVA
 	if (current->type == 9 || current->type == 10)
 		current = current->next;
 	return (current);

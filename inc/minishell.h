@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:26:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:28:09 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,6 @@ void			print_exp_env(t_data **data);
 int				check_for_flag(t_token **tkn);
 int				conf_man_cmd(char *str);
 void			ft_remove_ws(t_token **token);
-// void			util_join_in_qt(t_token *tkn,
-// 					t_token *current, t_token_type type, char *tmp);
 void			join_in_qt_exp(t_token *tkn);
 void			join_in_qt(t_token *tkn, t_token_type type, int flag);
 int				export_cmd(t_data **data, t_token **tkn);
@@ -224,7 +222,7 @@ char			*trim_whitespace(char *str);
 char			*trim_quotes(char *str);
 void			free_tokens_helper(t_data **data);
 
-///////////
+///////////////////////////////////////////////////////////////////
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strchr(const char *string, int searchedChar );
 void			ft_bzero(void *s, size_t n);
@@ -237,12 +235,12 @@ char			*get_next_line2(int fd);
 void			free_token(t_token *token);
 void			do_pipe(t_data *data, t_token *tokens, char **envp);
 
-////////////////////////
+////////////////////////////////////////////////////////////////////
 void			print_tokens(t_token *tokens);
 int				helper_function2(t_token **current,
 					t_token_type type, t_token **tkn);
 
-////////////////////////
+////////////////////////////////////////////////////////////////////
 int				is_whitespace(const char *str);
 void			remove_whitespace_nodes(t_token **head);
 void			heredoc_unlink(t_data **data);
@@ -251,7 +249,7 @@ void			print_list(t_token *head);
 void			free_token_list2(t_token_list *list);
 void			free_token_segment(t_token *token_segment);
 
-/////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
 t_token			*copy_till_pipe(t_data **data);
 t_token			*copy_token_segment(t_token *start, t_token *end);
@@ -286,5 +284,20 @@ void			init_extraction(t_token **result, t_token **current,
 					t_data **data, t_token *tokens);
 void			command_init(t_data *data, t_token *tokens, char **envp);
 int				exec_exit(t_data **data, t_token **tokens, int print);
+int				is_whitespace(const char *str);
+int				ft_isspace(int c);
+void			manual_helper(t_data **data, t_token **tkn,
+					char **cmd_args);
+int				exec_exit2(t_data **data, t_token **tokens,
+					char **cmd_args, int print);
+void			command_single_helper(t_data **data);
+char			*command_single_finder(int *i,
+					t_data **data, char **command);
+void			pipe_helper(t_token **tokens, t_data **data,
+					t_token_list *current, int i);
+void			pipe_opener(t_data **data, int *end);
+void			init_pipe(t_data **data, t_token **tokens, int *i);
+int				exec_exit3(t_data **data, t_token **tokens,
+					int *end, int print);
 
 #endif

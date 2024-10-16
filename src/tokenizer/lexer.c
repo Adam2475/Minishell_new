@@ -6,11 +6,20 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/14 18:18:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:58:07 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static	int	check_type(t_token *current)
+{
+	if (current && current->type != 0 && current->type != 1
+		&& current->type != 11)
+		return (1);
+	else
+		return (0);
+}
 
 void	token_reformatting(t_token **tokens)
 {
@@ -31,13 +40,11 @@ void	token_reformatting(t_token **tokens)
 			current = token_reformatting_pipe(current);
 		if (current->type == TOKEN_DOLLAR)
 			current = current->next;
-		if (current && current->type != TOKEN_WORD
-			&& current->type != TOKEN_OPTION
-			&& current->type != 11)
+		if (check_type(current) > 0)
 			current = token_reformatting_special(current);
 		if (current && current->type == TOKEN_WORD)
 			current = token_reformatting_command(current);
-		else if (current && current->type != TOKEN_PIPE && current->type != TOKEN_HEREDOC)
+		else if (current && current->type != 2 && current->type != 6)
 			current = current->next;
 	}
 	current = head;
@@ -94,13 +101,4 @@ void	recognizer(char *buffer, t_token **tokens,
 		buffer = end;
 	}
 	ft_tokenadd_back(tokens, ft_lstnewtoken(7, ft_strndup(buffer, *buffer)));
-}
-
-int	init_state(t_data **data, t_token **tokens, char *tmp)
-{
-	if (data)
-		*tokens = NULL;
-	if (!tmp)
-		return (1);
-	return (0);
 }
