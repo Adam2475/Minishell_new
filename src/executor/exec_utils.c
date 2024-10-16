@@ -41,10 +41,18 @@ char	*trim_quotes(char *str)
 
 static	void	helper3(char *cmd)
 {
-	write(2, "command not found: ", 20);
-	write(2, cmd, ft_strlen(cmd));
-	write(2, "\n", 1);
-	errno = 127;
+	if (errno == 13)
+	{
+		perror("");
+		g_err_state = 126;
+	}
+	else
+	{
+		write(2, "command not found: ", 20);
+		write(2, cmd, ft_strlen(cmd));
+		write(2, "\n", 1);
+		g_err_state = 127;
+	}
 }
 
 char	*find_cmd(char *cmd, t_data **data)

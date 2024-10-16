@@ -153,13 +153,13 @@ int	pipe_case(t_token **tokens, t_data **data,
 	pid_t			*parent;
 	t_token_list	*current;
 
-	parent = (pid_t *)ft_calloc(sizeof(pid_t), (count_pipes(*tokens) + 1));
+	parent = (pid_t *)ft_calloc(sizeof(pid_t), (count_pipes(*tokens) + 2));
 	init_pipe(data, tokens, &i);
 	current = *token_list;
 	pipe_opener(data, (*data)->end);
 	while (++i <= (*data)->pipes)
 	{
-		remove_whitespace_nodes(&current->head);
+		// remove_whitespace_nodes(&current->head);
 		parent[i] = fork();
 		if (parent[i] == 0)
 		{
