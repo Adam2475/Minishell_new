@@ -101,13 +101,15 @@ int	handle_heredoc(char *delimiter, t_data **data)
 		if (g_err_state == 130)
 			return (0);
 		line = readline("> ");
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		if (line == NULL)
 			break ;
 		if (!line)
 		{
 			free(line);
 			continue ;
 		}
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)))
+			break ;
 		if (ft_strsearch(line, '$'))
 			line = expander_doc(line, data);
 		write((*data)->fd, line, ft_strlen(line));

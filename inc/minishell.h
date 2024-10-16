@@ -277,9 +277,9 @@ void			close_pipes(int *end, int pipes);
 void			append_token(t_token **list, t_token *new_token);
 t_token			*create_token(t_token_type type, char *value);
 int				init_state(t_data **data, t_token **tokens, char *tmp);
-void			recognizer(char *buffer, t_token **tokens,
+int				recognizer(char *buffer, t_token **tokens,
 					char *end, t_data **data);
-void			token_reformatting(t_token **tokens);
+int				token_reformatting(t_token **tokens);
 void			token_builder(t_token **tokens, char *buffer,
 					char *end, int flag);
 int				find_special(char c);

@@ -106,6 +106,30 @@ int	main(int argc, char **argv, char **envp)
 	}
 }
 
+// static	int	syntax_lexer(t_token **token)
+// {
+// 	t_token			*tkn;
+// 	t_token_type	type;
+
+// 	tkn = (*token);
+// 	print_tokens(tkn);
+// 	while (tkn && tkn->type != 7 && tkn->type != 1 && tkn->type != 0)
+// 		tkn = tkn->next;
+// 	if (tkn->type == 2)
+// 		return (write(2, "syntax error\n", 14), g_err_state = 2, 1);
+// 	type = tkn->type;
+// 	return (0);
+// 	// while (tkn && tkn->type != 7)
+// 	// {		
+// 	// 	if (tkn->type == 6)
+
+
+// 	// }
+// }
+
+// 	if (syntax_check(tokens))
+// 		return (1);
+
 // Edge Cases:
 // diomerda | OK
 // = current_list->head; | OK

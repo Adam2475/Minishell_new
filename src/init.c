@@ -109,11 +109,11 @@ int	tokenizer(t_data **data, t_token **tokens)
 	}
 	buffer = tmp;
 	end = buffer;
-	recognizer(buffer, tokens, end, data);
-	token_reformatting(tokens);
+	if (recognizer(buffer, tokens, end, data) || token_reformatting(tokens))
+		return (free(tmp), 1);
 	join_in_qt_tk(tokens);
 	if (check_quotes(tokens) != 0)
-		return (1);
+		return (free(tmp), 1);
 	expand_var(tokens, data);
 	(*data)->tokens = copy_token_list(data, *tokens);
 	return (free(tmp), 0);

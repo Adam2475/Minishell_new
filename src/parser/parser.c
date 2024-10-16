@@ -104,7 +104,7 @@ int	token_parser(t_token **tokens, t_data **data)
 		if ((*data)->heredoc_flag == 0)
 		{
 			if (redirect_parser(data, current, tokens) > 0)
-				return (errno = 2, write(2, "command not found!\n", 20), 1);
+				return (g_err_state = 2, errno = 2, strerror(errno), 1);
 		}
 		if (current->type == 12 || current->type == 14)
 		{

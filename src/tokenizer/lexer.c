@@ -21,13 +21,96 @@ static	int	check_type(t_token *current)
 		return (0);
 }
 
-void	token_reformatting(t_token **tokens)
+
+// static	int	syntax_lexer(t_token **token)
+// {
+// 	t_token			*tkn;
+// 	t_token_type	type;
+
+// 	tkn = (*token);
+// 	print_tokens(tkn);
+// 	while (tkn && tkn->type == 11)
+// 		tkn = tkn->next;
+// 	if (tkn->type == 2)
+// 		return (write(2, "syntax error\n", 14), g_err_state = 2, 1);
+// 	if (tkn && tkn->type == 7)
+// 		return (1);
+// 	type = tkn->type;
+// 	while (tkn && tkn->type != )
+// 	return (0);
+// 	// while (tkn && tkn->type != 7)
+// 	// {		
+// 	// 	if (tkn->type == 6)
+
+
+// 	// }
+// }
+
+static	bool is_valid_token_sequence(t_token_type prev_type, t_token_type curr_type)
+{
+    if (prev_type == TOKEN_PIPE && curr_type == TOKEN_PIPE) {
+        // Errore: due pipe consecutive
+        return false;
+    }
+    if (prev_type == TOKEN_REDIRECT_OUT && (curr_type == TOKEN_PIPE
+		|| curr_type == TOKEN_REDIRECT_OUT || curr_type == TOKEN_APPEND)) {
+        // Errore: ridirezione seguita da un'altra ridirezione o pipe
+        return false;
+    }
+    if (prev_type == TOKEN_REDIRECT_IN && curr_type == TOKEN_REDIRECT_IN) {
+        // Errore: doppia ridirezione in
+        return false;
+    }
+    if (prev_type == TOKEN_HEREDOC && curr_type == TOKEN_REDIRECT_IN) {
+        // Errore: heredoc e redir in
+        return false;
+    }
+    if (prev_type == TOKEN_HEREDOC && curr_type == TOKEN_REDIRECT_OUT) {
+        // Errore: heredoc e redir out
+        return false;
+    }
+    if (prev_type == TOKEN_APPEND && (curr_type == TOKEN_HEREDOC 
+		|| curr_type == TOKEN_REDIRECT_IN || curr_type == TOKEN_REDIRECT_OUT)) {
+        // Errore: heredoc e redir out
+        return false;
+    }
+    // Aggiungere altre regole di sintassi qui
+    return true;
+}
+
+static	int check_syntax_errors(t_token *tokens)
+{
+    t_token *current = tokens;
+    t_token *previous = NULL;
+
+	while (current != NULL && current->type != 7)
+	{
+		if (previous == NULL && current->type == TOKEN_PIPE)
+			return (1);
+		if (previous != NULL && !is_valid_token_sequence(previous->type, current->type))
+			return (1);
+		if (current->next && current->type != 7 && current->type == 11)
+		{
+			current = current->next;
+			continue ;
+		}
+		previous = current;
+		current = current->next;
+	}
+	if ((current == NULL || current->type == 7) && previous->type == 2)
+		return (1);
+	return (0);
+}
+
+int	token_reformatting(t_token **tokens)
 {
 	t_token		*head;
 	t_token		*current;
 
 	head = *tokens;
 	current = *tokens;
+	if (check_syntax_errors(*tokens) == false)
+		return (write(2, "syntax error\n", 14), g_err_state = 2, 1);
 	while (current && current->type != TOKEN_EOF)
 	{
 		while (current->type == TOKEN_WHITESPACE)
@@ -35,7 +118,7 @@ void	token_reformatting(t_token **tokens)
 		while (current->type == TOKEN_DOUBLE_QUOTES)
 			current = current->next;
 		if ((current && current->type == TOKEN_EOF) || current == NULL)
-			return ;
+			return (1);
 		if (current && current->type == TOKEN_PIPE)
 			current = token_reformatting_pipe(current);
 		if (current->type == TOKEN_DOLLAR)
@@ -48,6 +131,7 @@ void	token_reformatting(t_token **tokens)
 			current = current->next;
 	}
 	current = head;
+	return (0);
 }
 
 int	find_special(char c)
@@ -74,7 +158,7 @@ void	token_builder(t_token **tokens, char *buffer, char *end, int flag)
 	}
 }
 
-void	recognizer(char *buffer, t_token **tokens,
+int	recognizer(char *buffer, t_token **tokens,
 		char *end, t_data **data)
 {
 	while (*buffer)
@@ -101,4 +185,5 @@ void	recognizer(char *buffer, t_token **tokens,
 		buffer = end;
 	}
 	ft_tokenadd_back(tokens, ft_lstnewtoken(7, ft_strndup(buffer, *buffer)));
+	return (0);
 }
