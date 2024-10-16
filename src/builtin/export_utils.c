@@ -39,9 +39,9 @@ static	int	ft_isalpha_plus(char *str)
 
 int	util_exp(t_data **data, t_token **current, t_token **tkn)
 {
-	int		flag;
+	//int		flag;
 
-	flag = 0;
+	//flag = 0;
 	if ((*current)->value && ft_isalpha_plus((*current)->value)
 		&& (*current)->type != TOKEN_WHITESPACE)
 		return (unset_env(tkn, &(*data)->env_list), 1);

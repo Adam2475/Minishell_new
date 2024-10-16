@@ -21,31 +21,6 @@ static	int	check_type(t_token *current)
 		return (0);
 }
 
-
-// static	int	syntax_lexer(t_token **token)
-// {
-// 	t_token			*tkn;
-// 	t_token_type	type;
-
-// 	tkn = (*token);
-// 	print_tokens(tkn);
-// 	while (tkn && tkn->type == 11)
-// 		tkn = tkn->next;
-// 	if (tkn->type == 2)
-// 		return (write(2, "syntax error\n", 14), g_err_state = 2, 1);
-// 	if (tkn && tkn->type == 7)
-// 		return (1);
-// 	type = tkn->type;
-// 	while (tkn && tkn->type != )
-// 	return (0);
-// 	// while (tkn && tkn->type != 7)
-// 	// {		
-// 	// 	if (tkn->type == 6)
-
-
-// 	// }
-// }
-
 static	bool is_valid_token_sequence(t_token_type prev_type, t_token_type curr_type)
 {
     if (prev_type == TOKEN_PIPE && curr_type == TOKEN_PIPE) {
@@ -69,7 +44,7 @@ static	bool is_valid_token_sequence(t_token_type prev_type, t_token_type curr_ty
         // Errore: heredoc e redir out
         return false;
     }
-    if (prev_type == TOKEN_APPEND && (curr_type == TOKEN_HEREDOC 
+    if (prev_type == TOKEN_APPEND && (curr_type == TOKEN_HEREDOC
 		|| curr_type == TOKEN_REDIRECT_IN || curr_type == TOKEN_REDIRECT_OUT)) {
         // Errore: heredoc e redir out
         return false;
@@ -109,7 +84,8 @@ int	token_reformatting(t_token **tokens)
 
 	head = *tokens;
 	current = *tokens;
-	if (check_syntax_errors(*tokens) == false)
+	// fra diocane hai comparato un booleano ad un intero
+	if (check_syntax_errors(*tokens) > 0)
 		return (write(2, "syntax error\n", 14), g_err_state = 2, 1);
 	while (current && current->type != TOKEN_EOF)
 	{

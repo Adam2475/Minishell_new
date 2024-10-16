@@ -81,11 +81,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 	t_token		*tokens;
-	int			flags;
+	//int			flags;
 
 	if (init_data(&data, argc, argv, &tokens) > 0)
 		return (1);
-	flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+	//flags = fcntl(STDIN_FILENO, F_GETFL, 0);
 	if (!envp)
 		return (1);
 	gen_list_env(&data, envp);
@@ -101,6 +101,7 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
+		print_tokens(tokens);
 		env_parser(&data, envp);
 		command_init(data, tokens, envp);
 	}
@@ -120,7 +121,7 @@ int	main(int argc, char **argv, char **envp)
 // 	type = tkn->type;
 // 	return (0);
 // 	// while (tkn && tkn->type != 7)
-// 	// {		
+// 	// {
 // 	// 	if (tkn->type == 6)
 
 

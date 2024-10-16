@@ -106,7 +106,7 @@ void	execute_command_single(char **command, t_data **data,
 		t_token **tokens)
 {
 	pid_t	parent;
-	char	*holder;
+	//char	*holder;
 	int		i;
 
 	(*data)->saved_fd = -1;
@@ -116,8 +116,8 @@ void	execute_command_single(char **command, t_data **data,
 		return (errno = g_err_state, command_single_helper(data),
 			free((*data)->tmp9));
 	process_command2(data, command);
-	holder = NULL;
-	holder = command_single_finder(&i, data, command);
+	//holder = NULL;
+	//holder = command_single_finder(&i, data, command);
 	(*data)->cmd_args = ft_split((*data)->tmp9, 32);
 	free((*data)->tmp9);
 	parent = fork();
