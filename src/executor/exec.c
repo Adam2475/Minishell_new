@@ -24,7 +24,7 @@ static	int	copy_mtx1_pt2(t_data **data, int i)
 		if (!node->next)
 		{
 			i++;
-			break;
+			break ;
 		}
 		else
 		{
