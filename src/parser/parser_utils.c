@@ -6,24 +6,11 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/14 18:14:06 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:10:02 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	parser_case_redo(t_token *current, t_data **data)
-{
-	current = current->next;
-	(*data)->redirect_state = 1;
-	while (current && current->type == TOKEN_WHITESPACE)
-		current = current->next;
-	if (current && current->type == TOKEN_APPENDICE)
-		(*data)->fd = open(current->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	else
-		return (1);
-	return (0);
-}
 
 int	parser_case_redi(t_token *current, t_data **data)
 {
@@ -37,19 +24,6 @@ int	parser_case_redi(t_token *current, t_data **data)
 		if ((*data)->fd < 0)
 			return (1);
 	}
-	else
-		return (1);
-	return (0);
-}
-
-int	parser_case_append(t_token *current, t_data **data)
-{
-	current = current->next;
-	(*data)->redirect_state = 1;
-	while (current->type == TOKEN_WHITESPACE)
-		current = current->next;
-	if (current->type == TOKEN_APPENDICE)
-		(*data)->fd = open(current->value, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else
 		return (1);
 	return (0);
@@ -77,6 +51,13 @@ static	void	exit_free_heredoc(t_data **data, t_token **tokens)
 	exit(g_err_state);
 }
 
+static	void	heredoc_case_init(char *tmp, t_data **data)
+{
+	(*data)->fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0600);
+	(*data)->redirect_state = 0;
+	(*data)->heredoc_flag = 1;
+}
+
 int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 {
 	pid_t		parent;
@@ -86,11 +67,9 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 	current = current->next;
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
-	if (current->type == TOKEN_APPENDICE || current->type == TOKEN_COMMAND)
+	if (current->type == 13 || current->type == 12)
 	{
-		(*data)->fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0600);
-		(*data)->redirect_state = 0;
-		(*data)->heredoc_flag = 1;
+		heredoc_case_init(tmp, data);
 		parent = fork();
 		if (parent < 0)
 			exit(0);
@@ -99,8 +78,7 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 			handle_heredoc(current->value, data);
 			exit_free_heredoc(data, tokens);
 		}
-		if (parent)
-			parent_here_doc();
+		parent_here_doc();
 	}
 	else
 		return (ft_printf("syntax error after heredoc operator!\n"));

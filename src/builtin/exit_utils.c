@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 18:35:32 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:26:23 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	*ft_check_lon(char *s)
 	}
 	return (NULL);
 }
+
 int	ft_too_long(char *val, t_data **data, t_token **token)
 {
 	char	*ptr;
@@ -61,6 +62,5 @@ int	ft_too_long(char *val, t_data **data, t_token **token)
 		g_err_state = ft_atol(val);
 	errno = g_err_state;
 	free(ptr);
-	// free_exit_cmd(data, *token);
 	return (0);
 }

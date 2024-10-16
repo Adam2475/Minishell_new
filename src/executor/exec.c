@@ -21,16 +21,10 @@ static	int	copy_mtx1_pt2(t_data **data, int i)
 	node = (*data)->env_list;
 	while (node)
 	{
-		if (!node->next)
-		{
-			i++;
-			break;
-		}
+		if (i++ && !node->next)
+			break ;
 		else
-		{
-			i++;
 			node = node->next;
-		}
 	}
 	(*data)->env_p = ft_calloc(sizeof(char *), i + 1);
 	if (!(*data)->env_p)
@@ -69,23 +63,6 @@ static	int	copy_mtx1(t_data **data)
 	if (!copy_mtx1_pt2(data, i))
 		return (0);
 	return (1);
-}
-
-int	exec_exit(t_data **data, t_token **tokens, int print)
-{
-	errno = print;
-	if (g_err_state == 0 && print != 0)
-		g_err_state = errno;
-	if ((*data)->fd >= 0)
-		close((*data)->fd);
-	if ((*data)->saved_fd >= 0)
-		close((*data)->saved_fd);
-	close(STDOUT_FILENO);
-	free_env_list((*data)->env_list);
-	free_tokens(data, (*tokens));
-	free_char_array((*data)->env_p);
-	free((*data));
-	exit(g_err_state);
 }
 
 static	int	child_process(char **cmd_args, t_data **data,
@@ -136,24 +113,11 @@ void	execute_command_single(char **command, t_data **data,
 	init_execution(data, &i);
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
-	{
-		if ((*data)->saved_fd >= 0)
-		{
-			if ((*data)->redirect_state == 1)
-				dup2((*data)->saved_fd, STDOUT_FILENO);
-			else if ((*data)->redirect_state == 0)
-				dup2((*data)->saved_fd, STDIN_FILENO);
-			close((*data)->saved_fd);
-		}
-		return (errno = g_err_state, free((*data)->tmp9));
-	}
+		return (errno = g_err_state, command_single_helper(data),
+			free((*data)->tmp9));
 	process_command2(data, command);
 	holder = NULL;
-	while (command[i])
-	{
-		holder = ft_strjoin_gnl((*data)->tmp9, command[i++]);
-		(*data)->tmp9 = holder;
-	}
+	holder = command_single_finder(&i, data, command);
 	(*data)->cmd_args = ft_split((*data)->tmp9, 32);
 	free((*data)->tmp9);
 	parent = fork();
@@ -164,28 +128,4 @@ void	execute_command_single(char **command, t_data **data,
 	else
 		g_err_state = parent_process();
 	return ;
-}
-
-void	remove_whitespace_nodes(t_token **head)
-{
-	t_token	*current;
-	t_token	*prev;
-
-	current = *head;
-	prev = NULL;
-	while (current != NULL)
-	{
-		if (is_whitespace(current->value) && current->type != 14)
-		{
-			if (prev == NULL)
-				space_helper(head, &current, &prev, 0);
-			else
-				space_helper(head, &current, &prev, 1);
-		}
-		else
-		{
-			prev = current;
-			current = current->next;
-		}
-	}
 }

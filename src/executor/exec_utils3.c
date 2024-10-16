@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:29:18 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/10 18:12:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:10:59 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_token	*extract_command_and_appendices(t_data **data, t_token *tokens)
 	init_extraction(&result, &current, data, tokens);
 	while (current)
 	{
-		if (current->type == TOKEN_WHITESPACE || current->type == TOKEN_SINGLE_QUOTES
-			|| current->type == TOKEN_DOUBLE_QUOTES)
+		if (current->type == 11 || current->type == 10
+			|| current->type == 9)
 		{
 			current = current->next;
 			continue ;

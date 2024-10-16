@@ -6,15 +6,16 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:24:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:35:25 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static	int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
+int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 {
 	int	i;
+
 	i = 0;
 	print = 0;
 	g_err_state = errno;
@@ -31,19 +32,6 @@ static	int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	free((*data)->end);
 	free((*data));
 	exit(g_err_state);
-}
-
-t_token	*create_token(t_token_type type, char *value)
-{
-	t_token	*new_token;
-
-	new_token = (t_token *)malloc(sizeof(t_token));
-	if (!new_token)
-		return (NULL);
-	new_token->type = type;
-	new_token->value = ft_strndup(value, ft_strlen(value));
-	new_token->next = NULL;
-	return (new_token);
 }
 
 static	int	copy_mtx2_pt2(t_data **data, int i)
@@ -65,7 +53,7 @@ static	int	copy_mtx2_pt2(t_data **data, int i)
 	return (0);
 }
 
-static	void copy_mtx2(t_data **data)
+static	void	copy_mtx2(t_data **data)
 {
 	t_env_list	*node;
 	int			i;
@@ -77,7 +65,7 @@ static	void copy_mtx2(t_data **data)
 		if (!node->next)
 		{
 			i++;
-			break;
+			break ;
 		}
 		else
 		{
@@ -117,35 +105,6 @@ static	int	child_process_pipe(char **envp, t_data **data,
 	exit (EXIT_FAILURE);
 }
 
-static	void	pipe_opener(t_data **data, int *end)
-{
-	int	j;
-
-	j = 0;
-	while (j < (*data)->pipes)
-	{
-		pipe(end + (j * 2));
-		j++;
-	}
-}
-
-static	void	init_pipe(t_data **data, t_token **tokens, int *i)
-{
-	(*data)->prev_fd = 0;
-	(*data)->pipes = count_pipes(*tokens);
-	*i = -1;
-	(*data)->end = ft_calloc(sizeof(int), (*data)->pipes * 2);
-}
-
-static	void	pipe_helper(t_token **tokens, t_data **data, t_token_list *current, int i)
-{
-	setup_pipe(data, i, (*data)->prev_fd, (*data)->end);
-	close_pipes((*data)->end, (*data)->pipes);
-	if (redirect_parser(data, current->head, tokens))
-		exec_exit3(data, tokens, (*data)->end, write(2, "not a file or directory!\n", 26));
-	ft_tokenadd_back(&current->head, ft_lstnewtoken(7, NULL));
-}
-
 int	pipe_case(t_token **tokens, t_data **data,
 	char **envp, t_token_list **token_list)
 {
@@ -159,7 +118,6 @@ int	pipe_case(t_token **tokens, t_data **data,
 	pipe_opener(data, (*data)->end);
 	while (++i <= (*data)->pipes)
 	{
-		// remove_whitespace_nodes(&current->head);
 		parent[i] = fork();
 		if (parent[i] == 0)
 		{
@@ -170,7 +128,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 		parent_process2(data, i, (*data)->end);
 		current = current->next;
 	}
-	while(i >= 0)
+	while (i >= 0)
 		waitpid(parent[i--], NULL, 0);
 	free(parent);
 	return (free_char_array((*data)->env_p), free((*data)->end), 0);

@@ -6,29 +6,11 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:22:26 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:50:21 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	ft_isspace(int c)
-{
-	if (c == 32 || (c >= 7 && c <= 13))
-		return (1);
-	return (0);
-}
-
-int	is_whitespace(const char *str)
-{
-	while (*str)
-	{
-		if (!ft_isspace((unsigned char)*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
 
 void	space_helper(t_token **head, t_token **current,
 	t_token **prev, int flag)
@@ -62,7 +44,7 @@ t_token	*new_node(const char *content)
 	return (node);
 }
 
-static	int	exec_exit2(t_data **data, t_token **tokens,
+int	exec_exit2(t_data **data, t_token **tokens,
 		char **cmd_args, int print)
 {
 	print = 0;
@@ -90,24 +72,13 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	cmd = cmd_args[0];
 	(*data)->tmp6 = NULL;
 	if (manual_cmd(cmd_args, data, tokens))
-	{
-		if ((*data)->saved_fd >= 0)
-		{
-			if ((*data)->redirect_state == 1)
-				dup2(STDIN_FILENO, STDOUT_FILENO);
-			else if ((*data)->redirect_state == 0)
-				dup2((*data)->saved_fd, STDIN_FILENO);
-			//close((*data)->saved_fd);
-		}
-		exec_exit2(data, tkn, cmd_args, 0);
-	}
+		manual_helper(data, tkn, cmd_args);
 	holder = find_cmd(cmd, data);
 	i = 1;
 	while (cmd_args[i])
 	{
 		(*data)->tmp6 = ft_strjoin_gnl((*data)->tmp6,
-				trim_whitespace(cmd_args[i]));
-		i++;
+				trim_whitespace(cmd_args[i++]));
 	}
 	if (!holder)
 		holder = ft_strndup(cmd, ft_strlen(cmd));
