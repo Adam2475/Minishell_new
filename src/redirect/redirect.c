@@ -130,10 +130,12 @@ int	handle_heredoc(char *delimiter, t_data **data)
 		if (g_err_state == 130)
 			return (0);
 		line = readline("> ");
-		if (!line || ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+			break ;
+		if (!line)
 		{
 			free(line);
-			break ;
+			continue ;
 		}
 		if (ft_strsearch(line, '$'))
 			line = expander_doc(line, data);

@@ -146,6 +146,10 @@ int				gen_list_env(t_data **data, char **envp);
 void			set_signal(void);
 void			signal_doc(void);
 // expander
+int				case_err(t_token **current, char *tmp);
+int				ft_isalpha_len2(char *str);
+int				expand_doll_2(t_env_list *node, t_token **current, char **tmp, int len);
+void			expand_doll_3(t_token **current, char **tmp, char **tmp2);
 char			*expand_err_state(char *tmp);
 char			*tmp_set(char *val);
 int				check_quotes(t_token **tokens);
@@ -184,7 +188,7 @@ int				echo_cmd(t_token **tkn);
 // pwd
 int				pwd_cmd(void);
 // env
-int				env_cmd(t_data **data);
+int				env_cmd(t_data **data, t_token **token);
 // exit
 int				cmd_exit(t_data **data, t_token **token);
 int				ft_too_long(char *val, t_data **data, t_token **token);
@@ -202,7 +206,6 @@ void			ft_free_null(void *null);
 void			free_char_array(char **array);
 void			free_env_list(t_env_list *head);
 void			free_tokens(t_data **data, t_token *tokens);
-int				env_cmd(t_data **data);
 // Pipe case
 t_token_list	*split_tokens_by_pipe(t_token *tokens);
 t_token_list	*create_token_list_node(t_token *head);

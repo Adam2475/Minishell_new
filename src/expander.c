@@ -12,87 +12,6 @@
 
 #include "../inc/minishell.h"
 
-static	int	case_err(t_token **current, char *tmp)
-{
-	free((*current)->value);
-	if (*tmp == '?')
-	{
-		(*current)->value = expand_err_state(tmp);
-		return (0);
-	}
-	(*current)->value = ft_strndup("", 1);
-	return (free(tmp), 0);
-}
-
-static	int	ft_isalpha_len2(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (-1);
-	while (str[i])
-	{
-		if ((str[i] <= 122 && str[i] >= 97) || (str[i] <= 90 && str[i] >= 65))
-			i++;
-		else if (str[i] == '_')
-			i++;
-		else if (str[i] != '\0')
-			return (i);
-		else
-			return (-1);
-	}
-	return (-1);
-}
-
-int	expand_doll(t_token **current, t_data **data)
-{
-	t_env_list	*node;
-	char		*tmp;
-	char		*tmp2;
-	int			len;
-
-	node = (*data)->env_list;
-	len = 0;
-	tmp = NULL;
-	if ((*current)->value)
-		tmp = tmp_set((*current)->value);
-	if (tmp && ft_strlen(tmp) == 1 && (ft_isalpha(tmp[0]) || tmp[0] == '_'))
-	{
-		tmp2 = tmp;
-		tmp = ft_strjoin(tmp2, "=");
-		ft_free_null(tmp2);
-	}
-	while (node && tmp && ft_strncmp(tmp, node->var, ft_strlen(tmp) - 1) != 0)
-	{
-		if (node->next)
-			node = node->next;
-		else if (!node->next)
-		{
-			node = node->next;
-			break ;
-		}
-	}
-	if (!node || *tmp == '?')
-		return (case_err(current, tmp));
-	ft_free_null(tmp);
-	tmp = ft_strtrim2((*current)->value, "$");
-	(*current)->value = ft_strdup(tmp);
-	ft_free_null(tmp);
-	len = ft_isalpha_len2((*current)->value);
-	if (len > 0)
-	{
-		tmp = ft_strndup((*current)->value + len, ft_strlen((*current)->value) - len);
-		ft_free_null((*current)->value);
-		(*current)->value = ft_strjoin(node->value, tmp);
-		return (ft_free_null(tmp), 0);
-	}
-	else
-		ft_free_null((*current)->value);
-	return ((*current)->value = ft_strndup(node->value,
-			ft_strlen(node->value)), 0);
-}
-
 static	void	cmd_in_qt(t_token *current)
 {
 	char	*tmp;
@@ -121,6 +40,30 @@ static	void	cmd_in_qt(t_token *current)
 	}
 }
 
+static	int	call_doll(t_token **current, int *flag)
+{
+	if ((*flag) == 1 && (*current)->type == TOKEN_DOLLAR)
+	{
+		(*current)->type = TOKEN_COMMAND;
+		(*flag) = 0;
+		(*current) = (*current)->next;
+		return (1);
+	}
+	if ((*flag) == 1 && (*current)->type != TOKEN_DOLLAR)
+	{
+		(*flag) = 0;
+		(*current) = (*current)->next;
+		return (1);
+	}
+	if ((*current)->type == TOKEN_PIPE)
+	{
+		(*flag) = 1;
+		(*current) = (*current)->next;
+		return (1);
+	}
+	return (0);
+}
+
 static	void	doll_to_cmd(t_token **tkn)
 {
 	t_token	*current;
@@ -134,25 +77,8 @@ static	void	doll_to_cmd(t_token **tkn)
 			current = current->next;
 			continue ;
 		}
-		if (flag == 1 && current->type == TOKEN_DOLLAR)
-		{
-			current->type = TOKEN_COMMAND;
-			flag = 0;
-			current = current->next;
+		if (call_doll(&current, &flag))
 			continue ;
-		}
-		if (flag == 1 && current->type != TOKEN_DOLLAR)
-		{
-			flag = 0;
-			current = current->next;
-			continue ;
-		}
-		if (current->type == TOKEN_PIPE)
-		{
-			flag = 1;
-			current = current->next;
-			continue ;
-		}
 		current = current->next;
 	}
 }

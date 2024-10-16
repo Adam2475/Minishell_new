@@ -64,7 +64,7 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	if (tmp->cmd == UNSET)
 		return (unset_env(token, &tmp->env_list), 1);
 	if (tmp->cmd == ENV && !(*data)->merdoso)
-		return (env_cmd(data), 1);
+		return (env_cmd(data, token), 1);
 	if (tmp->cmd == EXIT)
 		return (cmd_exit(data, token), 1);
 	if (tmp->cmd == PWD)

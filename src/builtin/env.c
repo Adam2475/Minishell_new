@@ -12,18 +12,18 @@
 
 #include "../../inc/minishell.h"
 
-int	env_cmd(t_data **data)
+int	env_cmd(t_data **data, t_token **token)
 {
 	t_env_list	*node;
 	t_token		*tkn;
 
 	node = (*data)->env_list;
-	tkn = (*data)->tokens->next;
+	tkn = (*token)->next;
 	(*data)->merdoso = 1;
 	while (tkn && tkn->type != 7 && tkn->type != 4 && tkn->type != 5
 		&& tkn->type != 3 && tkn->type != 6 && tkn->type != 2)
 	{
-		if (tkn->type == TOKEN_WHITESPACE)
+		if (tkn->type == TOKEN_WHITESPACE || tkn->type == 12)
 			tkn = tkn->next;
 		else if (tkn->type != TOKEN_DOLLAR)
 			return (g_err_state = 127, errno = 127,

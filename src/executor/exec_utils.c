@@ -41,17 +41,17 @@ char	*trim_quotes(char *str)
 
 static	void	helper3(char *cmd)
 {
-	if (errno == 13)
-	{
-		perror("");
-		g_err_state = 126;
-	}
-	else
+	if (errno == 2)
 	{
 		write(2, "command not found: ", 20);
 		write(2, cmd, ft_strlen(cmd));
 		write(2, "\n", 1);
 		g_err_state = 127;
+	}
+	else
+	{
+		perror("");
+		g_err_state = 126;
 	}
 }
 

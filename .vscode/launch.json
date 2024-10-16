@@ -14,7 +14,7 @@
             "setupCommands": [
                 {
                     "description": "Enable follow-fork-mode",
-                    "text": "set follow-fork-mode parent",
+                    "text": "set follow-fork-mode child",
                     "ignoreFailures": true
                 }
             ]

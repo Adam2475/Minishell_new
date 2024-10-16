@@ -56,6 +56,21 @@ static void	inutils_num(t_token *tmp, int *flag_n)
 	}
 }
 
+static	void	skip_prob(t_token **node)
+{
+	while ((*node)->type != 7 && ((*node)->type == 11 || (*node)->type == 12))
+		(*node) = (*node)->next;
+	if ((*node)->type <= 6 && (*node)->type >= 3)
+	{
+		while ((*node) && (*node)->type != 13)
+			(*node) = (*node)->next;
+		if ((*node) && (*node)->type != 7)
+			(*node) = (*node)->next;
+		while ((*node) && (*node)->type != 7 && (*node)->type == 11)
+			(*node) = (*node)->next;
+	}
+}
+
 int	echo_cmd(t_token **tkn)
 {
 	t_token	*node;
@@ -63,8 +78,7 @@ int	echo_cmd(t_token **tkn)
 
 	node = (*tkn)->next;
 	flag_n = 0;
-	while (node->type != 7 && (node->type == 11 || node->type == 12))
-		node = node->next;
+	skip_prob(&node);
 	inutils_num(node, &flag_n);
 	while (node && node->type != 7 && node->type != 3 && node->type != 5
 		&& node->type != 4 && node->type != 6 && node->type != 2)
