@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.c                                         :+:      :+:    :+:   */
+/*   expander2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -56,7 +56,8 @@ int	expand_doll_2(t_env_list *node, t_token **current, char **tmp, int len)
 	len = ft_isalpha_len2((*current)->value);
 	if (len > 0)
 	{
-		(*tmp) = ft_strndup((*current)->value + len, ft_strlen((*current)->value) - len);
+		(*tmp) = ft_strndup((*current)->value + len,
+				ft_strlen((*current)->value) - len);
 		ft_free_null((*current)->value);
 		(*current)->value = ft_strjoin(node->value, (*tmp));
 		return (ft_free_null((*tmp)), 0);
@@ -71,7 +72,8 @@ void	expand_doll_3(t_token **current, char **tmp, char **tmp2)
 {
 	if ((*current)->value)
 		(*tmp) = tmp_set((*current)->value);
-	if ((*tmp) && ft_strlen((*tmp)) == 1 && (ft_isalpha((*tmp)[0]) || (*tmp)[0] == '_'))
+	if ((*tmp) && ft_strlen((*tmp)) == 1
+		&& (ft_isalpha((*tmp)[0]) || (*tmp)[0] == '_'))
 	{
 		(*tmp2) = (*tmp);
 		(*tmp) = ft_strjoin((*tmp2), "=");

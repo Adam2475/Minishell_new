@@ -148,7 +148,9 @@ void			signal_doc(void);
 // expander
 int				case_err(t_token **current, char *tmp);
 int				ft_isalpha_len2(char *str);
-int				expand_doll_2(t_env_list *node, t_token **current, char **tmp, int len);
+int				expand_doll_2(t_env_list *node, t_token **current,
+					char **tmp, int len);
+t_token			*ft_set_zero(t_token *current, int flag);
 void			expand_doll_3(t_token **current, char **tmp, char **tmp2);
 char			*expand_err_state(char *tmp);
 char			*tmp_set(char *val);

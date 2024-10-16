@@ -28,7 +28,7 @@ static	void	cmd_in_qt(t_token *current)
 				&& current->next->type != 9 && current->next->type != 10)
 			{
 				current->value = ft_strjoin(current->value,
-					current->next->value);
+						current->next->value);
 				if (tmp != NULL)
 					free(tmp);
 			}
@@ -67,9 +67,10 @@ static	int	call_doll(t_token **current, int *flag)
 static	void	doll_to_cmd(t_token **tkn)
 {
 	t_token	*current;
-	int		flag = 1;
+	int		flag;
 
 	current = (*tkn);
+	flag = 1;
 	while (current && current->type != TOKEN_EOF)
 	{
 		while (current->type == 11)
@@ -99,27 +100,6 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 	current = (*tkn_lst);
 	doll_to_cmd(tkn_lst);
 	return (0);
-}
-
-static t_token	*ft_set_zero(t_token *current, int flag)
-{
-	while ((int)current->type != 7 && flag == 0
-		&& (int)current->type != 10)
-	{
-		current->type = TOKEN_WORD_QT;
-		current = current->next;
-	}
-	while ((int)current->type != 7 && (int)current->type != 9
-		&& flag == 1)
-	{
-		if ((int)current->type != 8)
-			current->type = TOKEN_WORD_QT;
-		else if ((int)current->type == 8
-			&& (int)current->next->type == 13)
-			current = current->next;
-		current = current->next;
-	}
-	return (current);
 }
 
 int	check_quotes(t_token **tokens)

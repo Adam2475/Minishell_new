@@ -18,9 +18,9 @@ char	*command_single_finder(int *i,
 	char	*tmp;
 
 	tmp = NULL;
-	while (command[*i])
+	while (command[(*i)])
 	{
-		tmp = ft_strjoin_gnl((*data)->tmp9, command[*i++]);
+		tmp = ft_strjoin_gnl((*data)->tmp9, command[(*i)++]);
 		(*data)->tmp9 = tmp;
 	}
 	return (tmp);
