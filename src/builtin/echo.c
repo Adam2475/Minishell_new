@@ -66,7 +66,6 @@ int	echo_cmd(t_token **tkn)
 	while (node->type != 7 && (node->type == 11 || node->type == 12))
 		node = node->next;
 	inutils_num(node, &flag_n);
-	node = (*tkn)->next;
 	while (node && node->type != 7 && node->type != 3 && node->type != 5
 		&& node->type != 4 && node->type != 6 && node->type != 2)
 	{

@@ -74,7 +74,8 @@ static	int	copy_mtx1(t_data **data)
 int	exec_exit(t_data **data, t_token **tokens, int print)
 {
 	errno = print;
-	g_err_state = errno;
+	if (g_err_state == 0 && print != 0)
+		g_err_state = errno;
 	if ((*data)->fd >= 0)
 		close((*data)->fd);
 	if ((*data)->saved_fd >= 0)

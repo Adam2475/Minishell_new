@@ -47,19 +47,19 @@ static	void	set_exit(int n, t_data **data, t_token **token)
 	free_exit_cmd(data, *token);
 }
 
-static	void	free_set_exit(t_data **data, t_token **token, t_token *tkn)
+static	void	free_set_exit(t_data **data, t_token **token, t_token **tkn)
 {
-	while (tkn->type == TOKEN_WHITESPACE)
-		tkn = tkn->next;
-	if ((int)tkn->type == 7)
+	while ((*tkn)->type == TOKEN_WHITESPACE)
+		(*tkn) = (*tkn)->next;
+	if ((int)(*tkn)->type == 7)
 		free_exit_cmd(data, *token);
-	if (!ft_is_numeric(tkn))
+	if (!ft_is_numeric((*tkn)))
 	{
 		write(2, "exit: numeric argument required\n", 33);
 		set_exit(2, data, token);
 	}
-	if (ft_too_long(tkn->value, data, token))
-		set_exit(100, data, token);
+	if (ft_too_long((*tkn)->value, data, token))
+		set_exit(g_err_state, data, token);
 }
 
 int	cmd_exit(t_data **data, t_token **token)
@@ -67,6 +67,7 @@ int	cmd_exit(t_data **data, t_token **token)
 	t_token		*tkn;
 
 	tkn = (*token)->next;
+	free_set_exit(data, token, &tkn);
 	if (ft_is_numeric(tkn))
 	{
 		while ((int)tkn->type != 7 || (int)tkn->type == 11)
