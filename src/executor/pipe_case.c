@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/16 14:35:25 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:40:22 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,10 @@ int	pipe_case(t_token **tokens, t_data **data,
 	pipe_opener(data, (*data)->end);
 	while (++i <= (*data)->pipes)
 	{
+		//remove_whitespace_nodes(&current->head);
+		// if (redirect_parser(data, current->head, tokens))
+		// 	exec_exit3(data, tokens, (*data)->end,
+		// 		write(2, "not a file or directory!\n", 26));
 		parent[i] = fork();
 		if (parent[i] == 0)
 		{
