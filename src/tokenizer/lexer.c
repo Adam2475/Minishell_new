@@ -21,36 +21,29 @@ static	int	check_type(t_token *current)
 		return (0);
 }
 
-static	bool is_valid_token_sequence(t_token_type prev_type, t_token_type curr_type)
+static	int invalid_tkn_sequence(t_token_type prev_type, t_token_type curr_type)
 {
-    if (prev_type == TOKEN_PIPE && curr_type == TOKEN_PIPE) {
-        // Errore: due pipe consecutive
-        return false;
-    }
-    if (prev_type == TOKEN_REDIRECT_OUT && (curr_type == TOKEN_PIPE
-		|| curr_type == TOKEN_REDIRECT_OUT || curr_type == TOKEN_APPEND)) {
-        // Errore: ridirezione seguita da un'altra ridirezione o pipe
-        return false;
-    }
-    if (prev_type == TOKEN_REDIRECT_IN && curr_type == TOKEN_REDIRECT_IN) {
-        // Errore: doppia ridirezione in
-        return false;
-    }
-    if (prev_type == TOKEN_HEREDOC && curr_type == TOKEN_REDIRECT_IN) {
-        // Errore: heredoc e redir in
-        return false;
-    }
-    if (prev_type == TOKEN_HEREDOC && curr_type == TOKEN_REDIRECT_OUT) {
-        // Errore: heredoc e redir out
-        return false;
-    }
-    if (prev_type == TOKEN_APPEND && (curr_type == TOKEN_HEREDOC
-		|| curr_type == TOKEN_REDIRECT_IN || curr_type == TOKEN_REDIRECT_OUT)) {
-        // Errore: heredoc e redir out
-        return false;
-    }
+	if (prev_type == TOKEN_PIPE && curr_type == TOKEN_PIPE)
+	// Errore: due pipe consecutive
+		return (1);
+	if (prev_type == TOKEN_REDIRECT_OUT && (curr_type == TOKEN_PIPE
+		|| curr_type == TOKEN_REDIRECT_OUT || curr_type == TOKEN_APPEND))
+		// Errore: ridirezione seguita da un'altra ridirezione o pipe
+		return (1);
+	if (prev_type == TOKEN_REDIRECT_IN && curr_type == TOKEN_REDIRECT_IN)
+		// Errore: doppia ridirezione in
+		return (1);
+	if (prev_type == TOKEN_HEREDOC && (curr_type == TOKEN_REDIRECT_IN
+		|| curr_type == TOKEN_REDIRECT_OUT || curr_type == TOKEN_HEREDOC))
+		// Errore: heredoc e redir in
+		return (1);
+	if (prev_type == TOKEN_APPEND && (curr_type == TOKEN_HEREDOC
+		|| curr_type == TOKEN_REDIRECT_IN || curr_type == TOKEN_REDIRECT_OUT
+		|| curr_type == TOKEN_APPEND))
+		// Errore: heredoc e redir out
+		return (1);
     // Aggiungere altre regole di sintassi qui
-    return true;
+	return (0);
 }
 
 static	int check_syntax_errors(t_token *tokens)
@@ -62,7 +55,7 @@ static	int check_syntax_errors(t_token *tokens)
 	{
 		if (previous == NULL && current->type == TOKEN_PIPE)
 			return (1);
-		if (previous != NULL && !is_valid_token_sequence(previous->type, current->type))
+		if (previous != NULL && invalid_tkn_sequence(previous->type, current->type))
 			return (1);
 		if (current->next && current->type != 7 && current->type == 11)
 		{
@@ -84,7 +77,6 @@ int	token_reformatting(t_token **tokens)
 
 	head = *tokens;
 	current = *tokens;
-	// fra diocane hai comparato un booleano ad un intero
 	if (check_syntax_errors(*tokens) > 0)
 		return (write(2, "syntax error\n", 14), g_err_state = 2, 1);
 	while (current && current->type != TOKEN_EOF)
