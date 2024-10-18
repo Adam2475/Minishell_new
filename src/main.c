@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/17 16:50:15 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:57:05 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,11 @@ int	main(int argc, char **argv, char **envp)
 			tokens = NULL;
 		}
 		if (!read_input(data))
+		if (!read_input(data))
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		//print_tokens(tokens);
+		print_tokens(tokens);
 		env_parser(&data, envp);
 		command_init(data, tokens, envp);
 	}

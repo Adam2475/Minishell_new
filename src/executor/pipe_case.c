@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/17 17:40:22 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/18 16:16:48 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ static	int	child_process_pipe(char **envp, t_data **data,
 	}
 	free_list(new_tokens);
 	copy_mtx2(data);
+	//write(2, "ciao", 5);
 	execute_command(data, (*data)->env_p, tkn, &tokens);
 	free_char_array((*data)->env_p);
 	exit (EXIT_FAILURE);
@@ -122,14 +123,17 @@ int	pipe_case(t_token **tokens, t_data **data,
 		// if (redirect_parser(data, current->head, tokens))
 		// 	exec_exit3(data, tokens, (*data)->end,
 		// 		write(2, "not a file or directory!\n", 26));
+		//wait(NULL);
 		parent[i] = fork();
 		if (parent[i] == 0)
 		{
 			free(parent);
 			pipe_helper(tokens, data, current, i);
 			child_process_pipe(envp, data, current->head, tokens);
+			exit(1);
 		}
-		parent_process2(data, i, (*data)->end);
+		if (parent)
+			parent_process2(data, i, (*data)->end);
 		current = current->next;
 	}
 	while (i >= 0)
