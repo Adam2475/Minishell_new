@@ -92,6 +92,27 @@ int	redirect_parser(t_data **data, t_token *current, t_token **tokens)
 	return (i);
 }
 
+int	redirect_parser_pipe(t_data **data, t_token *current)
+{
+	int	i;
+
+	i = 0;
+	g_err_state = 0;
+	while (current != NULL)
+	{
+		if (current->type == TOKEN_REDIRECT_OUT)
+			i = parser_case_redo(current, data);
+		else if (current->type == TOKEN_REDIRECT_IN)
+			i = parser_case_redi(current, data);
+		else if (current->type == TOKEN_APPEND)
+			i = parser_case_append(current, data);
+		// else if (current->type == TOKEN_HEREDOC)
+		// 	i = parser_case_herdoc(current, data, tokens);
+		current = current->next;
+	}
+	return (i);
+}
+
 int	token_parser(t_token **tokens, t_data **data)
 {
 	t_token		*current;

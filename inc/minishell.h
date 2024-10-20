@@ -239,7 +239,7 @@ char			*read_file(int fd, char *res);
 char			*get_next_line2(int fd);
 void			free_token(t_token *token);
 void			do_pipe(t_data *data, t_token *tokens, char **envp);
-
+int				redirect_parser_pipe(t_data **data, t_token *current);
 ////////////////////////////////////////////////////////////////////
 void			print_tokens(t_token *tokens);
 int				helper_function2(t_token **current,
@@ -298,11 +298,11 @@ int				exec_exit2(t_data **data, t_token **tokens,
 void			command_single_helper(t_data **data);
 char			*command_single_finder(int *i,
 					t_data **data, char **command);
-void			pipe_helper(t_token **tokens, t_data **data,
-					t_token_list *current, int i);
+void			pipe_helper(t_data **data, t_token_list *current, int i);
 void			pipe_opener(t_data **data, int *end);
 void			init_pipe(t_data **data, t_token **tokens, int *i);
 int				exec_exit3(t_data **data, t_token **tokens,
 					int *end, int print);
+int				heredoc_finder(t_token *current);
 
 #endif

@@ -26,14 +26,13 @@ char	*command_single_finder(int *i,
 	return (tmp);
 }
 
-void	pipe_helper(t_token **tokens, t_data **data,
-		t_token_list *current, int i)
+void	pipe_helper(t_data **data, t_token_list *current, int i)
 {
 	setup_pipe(data, i, (*data)->prev_fd, (*data)->end);
 	close_pipes((*data)->end, (*data)->pipes);
-	if (redirect_parser(data, current->head, tokens))
-		exec_exit3(data, tokens, (*data)->end,
-			write(2, "not a file or directory!\n", 26));
+	// if (redirect_parser(data, current->head, tokens))
+	// 	exec_exit3(data, tokens, (*data)->end,
+	// 		write(2, "not a file or directory!\n", 26));
 	ft_tokenadd_back(&current->head, ft_lstnewtoken(7, NULL));
 }
 

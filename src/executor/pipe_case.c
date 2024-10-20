@@ -94,6 +94,7 @@ static	int	child_process_pipe(char **envp, t_data **data,
 		}
 		if ((*data)->redirect_state == 0)
 		{
+			printf("%d\n", (*data)->fd);
 			if (dup2((*data)->fd, STDIN_FILENO) < 0)
 				exit (-1);
 		}
@@ -104,6 +105,52 @@ static	int	child_process_pipe(char **envp, t_data **data,
 	execute_command(data, (*data)->env_p, tkn, &tokens);
 	free_char_array((*data)->env_p);
 	exit (EXIT_FAILURE);
+}
+
+// static void	handle_here_doc(int i, pid_t pid, int *g_exit_status,
+// 		bool wait_for[])
+// {
+// 	waitpid(pid, g_exit_status, 0);
+// 	*g_exit_status = *g_exit_status / 256;
+// 	wait_for[i] = false;
+// }
+
+// static	int	heredoc_pipe_exec(t_token *current, t_data **data, t_token **tokens)
+// {
+
+// }
+
+// bool	ft_check_here_doc(t_list *list)
+// {
+// 	t_list		*current;
+// 	t_tkn_data	*tokendata;
+
+// 	current = list;
+// 	tokendata = (t_tkn_data *)current->content;
+// 	while (current != NULL && tokendata->type != META_PIPE)
+// 	{
+// 		if (tokendata->type == META_HEREDOC)
+// 			return (true);
+// 		current = current->next;
+// 		if (current != NULL)
+// 			tokendata = (t_tkn_data *)current->content;
+// 	}
+// 	return (false);
+// }
+
+int	heredoc_finder(t_token *current)
+{
+	int	i;
+
+	i = 0;
+	g_err_state = 0;
+	while (current != NULL)
+	{
+		if (current->type == TOKEN_HEREDOC)
+			i = 1;
+		current = current->next;
+	}
+	return (i);
 }
 
 int	pipe_case(t_token **tokens, t_data **data,
@@ -120,20 +167,29 @@ int	pipe_case(t_token **tokens, t_data **data,
 	while (++i <= (*data)->pipes)
 	{
 		//remove_whitespace_nodes(&current->head);
-		// if (redirect_parser(data, current->head, tokens))
-		// 	exec_exit3(data, tokens, (*data)->end,
-		// 		write(2, "not a file or directory!\n", 26));
+		if (redirect_parser(data, current->head, tokens))
+			exec_exit3(data, tokens, (*data)->end,
+				write(2, "not a file or directory!\n", 26));
+		else
+			wait(NULL);
 		//wait(NULL);
 		parent[i] = fork();
 		if (parent[i] == 0)
 		{
-			free(parent);
-			pipe_helper(tokens, data, current, i);
+			//free(parent);
+			pipe_helper(data, current, i);
 			child_process_pipe(envp, data, current->head, tokens);
-			exit(1);
+			//exit(1);
 		}
 		if (parent)
+		{
 			parent_process2(data, i, (*data)->end);
+			// if (heredoc_finder(current->head))
+			// {
+			// 	write(2, "ciao\n", 6);
+			// 	//waitpid(parent[i], NULL, 0);
+			// }
+		}
 		current = current->next;
 	}
 	while (i >= 0)

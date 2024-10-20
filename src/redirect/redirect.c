@@ -65,7 +65,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	char	*cmd;
 	char	**cmd_args;
 	char	*holder;
-	int		i;
+	//int		i;
 	char	*tmp;
 	t_token	*current = *tokens;
 	t_token	*head = *tokens;
@@ -94,15 +94,14 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 				current = current->next;
 			if (current->type == TOKEN_APPENDICE)
 			{
-				while(current->type == TOKEN_APPENDICE
-					|| current->type == TOKEN_WHITESPACE)
+				while(current->type == TOKEN_APPENDICE)
 				{
-					if (current->type == TOKEN_WHITESPACE)
+					while (current->type == TOKEN_WHITESPACE)
 					{
 						current = current->next;
 						continue;
 					}
-					else if (current->type == TOKEN_APPENDICE)
+					if (current->type == TOKEN_APPENDICE)
 					{
 						tmp2 = ft_strjoin(tmp, " ");
 						free(tmp);
@@ -110,6 +109,8 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 						// tmp2 = ft_strjoin(tmp, current->value);
 						free(tmp2);
 						//cmd_args[x] = ft_strdup(current->value);
+						//write(2, tmp, ft_strlen(tmp));
+					//	write(2, "|", 1);
 						current = current->next;
 						x++;
 						continue;
@@ -120,22 +121,27 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		current = current->next;
 	}
 	// if (!tmp)
-	// 	tmp2 = 
+	// 	tmp2 =
 	// if (tmp)
 	// 	ft_printf(tmp);
-	if (tmp)
-		tmp2 = ft_strjoin_gnl(tmp, "\0");
+	// if (tmp)
+	// 	tmp2 = ft_strjoin_gnl(tmp, "\0");
 	//ft_printf(tmp2);
 	// if (tmp)
 	// 	free(tmp);
 	//cmd_args[x + 1] = NULL;
-	//ft_printf("%s\n", tmp);
+	//ft_printf("%s\n", tmp2);
+	// write(2, tmp2, ft_strlen(tmp2));
+	// write(2, "|", 1);
+	// write(2, "\n", 1);
+	// write(2, tmp, ft_strlen(tmp));
+	//
 	//write(2, tmp, ft_strlen(tmp) + 1);
 	//exit(1);
 	//exit(1);
 	if (tmp2)
 	{
-		cmd_args = ft_split(tmp2, 32);
+		cmd_args = ft_split(tmp, 32);
 		cmd = ft_strdup(cmd_args[0]);
 	}
 	else
@@ -156,7 +162,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		holder = find_cmd(cmd, data);
 	else
 		holder = NULL;
-	i = 1;
+	//i = 1;
 	// while (cmd_args[i])
 	// {
 	// 	(*data)->tmp6 = ft_strjoin_gnl((*data)->tmp6,
@@ -168,8 +174,8 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	if (cmd)
 		free(cmd);
 	//ft_printf("%s\n", holder);
-	//ft_printf("%s\n", cmd_args[0]);
-	//ft_printf("%s\n", cmd_args[1]);
+	// ft_printf("%s\n", cmd_args[0]);
+	// ft_printf("%s\n", cmd_args[1]);
 	//ft_printf("%s\n", cmd_args[2]);
 	if (holder)
 		if (!execve(holder, cmd_args, envp))
