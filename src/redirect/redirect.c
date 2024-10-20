@@ -85,6 +85,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	}
 	current = head;
 	int x = 1;
+	//print_tokens(current);
 	while (current && current->type != TOKEN_EOF)
 	{
 		if (current->type == TOKEN_COMMAND)
@@ -109,8 +110,8 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 						// tmp2 = ft_strjoin(tmp, current->value);
 						free(tmp2);
 						//cmd_args[x] = ft_strdup(current->value);
-						//write(2, tmp, ft_strlen(tmp));
-					//	write(2, "|", 1);
+						// write(2, tmp, ft_strlen(tmp));
+						// write(2, "|", 1);
 						current = current->next;
 						x++;
 						continue;

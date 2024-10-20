@@ -18,7 +18,10 @@ t_token	*token_reformatting_pipe(t_token *current)
 	while (current && current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current && current->type == TOKEN_WORD)
+	{
 		current->type = TOKEN_COMMAND;
+		current = current->next;
+	}
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current && current->next)

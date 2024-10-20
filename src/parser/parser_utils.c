@@ -86,3 +86,31 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 	(*data)->fd = open(tmp, O_RDONLY);
 	return (0);
 }
+
+
+int	parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens)
+{
+	pid_t		parent;
+	char		*tmp;
+
+	tmp = ".heredoc.txt";
+	current = current->next;
+	while (current->type == TOKEN_WHITESPACE)
+		current = current->next;
+	if (current->type == 13 || current->type == 12)
+	{
+		heredoc_case_init(tmp, data);
+		if (parent < 0)
+			exit(printf("ciao"));
+		if (!parent)
+		{
+			handle_heredoc(current->value, data);
+			//exit_free_heredoc(data, tokens);
+		}
+	}
+	else
+		return (ft_printf("syntax error after heredoc operator!\n"));
+	close((*data)->fd);
+	(*data)->fd = open(tmp, O_RDONLY);
+	return (0);
+}

@@ -167,7 +167,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 	while (++i <= (*data)->pipes)
 	{
 		//remove_whitespace_nodes(&current->head);
-		if (redirect_parser(data, current->head, tokens))
+		if (redirect_parser_pipe(data, current->head, tokens))
 			exec_exit3(data, tokens, (*data)->end,
 				write(2, "not a file or directory!\n", 26));
 		else
@@ -184,11 +184,6 @@ int	pipe_case(t_token **tokens, t_data **data,
 		if (parent)
 		{
 			parent_process2(data, i, (*data)->end);
-			// if (heredoc_finder(current->head))
-			// {
-			// 	write(2, "ciao\n", 6);
-			// 	//waitpid(parent[i], NULL, 0);
-			// }
 		}
 		current = current->next;
 	}

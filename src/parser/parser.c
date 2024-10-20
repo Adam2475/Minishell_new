@@ -92,7 +92,7 @@ int	redirect_parser(t_data **data, t_token *current, t_token **tokens)
 	return (i);
 }
 
-int	redirect_parser_pipe(t_data **data, t_token *current)
+int	redirect_parser_pipe(t_data **data, t_token *current, t_token **tokens)
 {
 	int	i;
 
@@ -106,8 +106,8 @@ int	redirect_parser_pipe(t_data **data, t_token *current)
 			i = parser_case_redi(current, data);
 		else if (current->type == TOKEN_APPEND)
 			i = parser_case_append(current, data);
-		// else if (current->type == TOKEN_HEREDOC)
-		// 	i = parser_case_herdoc(current, data, tokens);
+		else if (current->type == TOKEN_HEREDOC)
+			i = parser_case_herdoc_pipe(current, data, tokens);
 		current = current->next;
 	}
 	return (i);
