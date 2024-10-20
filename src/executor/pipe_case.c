@@ -90,13 +90,13 @@ static	int	child_process_pipe(char **envp, t_data **data,
 		if ((*data)->redirect_state == 1)
 		{
 			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
-				exit (-1);
+				exit (2);
 		}
 		if ((*data)->redirect_state == 0)
 		{
 			printf("%d\n", (*data)->fd);
 			if (dup2((*data)->fd, STDIN_FILENO) < 0)
-				exit (-1);
+				exit (2);
 		}
 	}
 	free_list(new_tokens);
