@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/18 16:16:48 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:44:24 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,58 +85,12 @@ static	int	child_process_pipe(char **envp, t_data **data,
 	new_tokens = extract_command_and_appendices(data, tokens);
 	(*data)->command2 = token_to_command(new_tokens);
 	envp = NULL;
-	if (!((*data)->fd < 0) && !envp)
-	{
-		if ((*data)->redirect_state == 1)
-		{
-			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
-				exit (2);
-		}
-		if ((*data)->redirect_state == 0)
-		{
-			printf("%d\n", (*data)->fd);
-			if (dup2((*data)->fd, STDIN_FILENO) < 0)
-				exit (2);
-		}
-	}
 	free_list(new_tokens);
 	copy_mtx2(data);
-	//write(2, "ciao", 5);
 	execute_command(data, (*data)->env_p, tkn, &tokens);
 	free_char_array((*data)->env_p);
 	exit (EXIT_FAILURE);
 }
-
-// static void	handle_here_doc(int i, pid_t pid, int *g_exit_status,
-// 		bool wait_for[])
-// {
-// 	waitpid(pid, g_exit_status, 0);
-// 	*g_exit_status = *g_exit_status / 256;
-// 	wait_for[i] = false;
-// }
-
-// static	int	heredoc_pipe_exec(t_token *current, t_data **data, t_token **tokens)
-// {
-
-// }
-
-// bool	ft_check_here_doc(t_list *list)
-// {
-// 	t_list		*current;
-// 	t_tkn_data	*tokendata;
-
-// 	current = list;
-// 	tokendata = (t_tkn_data *)current->content;
-// 	while (current != NULL && tokendata->type != META_PIPE)
-// 	{
-// 		if (tokendata->type == META_HEREDOC)
-// 			return (true);
-// 		current = current->next;
-// 		if (current != NULL)
-// 			tokendata = (t_tkn_data *)current->content;
-// 	}
-// 	return (false);
-// }
 
 int	heredoc_finder(t_token *current)
 {
@@ -174,14 +128,27 @@ int	pipe_case(t_token **tokens, t_data **data,
 			wait(NULL);
 		//wait(NULL);
 		parent[i] = fork();
+		if (parent[i] == -1)
+			exit(ft_printf("fork error!\n"));
 		if (parent[i] == 0)
 		{
 			//free(parent);
 			pipe_helper(data, current, i);
+			if ((*data)->redirect_state_out > 0)
+			{
+				if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
+					exit (2);
+			}
+			if ((*data)->redirect_state_in > 0)
+			{
+				//printf("%d\n", (*data)->fd);
+				if (dup2((*data)->fd_in, STDIN_FILENO) < 0)
+					exit (printf("dioporco\n"));
+			}
 			child_process_pipe(envp, data, current->head, tokens);
 			//exit(1);
 		}
-		if (parent)
+		else
 		{
 			parent_process2(data, i, (*data)->end);
 		}

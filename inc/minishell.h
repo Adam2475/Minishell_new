@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/16 14:28:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:42:55 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ typedef struct s_data
 	int				merdoso;
 	int				heredoc_flag;
 	int				saved_fd;
+	int				fd_in;
+	int				fd_out;
+	int				redirect_state_in;
+	int				redirect_state_out;
 	int				fd_tmp;
 	char			*command2;
 	t_token			*new_token;

@@ -1,0 +1,12 @@
+total 208
+-rw-r--r-- 1 adapassa 2023_florence      0 Oct 21 16:00 ^C
+drwxr-xr-x 2 adapassa 2023_florence   4096 Oct 21 14:37 inc
+drwxr-xr-x 3 adapassa 2023_florence   4096 Oct 21 14:43 libft
+-rw-r--r-- 1 adapassa 2023_florence   1916 Oct 21 14:37 Makefile
+-rwxr-xr-x 1 adapassa 2023_florence 176736 Oct 21 19:03 minishell
+drwxr-xr-x 9 adapassa 2023_florence   4096 Oct 21 15:34 minishell_tester
+drwxr-xr-x 2 adapassa 2023_florence   4096 Oct 21 14:43 obj
+-rw-r--r-- 1 adapassa 2023_florence      0 Oct 21 18:59 out
+-rw-r--r-- 1 adapassa 2023_florence    330 Oct 21 19:01 outfile
+-rw-r--r-- 1 adapassa 2023_florence     68 Oct 21 14:37 readline.supp
+drwxr-xr-x 7 adapassa 2023_florence   4096 Oct 21 14:37 src

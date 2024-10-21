@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:03:48 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/16 14:33:29 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:07:38 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ void	pipe_helper(t_data **data, t_token_list *current, int i)
 {
 	setup_pipe(data, i, (*data)->prev_fd, (*data)->end);
 	close_pipes((*data)->end, (*data)->pipes);
-	// if (redirect_parser(data, current->head, tokens))
-	// 	exec_exit3(data, tokens, (*data)->end,
-	// 		write(2, "not a file or directory!\n", 26));
 	ft_tokenadd_back(&current->head, ft_lstnewtoken(7, NULL));
 }
 
