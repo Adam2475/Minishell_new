@@ -75,7 +75,8 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 			exit(0);
 		if (!parent)
 		{
-			handle_heredoc(current->value, data);
+			if (handle_heredoc(current->value, data))
+				exit_free_heredoc(data, tokens);
 			exit_free_heredoc(data, tokens);
 		}
 		parent_here_doc();
@@ -100,13 +101,13 @@ int	parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens)
 	if (current->type == 13 || current->type == 12)
 	{
 		heredoc_case_init(tmp, data);
-		if (parent < 0)
-			exit(printf("ciao"));
-		if (!parent)
-		{
+		// if (parent < 0)
+		// 	exit(printf("ciao"));
+		// if (!parent)
+		// {
 			handle_heredoc(current->value, data);
 			//exit_free_heredoc(data, tokens);
-		}
+		// }
 	}
 	else
 		return (ft_printf("syntax error after heredoc operator!\n"));

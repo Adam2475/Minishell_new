@@ -93,7 +93,19 @@ int	expand_doll(t_token **current, t_data **data)
 	tmp = NULL;
 	tmp2 = NULL;
 	expand_doll_3(current, &tmp, &tmp2);
-	while (node && tmp && ft_strncmp(tmp, node->var, ft_strlen(tmp) - 1) != 0)
+	while (node && tmp && ft_strlen(tmp) > 1
+		&& ft_strncmp(tmp, node->var, ft_strlen(tmp) - 1) != 0)
+	{
+		if (node->next)
+			node = node->next;
+		else if (!node->next)
+		{
+			node = node->next;
+			break ;
+		}
+	}
+	while (node && tmp && ft_strlen(tmp) <= 1
+		&& ft_strncmp(tmp, node->var, ft_strlen(tmp)) != 0)
 	{
 		if (node->next)
 			node = node->next;

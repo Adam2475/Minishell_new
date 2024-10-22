@@ -35,7 +35,7 @@ static void	inutils_num(t_token *tmp, int *flag_n)
 	char	*n_s;
 
 	n_s = tmp->value;
-	if (tmp->type == 9 || tmp->type == 10)
+	if (tmp->type == 9 || tmp->type == 10 || tmp->type == 8)
 		return ;
 	while (tmp && tmp->type != 7)
 	{

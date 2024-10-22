@@ -81,6 +81,7 @@ void	free_tokens_helper(t_data **data)
 		free_char_array((*data)->cmd_args);
 		(*data)->cmd_args = NULL;
 	}
+	errno = 0;
 }
 
 void	free_tokens(t_data **data, t_token *tokens)

@@ -108,7 +108,8 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 						free(tmp);
 						tmp = ft_strjoin(tmp2, current->value);
 						// tmp2 = ft_strjoin(tmp, current->value);
-						free(tmp2);
+						// free(tmp2);
+						// tmp2 = NULL;
 						//cmd_args[x] = ft_strdup(current->value);
 						// write(2, tmp, ft_strlen(tmp));
 						// write(2, "|", 1);
@@ -157,7 +158,10 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	if (cmd_args)
 	{
 		if (manual_cmd(cmd_args, data, tokens))
+		{
+			ft_free_null(tmp);
 			manual_helper(data, tkn, cmd_args);
+		}
 	}
 	if (cmd)
 		holder = find_cmd(cmd, data);
@@ -195,13 +199,13 @@ int	handle_heredoc(char *delimiter, t_data **data)
 
 	if ((*data)->fd < 0)
 		exit (ft_printf("Failed to open heredoc temporary file"));
-	signal_doc();
-	while (1)
+	// signal_doc();
+	while (1 && g_err_state != 130)
 	{
 		if (g_err_state == 130)
-			return (0);
+			return (1);
 		line = readline("> ");
-		if (line == NULL)
+		if (line == NULL && write(1, "\n", 1))
 			break ;
 		if (!line)
 		{

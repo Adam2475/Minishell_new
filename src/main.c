@@ -102,7 +102,7 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		//print_tokens(tokens);
+		print_tokens(tokens);
 		env_parser(&data, envp);
 		command_init(data, tokens, envp);
 	}

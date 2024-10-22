@@ -157,6 +157,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 	char **envp, t_token_list **token_list)
 {
 	int				i;
+	int				flag;
 	pid_t			*parent;
 	t_token_list	*current;
 
@@ -164,19 +165,28 @@ int	pipe_case(t_token **tokens, t_data **data,
 	init_pipe(data, tokens, &i);
 	current = *token_list;
 	pipe_opener(data, (*data)->end);
+	flag = 0;
 	while (++i <= (*data)->pipes)
 	{
 		//remove_whitespace_nodes(&current->head);
 		if (redirect_parser_pipe(data, current->head, tokens))
 			exec_exit3(data, tokens, (*data)->end,
 				write(2, "not a file or directory!\n", 26));
-		else
-			wait(NULL);
+		if (g_err_state == 130 && (*data)->heredoc_flag == 1)
+		{
+			g_err_state = 0;
+			flag = 1;
+		}
+		if (flag == 1)
+		{
+			g_err_state = 130;
+			break ;
+		}
 		//wait(NULL);
 		parent[i] = fork();
 		if (parent[i] == 0)
 		{
-			//free(parent);
+			// free(parent);
 			pipe_helper(data, current, i);
 			child_process_pipe(envp, data, current->head, tokens);
 			//exit(1);

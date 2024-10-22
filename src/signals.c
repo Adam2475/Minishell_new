@@ -14,11 +14,13 @@
 
 static void	sig_int(void)
 {
-	rl_on_new_line();
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	// rl_on_new_line();
+	// ft_putstr_fd("\n", STDOUT_FILENO);
+	// rl_on_new_line();
+	// rl_replace_line("", 0);
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	ioctl(STDIN_FILENO, TIOCSTI, NULL);
+	// rl_redisplay();
 }
 
 static void	sig_quit(void)
@@ -30,26 +32,16 @@ static void	sig_quit(void)
 
 static void	signal_handler(int signo)
 {
-	int	pid;
 	int	status;
 
-	pid = waitpid(-1, &status, 1);
 	if (signo == SIGINT)
 	{
 		g_err_state = 130;
 		errno = 130;
-		if (pid == -1)
-			sig_int();
-		else
-			ft_putstr_fd("\n", 1);
+		sig_int();
 	}
 	else if (signo == SIGQUIT)
-	{
-		if (pid == -1)
-			sig_quit();
-		else
-			ft_putstr_fd("\n", 1);
-	}
+		sig_quit();
 }
 
 void	set_signal(void)

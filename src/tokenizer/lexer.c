@@ -65,9 +65,24 @@ static	int check_syntax_errors(t_token *tokens)
 		previous = current;
 		current = current->next;
 	}
-	if ((current == NULL || current->type == 7) && previous->type == 2)
+	if (current && current->type == 7 && previous && previous->type == 2)
 		return (1);
 	return (0);
+}
+
+static	int	check_spaces(t_token *tokens)
+{
+	t_token	*tkn;
+
+	tkn = tokens;
+	while (tkn && tkn->type != 7)
+	{
+		if (tkn->type == 11)
+			tkn = tkn->next;
+		else
+			return (0);
+	}
+	return (1);
 }
 
 int	token_reformatting(t_token **tokens)
@@ -79,6 +94,8 @@ int	token_reformatting(t_token **tokens)
 	current = *tokens;
 	if (check_syntax_errors(*tokens) > 0)
 		return (write(2, "syntax error\n", 14), g_err_state = 2, 1);
+	if (check_spaces(*tokens))
+		return (g_err_state = 0, 1);
 	while (current && current->type != TOKEN_EOF)
 	{
 		while (current->type == TOKEN_WHITESPACE)
