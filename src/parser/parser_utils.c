@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/21 19:32:23 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:37:51 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,19 @@ int	parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens)
 
 	tmp = ".heredoc.txt";
 	current = current->next;
+	(*data)->hd_flag = 1;
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current->type == 13 || current->type == 12)
 	{
 		heredoc_case_init(tmp, data);
-		if (parent < 0)
-			exit(printf("ciao"));
-		if (!parent)
-		{
-			handle_heredoc(current->value, data);
+		// if (parent < 0)
+		// 	exit(printf("ciao"));
+		// if (!parent)
+		// {
+		handle_heredoc(current->value, data);
 			//exit_free_heredoc(data, tokens);
-		}
+		//}
 	}
 	else
 		return (ft_printf("syntax error after heredoc operator!\n"));

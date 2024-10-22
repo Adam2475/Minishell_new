@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/21 18:21:02 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:38:56 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	t_token	*head = *tokens;
 	char	*tmp2;
 
-	cmd_args = ft_calloc(sizeof(char **), 1);
+	//cmd_args = ft_calloc(sizeof(char **), 1);
 	tmp = NULL;
 	tmp2 = NULL;
 	//print_tokens(*tokens);
@@ -145,7 +145,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	// if (!tmp)
 	// 	tmp2 =
 	// if (tmp)
-	// 	ft_printf(tmp);
+	// 	ft_printfl(tmp);
 	// if (tmp)
 	// 	tmp2 = ft_strjoin_gnl(tmp, "\0");
 	//ft_printf(tmp2);
@@ -175,7 +175,8 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		cmd = NULL;
 		cmd_args = NULL;
 	}
-	cmd_args[0] = ft_strdup(tmp);
+	if (tmp && !cmd_args)
+		cmd_args[0] = ft_strdup(tmp);
 	free((*data)->command2);
 	// if (tmp2)
 	// 	free(tmp2);
@@ -197,7 +198,10 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	// }
 	//printf("%s\n", (*data)->tmp6);
 	if (cmd && !holder)
+	{
+		cmd_args = ft_calloc(sizeof(char **), 1);
 		holder = ft_strndup(cmd, ft_strlen(cmd));
+	}
 	if (cmd)
 		free(cmd);
 	//ft_printf("%s\n", holder);
@@ -209,9 +213,16 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		//if (execve(tmp, cmd_args, envp))
 			//exit(write(2, "fuck execve", 12));
 	//ft_printf("non dovrei esserci!\n");
-	printf("%d\n", execve(holder, cmd_args, envp));
+	//free_char_array(cmd_args);
+	if (cmd_args)
+		execve(holder, cmd_args, envp);
 	if (holder)
 		free(holder);
+	//free_char_array(cmd_args);
+	//write(2, "ciao", 5);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	//free(parent);
 	//free((*data)->tmp6);
 	exec_exit2(data, tkn, cmd_args, 0);
 	return (0);

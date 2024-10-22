@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/21 18:42:55 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:34:40 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_data
 	int				pipes;
 	int				prev_fd;
 	int				merdoso;
+	int				in_tmp;
 	int				heredoc_flag;
 	int				saved_fd;
 	int				fd_in;
@@ -100,6 +101,7 @@ typedef struct s_data
 	int				redirect_state_in;
 	int				redirect_state_out;
 	int				fd_tmp;
+	int				hd_flag;
 	char			*command2;
 	t_token			*new_token;
 	t_token			*tmp;

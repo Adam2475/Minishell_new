@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/21 19:44:24 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:36:42 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static	void	copy_mtx2(t_data **data)
 }
 
 static	int	child_process_pipe(char **envp, t_data **data,
-	t_token *tokens, t_token **tkn)
+	t_token *tokens, t_token **tkn, pid_t *parent)
 {
 	t_token		*new_tokens;
 
@@ -87,6 +87,7 @@ static	int	child_process_pipe(char **envp, t_data **data,
 	envp = NULL;
 	free_list(new_tokens);
 	copy_mtx2(data);
+	free(parent);
 	execute_command(data, (*data)->env_p, tkn, &tokens);
 	free_char_array((*data)->env_p);
 	exit (EXIT_FAILURE);
@@ -117,15 +118,18 @@ int	pipe_case(t_token **tokens, t_data **data,
 	parent = (pid_t *)ft_calloc(sizeof(pid_t), (count_pipes(*tokens) + 2));
 	init_pipe(data, tokens, &i);
 	current = *token_list;
+	(*data)->in_tmp = 0;
+	(*data)->hd_flag = 0;
 	pipe_opener(data, (*data)->end);
+	(*data)->in_tmp = dup(STDIN_FILENO);
 	while (++i <= (*data)->pipes)
 	{
 		//remove_whitespace_nodes(&current->head);
 		if (redirect_parser_pipe(data, current->head, tokens))
 			exec_exit3(data, tokens, (*data)->end,
 				write(2, "not a file or directory!\n", 26));
-		else
-			wait(NULL);
+		// else
+		// 	wait(NULL);
 		//wait(NULL);
 		parent[i] = fork();
 		if (parent[i] == -1)
@@ -134,28 +138,17 @@ int	pipe_case(t_token **tokens, t_data **data,
 		{
 			//free(parent);
 			pipe_helper(data, current, i);
-			if ((*data)->redirect_state_out > 0)
-			{
-				if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
-					exit (2);
-			}
-			if ((*data)->redirect_state_in > 0)
-			{
-				//printf("%d\n", (*data)->fd);
-				if (dup2((*data)->fd_in, STDIN_FILENO) < 0)
-					exit (printf("dioporco\n"));
-			}
-			child_process_pipe(envp, data, current->head, tokens);
+			child_process_pipe(envp, data, current->head, tokens, parent);
 			//exit(1);
 		}
-		else
-		{
-			parent_process2(data, i, (*data)->end);
-		}
+		dup2(STDIN_FILENO, (*data)->in_tmp);
+		parent_process2(data, i, (*data)->end);
 		current = current->next;
 	}
 	while (i >= 0)
+	{
 		waitpid(parent[i--], NULL, 0);
+	}
 	free(parent);
 	return (free_char_array((*data)->env_p), free((*data)->end), 0);
 }
