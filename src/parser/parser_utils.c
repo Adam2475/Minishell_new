@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/16 14:10:02 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:37:51 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	parser_case_redi(t_token *current, t_data **data)
 {
 	current = current->next;
-	(*data)->redirect_state = 0;
+	(*data)->redirect_state_in = 1;
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current->type == TOKEN_APPENDICE)
 	{
-		(*data)->fd = open(current->value, O_RDONLY);
-		if ((*data)->fd < 0)
+		(*data)->fd_in = open(current->value, O_RDONLY);
+		if ((*data)->fd_in < 0)
 			return (1);
 	}
 	else
@@ -54,7 +54,7 @@ static	void	exit_free_heredoc(t_data **data, t_token **tokens)
 static	void	heredoc_case_init(char *tmp, t_data **data)
 {
 	(*data)->fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0600);
-	(*data)->redirect_state = 0;
+	(*data)->redirect_state_in = 1;
 	(*data)->heredoc_flag = 1;
 }
 
@@ -84,7 +84,7 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 	else
 		return (ft_printf("syntax error after heredoc operator!\n"));
 	close((*data)->fd);
-	(*data)->fd = open(tmp, O_RDONLY);
+	(*data)->fd_in = open(tmp, O_RDONLY);
 	return (0);
 }
 
@@ -96,6 +96,7 @@ int	parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens)
 
 	tmp = ".heredoc.txt";
 	current = current->next;
+	(*data)->hd_flag = 1;
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current->type == 13 || current->type == 12)
@@ -105,13 +106,13 @@ int	parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens)
 		// 	exit(printf("ciao"));
 		// if (!parent)
 		// {
-			handle_heredoc(current->value, data);
+		handle_heredoc(current->value, data);
 			//exit_free_heredoc(data, tokens);
 		// }
 	}
 	else
 		return (ft_printf("syntax error after heredoc operator!\n"));
 	close((*data)->fd);
-	(*data)->fd = open(tmp, O_RDONLY);
+	(*data)->fd_in = open(tmp, O_RDONLY);
 	return (0);
 }

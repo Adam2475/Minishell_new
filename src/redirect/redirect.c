@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/18 17:42:01 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:38:56 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,27 @@ int	exec_exit2(t_data **data, t_token **tokens,
 	exit(g_err_state);
 }
 
+static int	ft_count(char const *s, char c)
+{
+	int	i;
+	int	sn;
+
+	i = 0;
+	sn = 0;
+	while (s[i] != 0)
+	{
+		if (s[i] != c)
+		{
+			sn++;
+			while (s[i] != c && s[i] != '\0')
+				i++;
+		}
+		if (s[i] != '\0')
+			i++;
+	}
+	return (sn);
+}
+
 int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 {
 	char	*cmd;
@@ -71,7 +92,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	t_token	*head = *tokens;
 	char	*tmp2;
 
-	cmd_args = ft_calloc(sizeof(char **), 1);
+	//cmd_args = ft_calloc(sizeof(char **), 1);
 	tmp = NULL;
 	tmp2 = NULL;
 	//print_tokens(*tokens);
@@ -95,7 +116,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 				current = current->next;
 			if (current->type == TOKEN_APPENDICE)
 			{
-				while(current->type == TOKEN_APPENDICE)
+				while(current->type != TOKEN_EOF)
 				{
 					while (current->type == TOKEN_WHITESPACE)
 					{
@@ -125,7 +146,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	// if (!tmp)
 	// 	tmp2 =
 	// if (tmp)
-	// 	ft_printf(tmp);
+	// 	ft_printfl(tmp);
 	// if (tmp)
 	// 	tmp2 = ft_strjoin_gnl(tmp, "\0");
 	//ft_printf(tmp2);
@@ -141,7 +162,11 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	//write(2, tmp, ft_strlen(tmp) + 1);
 	//exit(1);
 	//exit(1);
-	if (tmp2)
+	
+	//printf("%s\n", tmp);
+	//printf("%s\n", tmp2);
+	//exit(1);
+	if (tmp)
 	{
 		cmd_args = ft_split(tmp, 32);
 		cmd = ft_strdup(cmd_args[0]);
@@ -151,9 +176,11 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		cmd = NULL;
 		cmd_args = NULL;
 	}
+	if (tmp && !cmd_args)
+		cmd_args[0] = ft_strdup(tmp);
 	free((*data)->command2);
-	if (tmp2)
-		free(tmp2);
+	// if (tmp2)
+	// 	free(tmp2);
 	(*data)->tmp6 = NULL;
 	if (cmd_args)
 	{
@@ -175,19 +202,31 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	// }
 	//printf("%s\n", (*data)->tmp6);
 	if (cmd && !holder)
+	{
+		cmd_args = ft_calloc(sizeof(char **), 1);
 		holder = ft_strndup(cmd, ft_strlen(cmd));
+	}
 	if (cmd)
 		free(cmd);
 	//ft_printf("%s\n", holder);
-	// ft_printf("%s\n", cmd_args[0]);
-	// ft_printf("%s\n", cmd_args[1]);
+	//ft_printf("%s\n", cmd_args[0]);
+	//ft_printf("%s\n", cmd_args[1]);
+	//write(1, cmd_args[0], ft_strlen(cmd_args[0]));
 	//ft_printf("%s\n", cmd_args[2]);
-	if (holder)
-		if (!execve(holder, cmd_args, envp))
-			exit(write(2, "fuck execve", 12));
+	//if (holder)
+		//if (execve(tmp, cmd_args, envp))
+			//exit(write(2, "fuck execve", 12));
 	//ft_printf("non dovrei esserci!\n");
+	//free_char_array(cmd_args);
+	if (cmd_args)
+		execve(holder, cmd_args, envp);
 	if (holder)
 		free(holder);
+	//free_char_array(cmd_args);
+	//write(2, "ciao", 5);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	//free(parent);
 	//free((*data)->tmp6);
 	exec_exit2(data, tkn, cmd_args, 0);
 	return (0);

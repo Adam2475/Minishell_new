@@ -68,19 +68,16 @@ static	int	copy_mtx1(t_data **data)
 static	int	child_process(char **cmd_args, t_data **data,
 	t_token **tokens)
 {
-	if (!((*data)->fd < 0))
+	if ((*data)->redirect_state_out > 0)
 	{
-		if ((*data)->redirect_state == 1)
-		{
-			(*data)->saved_fd = dup(STDOUT_FILENO);
-			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
-				exit(2);
-		}
-		if ((*data)->redirect_state == 0)
-		{
-			if (dup2((*data)->fd, STDIN_FILENO) < 0)
-				exit(2);
-		}
+		(*data)->saved_fd = dup(STDOUT_FILENO);
+		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
+			exit(2);
+	}
+	if ((*data)->redirect_state_in > 0)
+	{
+		if (dup2((*data)->fd_in, STDIN_FILENO) < 0)
+			exit(2);
 	}
 	if ((*data)->cmd2 && cmd_args && copy_mtx1(data))
 	{

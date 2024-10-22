@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 14:45:41 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:38:02 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,27 @@ void	setup_pipe(t_data **data, int i, int prev_fd, int *end)
 	int	pipes;
 
 	pipes = count_pipes((*data)->tokens);
-	if (i > 0)
+	if (i > 0 && (*data)->hd_flag == 0)
 	{
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
 	if (i < pipes)
 		dup2(end[i * 2 + 1], STDOUT_FILENO);
+	if ((*data)->redirect_state_out > 0)
+	{
+		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
+			exit (2);
+	}
+	if ((*data)->redirect_state_in > 0)
+	{
+		//printf("%d\n", (*data)->fd);
+		dup2((*data)->fd_in, STDIN_FILENO);
+		if ((*data)->fd_in < 0)
+		{
+			printf("dioporco\n");
+			exit (0);
+		}
+		close((*data)->fd_in);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/18 16:16:48 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:36:42 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,65 +78,20 @@ static	void	copy_mtx2(t_data **data)
 }
 
 static	int	child_process_pipe(char **envp, t_data **data,
-	t_token *tokens, t_token **tkn)
+	t_token *tokens, t_token **tkn, pid_t *parent)
 {
 	t_token		*new_tokens;
 
 	new_tokens = extract_command_and_appendices(data, tokens);
 	(*data)->command2 = token_to_command(new_tokens);
 	envp = NULL;
-	if (!((*data)->fd < 0) && !envp)
-	{
-		if ((*data)->redirect_state == 1)
-		{
-			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
-				exit (2);
-		}
-		if ((*data)->redirect_state == 0)
-		{
-			printf("%d\n", (*data)->fd);
-			if (dup2((*data)->fd, STDIN_FILENO) < 0)
-				exit (2);
-		}
-	}
 	free_list(new_tokens);
 	copy_mtx2(data);
-	//write(2, "ciao", 5);
+	free(parent);
 	execute_command(data, (*data)->env_p, tkn, &tokens);
 	free_char_array((*data)->env_p);
 	exit (EXIT_FAILURE);
 }
-
-// static void	handle_here_doc(int i, pid_t pid, int *g_exit_status,
-// 		bool wait_for[])
-// {
-// 	waitpid(pid, g_exit_status, 0);
-// 	*g_exit_status = *g_exit_status / 256;
-// 	wait_for[i] = false;
-// }
-
-// static	int	heredoc_pipe_exec(t_token *current, t_data **data, t_token **tokens)
-// {
-
-// }
-
-// bool	ft_check_here_doc(t_list *list)
-// {
-// 	t_list		*current;
-// 	t_tkn_data	*tokendata;
-
-// 	current = list;
-// 	tokendata = (t_tkn_data *)current->content;
-// 	while (current != NULL && tokendata->type != META_PIPE)
-// 	{
-// 		if (tokendata->type == META_HEREDOC)
-// 			return (true);
-// 		current = current->next;
-// 		if (current != NULL)
-// 			tokendata = (t_tkn_data *)current->content;
-// 	}
-// 	return (false);
-// }
 
 int	heredoc_finder(t_token *current)
 {
@@ -164,8 +119,11 @@ int	pipe_case(t_token **tokens, t_data **data,
 	parent = (pid_t *)ft_calloc(sizeof(pid_t), (count_pipes(*tokens) + 2));
 	init_pipe(data, tokens, &i);
 	current = *token_list;
+	(*data)->in_tmp = 0;
+	(*data)->hd_flag = 0;
 	pipe_opener(data, (*data)->end);
 	flag = 0;
+	(*data)->in_tmp = dup(STDIN_FILENO);
 	while (++i <= (*data)->pipes)
 	{
 		//remove_whitespace_nodes(&current->head);
@@ -184,21 +142,23 @@ int	pipe_case(t_token **tokens, t_data **data,
 		}
 		//wait(NULL);
 		parent[i] = fork();
+		if (parent[i] == -1)
+			exit(ft_printf("fork error!\n"));
 		if (parent[i] == 0)
 		{
 			// free(parent);
 			pipe_helper(data, current, i);
-			child_process_pipe(envp, data, current->head, tokens);
+			child_process_pipe(envp, data, current->head, tokens, parent);
 			//exit(1);
 		}
-		if (parent)
-		{
-			parent_process2(data, i, (*data)->end);
-		}
+		dup2(STDIN_FILENO, (*data)->in_tmp);
+		parent_process2(data, i, (*data)->end);
 		current = current->next;
 	}
 	while (i >= 0)
+	{
 		waitpid(parent[i--], NULL, 0);
+	}
 	free(parent);
 	return (free_char_array((*data)->env_p), free((*data)->end), 0);
 }

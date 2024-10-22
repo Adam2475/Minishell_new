@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/18 20:30:36 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:44:06 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ static	int	read_input(t_data *data)
 	data->token_list = NULL;
 	data->tokens = NULL;
 	data->merdoso = 0;
-	data->input = readline("myprompt$ ");
-	if (!data->input)
+	data->input = readline("myprompt$ ");	if (!data->input)
 		return (errno = 126, 0);
 	if (data->input[0] != '\0')
 		add_history(data->input);
@@ -90,6 +89,10 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	gen_list_env(&data, envp);
 	set_signal();
+	data->fd_in = -1;
+	data->fd_out = -1;
+	data->redirect_state_out = -1;
+	data->redirect_state_in = -1;
 	while (1)
 	{
 		if (tokens)
