@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 16:14:18 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:14:16 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	main(int argc, char **argv, char **envp)
 		//print_tokens(tokens);
 		//exit(1);
 		env_parser(&data, envp);
+		print_tokens(tokens);
 		command_init(data, tokens, envp);
 	}
 }
@@ -122,6 +123,7 @@ int	main(int argc, char **argv, char **envp)
 // t_token *result; = NULL; | OK
 // "/usr/bin/ls" | OK
 // "           "  (only as second command) | OK
+// $EMPTY echo hi ?? | remove empty tokens
 ///////////////////////////////////////////////////////////
 // Single Command:
 // echo ciao | OK

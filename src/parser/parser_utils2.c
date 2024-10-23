@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:00:29 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 11:15:58 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:17:51 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	parser_case_redo(t_token *current, t_data **data)
 {
 	current = current->next;
-	while (current && (current->type == 11 || current->type == 10 || current->type == 9))
+	while (current && (current->type == 11
+		|| current->type == 10 || current->type == 9))
 		current = current->next;
 	if (current && (current->type == TOKEN_APPENDICE || current->type == 14))
 	{

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 13:41:08 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:29:42 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,7 +313,9 @@ void			init_pipe(t_data **data, t_token **tokens, int *i);
 int				exec_exit3(t_data **data, t_token **tokens,
 					int *end, int print);
 int				heredoc_finder(t_token *current);
-int				parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens);
-int				redirect_parser_pipe(t_data **data, t_token *current, t_token **tokens);
+int				parser_case_herdoc_pipe(t_token *current,
+					t_data **data, t_token **tokens);
+int				redirect_parser_pipe(t_data **data, t_token *current,
+					t_token **tokens);
 
 #endif
