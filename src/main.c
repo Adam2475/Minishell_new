@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/22 17:23:06 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:24:00 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,13 @@ int	main(int argc, char **argv, char **envp)
 	data->redirect_state_in = -1;
 	while (1)
 	{
+		data->path_from_envp = NULL;
+		data->my_line = NULL;
 		if (tokens)
 		{
 			free_tokens(&data, tokens);
 			tokens = NULL;
-		}
+		}	
 		//if (!read_input(data))
 		if (!read_input(data))
 			return (ft_printf("exit\n"), free_exit(&data), 1);
