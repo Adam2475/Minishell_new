@@ -156,8 +156,8 @@ int	main(int argc, char **argv, char **envp)
 // ls -l | OK
 // exit | OK
 // ls -l > outfile | OK
-// cat outfile OK
-// < outfile grep -rl out | OK
+// cat outfile | OK
+// TODO: < outfile grep -rl out | error e successivamente leak e impossibile usare shell
 // cat << eof | OK
 // a << s << z << x | OK
 // cat << << eof | OK
@@ -166,6 +166,8 @@ int	main(int argc, char **argv, char **envp)
 // echo cioa$PWD ciao | OK
 //////////////////////////////////////////////////////////
 // Multi Cmd:
+// export > test | env >out | cat out | ?!
+// export>out | env>test | ?!
 // cat merda | cat ciao | OK
 // < outfile grep -rl ada | cat -e > out2 | OK
 // < src/init.c grep -rl int | cat -e > out2 | OK

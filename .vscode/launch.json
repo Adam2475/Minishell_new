@@ -25,6 +25,11 @@
             "MIMode": "gdb",
             "setupCommands": [
                 {
+                    "description": "Enable follow-fork-mode",
+                    "text": "set follow-fork-mode child",
+                    "ignoreFailures": true
+                },
+                {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true

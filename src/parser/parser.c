@@ -133,6 +133,8 @@ int	token_parser(t_token **tokens, t_data **data)
 				write(2, "error!\n", 8);
 				return (g_err_state = 2, errno = 2, strerror(errno), 1);
 			}
+			if (g_err_state == 130)
+				return (0);
 		}
 		if (current->type == 12 || current->type == 14)
 		{

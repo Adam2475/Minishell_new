@@ -113,6 +113,7 @@ void	execute_command_single(char **command, t_data **data,
 		return (errno = g_err_state, command_single_helper(data),
 			free((*data)->tmp9));
 	process_command2(data, command);
+	printf("\033[0;91m\n\n%s\n\n\n\033[0;39m", command[0]);
 	//holder = NULL;
 	//holder = command_single_finder(&i, data, command);
 	(*data)->cmd_args = ft_split((*data)->tmp9, 32);

@@ -124,6 +124,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 	pipe_opener(data, (*data)->end);
 	flag = 0;
 	(*data)->in_tmp = dup(STDIN_FILENO);
+	print_tokens(*tokens);
 	while (++i <= (*data)->pipes)
 	{
 		//remove_whitespace_nodes(&current->head);

@@ -21,7 +21,7 @@ static	void	cmd_in_qt(t_token *current)
 	{
 		if (current && current->next
 			&& current->type == 12 && current->next->type != 11
-			&& current->next->type != 7)
+			&& !(current->next->type <= 7 && current->next->type >= 2))
 		{
 			tmp = current->value;
 			if (current && current->next
@@ -139,7 +139,7 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 	current = (*tkn_lst);
 	doll_to_cmd(tkn_lst);
 	shrink_tkn_in_qt(&current);
-	print_tokens(*tkn_lst);
+	// print_tokens(*tkn_lst);
 	// join_in_qt_tk(tkn_lst);
 	return (0);
 }

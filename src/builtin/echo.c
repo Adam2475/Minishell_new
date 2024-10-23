@@ -14,6 +14,8 @@
 
 void	heredoc_unlink(t_data **data)
 {
+	if (errno != 0)
+		g_err_state = errno;
 	if ((*data)->heredoc_flag > 0)
 	{
 		(*data)->heredoc_flag = 0;

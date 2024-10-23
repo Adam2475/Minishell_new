@@ -186,7 +186,12 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	{
 		if (manual_cmd(cmd_args, data, tokens))
 		{
-			ft_free_null(tmp);
+			free(tmp);
+			tmp = NULL;
+			free(tmp2);
+			tmp2 = NULL;
+			free(cmd);
+			cmd = NULL;
 			manual_helper(data, tkn, cmd_args);
 		}
 	}
@@ -200,7 +205,6 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	// 	(*data)->tmp6 = ft_strjoin_gnl((*data)->tmp6,
 	// 			trim_whitespace(cmd_args[i++]));
 	// }
-	//printf("%s\n", (*data)->tmp6);
 	if (cmd && !holder)
 	{
 		cmd_args = ft_calloc(sizeof(char **), 1);
@@ -260,5 +264,7 @@ int	handle_heredoc(char *delimiter, t_data **data)
 		free(line);
 	}
 	close((*data)->fd);
+	if (g_err_state == 130)
+		return (1);
 	return (0);
 }
