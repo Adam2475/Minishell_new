@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/22 13:38:56 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:18:17 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 				current = current->next;
 			if (current->type == TOKEN_APPENDICE)
 			{
-				while(current->type != TOKEN_EOF)
+				while(current && current->type != TOKEN_EOF)
 				{
 					while (current->type == TOKEN_WHITESPACE)
 					{
@@ -128,44 +128,18 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 						tmp2 = ft_strjoin(tmp, " ");
 						free(tmp);
 						tmp = ft_strjoin(tmp2, current->value);
-						// tmp2 = ft_strjoin(tmp, current->value);
-						// free(tmp2);
-						// tmp2 = NULL;
-						//cmd_args[x] = ft_strdup(current->value);
-						// write(2, tmp, ft_strlen(tmp));
-						// write(2, "|", 1);
 						current = current->next;
 						x++;
 						continue;
 					}
+					if (current)
+						current = current->next;
 				}
 			}
 		}
-		current = current->next;
+		if (current)
+			current = current->next;
 	}
-	// if (!tmp)
-	// 	tmp2 =
-	// if (tmp)
-	// 	ft_printfl(tmp);
-	// if (tmp)
-	// 	tmp2 = ft_strjoin_gnl(tmp, "\0");
-	//ft_printf(tmp2);
-	// if (tmp)
-	// 	free(tmp);
-	//cmd_args[x + 1] = NULL;
-	//ft_printf("%s\n", tmp2);
-	// write(2, tmp2, ft_strlen(tmp2));
-	// write(2, "|", 1);
-	// write(2, "\n", 1);
-	// write(2, tmp, ft_strlen(tmp));
-	//
-	//write(2, tmp, ft_strlen(tmp) + 1);
-	//exit(1);
-	//exit(1);
-	
-	//printf("%s\n", tmp);
-	//printf("%s\n", tmp2);
-	//exit(1);
 	if (tmp)
 	{
 		cmd_args = ft_split(tmp, 32);
