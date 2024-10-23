@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/22 13:37:51 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:15:16 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 int	parser_case_redi(t_token *current, t_data **data)
 {
 	current = current->next;
-	(*data)->redirect_state_in = 1;
 	while (current->type == TOKEN_WHITESPACE)
+		current = current->next;
+	while (current->type == TOKEN_DOUBLE_QUOTES || current->type == TOKEN_SINGLE_QUOTES)
 		current = current->next;
 	if (current->type == TOKEN_APPENDICE)
 	{
+		(*data)->redirect_state_in = 1;
 		(*data)->fd_in = open(current->value, O_RDONLY);
 		if ((*data)->fd_in < 0)
 			return (1);

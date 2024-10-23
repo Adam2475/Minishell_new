@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:24:21 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:14:23 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ static	int	call_for_command(t_token **tokens, t_data **data,
 	execute_command_single((*data)->command, data, tokens);
 	if ((*data)->fd >= 0)
 		close((*data)->fd);
+	if ((*data)->fd_in >= 0)
+		close((*data)->fd_in);
+	if ((*data)->fd_out >= 0)
+		close((*data)->fd_out);
 	return (0);
 }
 
@@ -125,7 +129,10 @@ int	token_parser(t_token **tokens, t_data **data)
 		if ((*data)->heredoc_flag == 0)
 		{
 			if (redirect_parser(data, current, tokens) > 0)
+			{
+				write(2, "error!\n", 8);
 				return (g_err_state = 2, errno = 2, strerror(errno), 1);
+			}
 		}
 		if (current->type == 12 || current->type == 14)
 		{
@@ -138,5 +145,9 @@ int	token_parser(t_token **tokens, t_data **data)
 	}
 	if ((*data)->fd && (*data)->fd >= 0)
 		close((*data)->fd);
+	if ((*data)->fd_in)
+		close((*data)->fd_in);
+	if ((*data)->fd_out)
+		close((*data)->fd_out);
 	return (0);
 }

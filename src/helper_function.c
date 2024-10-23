@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:26:19 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:53:41 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void	command_init(t_data *data, t_token *tokens, char **envp)
 	if (piper(&tokens) == 0)
 		token_parser(&tokens, &data);
 	else
+	{
 		do_pipe(data, tokens, envp);
+	}
 }
 
 int	init_data(t_data **data, int argc, char **argv, t_token **tokens)

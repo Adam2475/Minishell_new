@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:00:29 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/21 18:44:51 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:15:58 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 int	parser_case_redo(t_token *current, t_data **data)
 {
 	current = current->next;
-	(*data)->redirect_state_out = 1;
 	while (current && current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current && current->type == TOKEN_APPENDICE)
+	{
+		(*data)->redirect_state_out = 1;
 		(*data)->fd_out = open(current->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	}
 	else
 		return (1);
 	return (0);
@@ -28,11 +30,13 @@ int	parser_case_redo(t_token *current, t_data **data)
 int	parser_case_append(t_token *current, t_data **data)
 {
 	current = current->next;
-	(*data)->redirect_state_out = 1;
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current->type == TOKEN_APPENDICE)
+	{
+		(*data)->redirect_state_out = 1;
 		(*data)->fd_out = open(current->value, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	}
 	else
 		return (1);
 	return (0);
