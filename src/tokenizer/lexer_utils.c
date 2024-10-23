@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/16 12:58:36 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:52:18 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	whitespace_case(char *buffer, char *end, t_token **tokens)
 	int	i;
 
 	i = 0;
-	while (*end == WHITESPACE)
+	while (*end == WHITESPACE || *end == '\t')
 	{
 		end++;
 		i++;

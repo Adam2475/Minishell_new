@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/16 12:58:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:51:06 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	recognizer(char *buffer, t_token **tokens,
 	while (*buffer)
 	{
 		end = buffer;
-		if (*buffer == WHITESPACE)
+		if (*buffer == WHITESPACE || *buffer == '\t')
 		{
 			buffer = buffer + whitespace_case(buffer, end, tokens);
 			continue ;
