@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/22 13:38:02 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:24:02 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,20 @@ void	setup_pipe(t_data **data, int i, int prev_fd, int *end)
 	if ((*data)->redirect_state_out > 0)
 	{
 		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
-			exit (2);
+		{
+			ft_printf("no such file or directory!\n");
+			free((*data)->parent);
+			if ((*data)->in_tmp > 0)
+				close((*data)->in_tmp);
+			if ((*data)->fd_in > 0)
+				close((*data)->fd_in);
+			if ((*data)->fd > 0)
+				close((*data)->fd);
+			if ((*data)->fd_out > 0)
+				close((*data)->fd_out);
+			exec_exit3(data, &(*data)->tokens_ptr, end,0);
+		}
+		close((*data)->fd_out);
 	}
 	if ((*data)->redirect_state_in > 0)
 	{
@@ -109,8 +122,19 @@ void	setup_pipe(t_data **data, int i, int prev_fd, int *end)
 		dup2((*data)->fd_in, STDIN_FILENO);
 		if ((*data)->fd_in < 0)
 		{
+			ft_printf("no such file or directory!\n");
+			free((*data)->parent);
 			printf("dioporco\n");
-			exit (0);
+			heredoc_unlink(data);
+			if ((*data)->in_tmp > 0)
+				close((*data)->in_tmp);
+			if ((*data)->fd_in > 0)
+				close((*data)->fd_in);
+			if ((*data)->fd > 0)
+				close((*data)->fd);
+			if ((*data)->fd_out > 0)
+				close((*data)->fd_out);
+			exec_exit3(data, &(*data)->tokens_ptr, end,0);
 		}
 		close((*data)->fd_in);
 	}

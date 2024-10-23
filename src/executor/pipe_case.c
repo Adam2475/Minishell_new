@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/22 13:36:42 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 13:53:39 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,16 @@ int	pipe_case(t_token **tokens, t_data **data,
 	pipe_opener(data, (*data)->end);
 	flag = 0;
 	(*data)->in_tmp = dup(STDIN_FILENO);
+	(*data)->tokens_ptr = (*tokens);
+	(*data)->parent = parent;
 	while (++i <= (*data)->pipes)
 	{
 		//remove_whitespace_nodes(&current->head);
 		if (redirect_parser_pipe(data, current->head, tokens))
+		{
 			exec_exit3(data, tokens, (*data)->end,
 				write(2, "not a file or directory!\n", 26));
+		}
 		if (g_err_state == 130 && (*data)->heredoc_flag == 1)
 		{
 			g_err_state = 0;

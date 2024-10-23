@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 09:42:28 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:09:08 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,8 @@
 
 static void	sig_int(void)
 {
-	// rl_on_new_line();
-	// ft_putstr_fd("\n", STDOUT_FILENO);
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	ioctl(STDIN_FILENO, TIOCSTI, NULL);
-	// rl_redisplay();
 }
 
 static void	sig_quit(void)

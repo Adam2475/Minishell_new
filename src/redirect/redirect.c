@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/22 13:38:56 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:30:04 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 				current = current->next;
 			if (current->type == TOKEN_APPENDICE)
 			{
-				while(current->type != TOKEN_EOF)
+				while(current && current->type != TOKEN_EOF)
 				{
 					while (current->type == TOKEN_WHITESPACE)
 					{
@@ -138,10 +138,13 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 						x++;
 						continue;
 					}
+					if (current)
+						current = current->next;
 				}
 			}
 		}
-		current = current->next;
+		if (current)
+			current = current->next;
 	}
 	// if (!tmp)
 	// 	tmp2 =

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:22:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 13:07:22 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 	current = (*tkn_lst);
 	doll_to_cmd(tkn_lst);
 	shrink_tkn_in_qt(&current);
-	print_tokens(*tkn_lst);
+	// print_tokens(*tkn_lst);
 	// join_in_qt_tk(tkn_lst);
 	return (0);
 }
