@@ -24,7 +24,7 @@ t_token	*token_reformatting_pipe(t_token *current)
 	}
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
-	if (current && current->next)
+	if (current && current->next && current->type != TOKEN_WORD)
 		current = current->next;
 	while ((current && current->type == TOKEN_WORD)
 		|| current->type == TOKEN_WHITESPACE)

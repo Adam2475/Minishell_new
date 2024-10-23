@@ -91,12 +91,12 @@ int	main(int argc, char **argv, char **envp)
 	set_signal();
 	data->fd_in = -1;
 	data->fd_out = -1;
-	data->redirect_state_out = -1;
-	data->redirect_state_in = -1;
 	while (1)
 	{
 		data->path_from_envp = NULL;
 		data->my_line = NULL;
+		data->redirect_state_out = -1;
+		data->redirect_state_in = -1;
 		if (tokens)
 		{
 			free_tokens(&data, tokens);
