@@ -83,6 +83,45 @@ static	void	doll_to_cmd(t_token **tkn)
 		current = current->next;
 	}
 }
+static	void	join_in_qt_tk(t_token *tkn, t_token_type type)
+{
+	t_token			*current;
+	char			*tmp;
+	// static int		i = 0;
+
+	current = tkn;
+	tmp = NULL;
+	current = current->next;
+	// ft_printf("\n\nprint_tokens %d\n", i++);
+	// print_tokens(tkn);
+	while (current->next && current->next->type != type)
+	{
+		tmp = current->value;
+		current->value = ft_strjoin(current->value, current->next->value);
+		free(tmp);
+		tkn_delone(&current, current->next);
+	}
+	return ;
+}
+
+static	int	shrink_tkn_in_qt(t_token **tokens)
+{
+	t_token	*current;
+ 
+	current = (*tokens);
+	// ft_printf("\n\nPRIMO\n");
+	// print_tokens(*tokens);
+	while (current && current->type != TOKEN_EOF)
+	{
+		if (current->type == 10 || current->type == 9)
+			join_in_qt_tk(current, current->type);
+		if (current->type == 14 || current->type == 8)
+			current = current->next;
+		current = current->next;
+	}
+	//print_tokens(*tokens);
+	return (0);
+}
 
 int	expand_var(t_token **tkn_lst, t_data **data)
 {
@@ -99,6 +138,9 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 	cmd_in_qt(current);
 	current = (*tkn_lst);
 	doll_to_cmd(tkn_lst);
+	shrink_tkn_in_qt(&current);
+	print_tokens(*tkn_lst);
+	// join_in_qt_tk(tkn_lst);
 	return (0);
 }
 

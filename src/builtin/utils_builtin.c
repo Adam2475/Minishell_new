@@ -25,20 +25,19 @@ void	process_command2(t_data **data, char **command)
 
 static	int	redirect_builtin(t_data **data)
 {
-	if (!((*data)->fd < 0))
+	if ((*data)->redirect_state_out > 0)
 	{
-		if ((*data)->redirect_state == 1)
-		{
-			(*data)->saved_fd = dup(STDOUT_FILENO);
-			if (dup2((*data)->fd, STDOUT_FILENO) < 0)
-				return (-1);
-		}
-		if ((*data)->redirect_state == 0)
-		{
-			(*data)->saved_fd = dup(STDIN_FILENO);
-			if (dup2((*data)->fd, STDIN_FILENO) < 0)
-				return (-1);
-		}
+		(*data)->redirect_state_out = 1;
+		(*data)->saved_fd_out = dup(STDOUT_FILENO);
+		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
+			return (-1);
+	}
+	if ((*data)->redirect_state_in > 0)
+	{
+		(*data)->redirect_state_in = 1;
+		(*data)->saved_fd_in = dup(STDIN_FILENO);
+		if (dup2((*data)->fd_in, STDIN_FILENO) < 0)
+			return (-1);
 	}
 	return (0);
 }

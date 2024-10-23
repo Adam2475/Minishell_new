@@ -15,9 +15,9 @@
 int	parser_case_redo(t_token *current, t_data **data)
 {
 	current = current->next;
-	while (current && current->type == TOKEN_WHITESPACE)
+	while (current && (current->type == 11 || current->type == 10 || current->type == 9))
 		current = current->next;
-	if (current && current->type == TOKEN_APPENDICE)
+	if (current && (current->type == TOKEN_APPENDICE || current->type == 14))
 	{
 		(*data)->redirect_state_out = 1;
 		(*data)->fd_out = open(current->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -30,9 +30,9 @@ int	parser_case_redo(t_token *current, t_data **data)
 int	parser_case_append(t_token *current, t_data **data)
 {
 	current = current->next;
-	while (current->type == TOKEN_WHITESPACE)
+	while (current && (current->type == 11 || current->type == 10 || current->type == 9))
 		current = current->next;
-	if (current->type == TOKEN_APPENDICE)
+	if (current && (current->type == TOKEN_APPENDICE || current->type == 14))
 	{
 		(*data)->redirect_state_out = 1;
 		(*data)->fd_out = open(current->value, O_WRONLY | O_APPEND | O_CREAT, 0644);
@@ -85,12 +85,15 @@ void	remove_whitespace_nodes(t_token **head)
 
 void	command_single_helper(t_data **data)
 {
-	if ((*data)->saved_fd >= 0)
+
+	if ((*data)->redirect_state_out > 0)
 	{
-		if ((*data)->redirect_state == 1)
-			dup2((*data)->saved_fd, STDOUT_FILENO);
-		else if ((*data)->redirect_state == 0)
-			dup2((*data)->saved_fd, STDIN_FILENO);
-		close((*data)->saved_fd);
+		dup2((*data)->saved_fd_out, STDOUT_FILENO);
+		close((*data)->saved_fd_out);
+	}
+	if ((*data)->redirect_state_in > 0)
+	{
+		dup2((*data)->saved_fd_in, STDIN_FILENO);
+		close((*data)->saved_fd_in);
 	}
 }

@@ -15,11 +15,9 @@
 int	parser_case_redi(t_token *current, t_data **data)
 {
 	current = current->next;
-	while (current->type == TOKEN_WHITESPACE)
+	while (current && (current->type == 11 || current->type == 10 || current->type == 9))
 		current = current->next;
-	while (current->type == TOKEN_DOUBLE_QUOTES || current->type == TOKEN_SINGLE_QUOTES)
-		current = current->next;
-	if (current->type == TOKEN_APPENDICE)
+	if (current && (current->type == TOKEN_APPENDICE || current->type == 14))
 	{
 		(*data)->redirect_state_in = 1;
 		(*data)->fd_in = open(current->value, O_RDONLY);

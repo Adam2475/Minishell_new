@@ -101,6 +101,8 @@ typedef struct s_data
 	int				redirect_state_in;
 	int				redirect_state_out;
 	int				fd_tmp;
+	int				saved_fd_out;
+	int				saved_fd_in;
 	int				hd_flag;
 	char			*command2;
 	t_token			*new_token;

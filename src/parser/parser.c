@@ -25,9 +25,9 @@ static	int	call_for_command(t_token **tokens, t_data **data,
 	while (current->type == 13 || current->type == 1
 		|| current->type == 8 || current->type == 11)
 	{
-		if (current->type == TOKEN_WHITESPACE)
+		while (current->type == 11 || current->type == 10 || current->type == 9)
 			current = current->next;
-		if (current->type == TOKEN_APPENDICE)
+		if (current->type == TOKEN_APPENDICE || current->type == 14)
 		{
 			(*data)->command[i] = ft_strdup(current->value);
 			current = current->next;

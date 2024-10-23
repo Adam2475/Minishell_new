@@ -34,9 +34,11 @@ int	check_for_flag(t_token **tkn)
 	node = *tkn;
 	while (node && node->type != TOKEN_EOF)
 	{
-		if (node->type != 12 && node->type != 3
-			&& node->type != 3 && node->type != 4
-			&& node->type != 2 && node->type != 6)
+		if (node->type == 3 || node->type == 5
+			|| node->type == 4 || node->type == 2
+			|| node->type == 6)
+			return (0);
+		if (node->type != 12 && node->type != 11)
 			return (1);
 		node = node->next;
 	}

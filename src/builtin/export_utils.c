@@ -58,9 +58,9 @@ int	inutil_exp(t_data **data, t_token **current, t_token **tkn)
 			&& ((*current)->type == TOKEN_WHITESPACE
 				|| ft_strncmp((*current)->value, "export", 6) == 0))
 			(*current) = (*current)->next;
-		if ((*current)->type != 7 && util_exp(data, current, tkn) == 1)
+		if (((*current)->type > 7 || (*current)->type < 2) && util_exp(data, current, tkn) == 1)
 			return (1);
-		else if ((*current)->type != 7 && util_exp(data, current, tkn) == 2)
+		else if (((*current)->type > 7 || (*current)->type < 2) && util_exp(data, current, tkn) == 2)
 			continue ;
 		if ((*current)->value && ft_strsearch((*current)->value, '='))
 		{
