@@ -157,6 +157,8 @@ int	pipe_case(t_token **tokens, t_data **data,
 		}
 		dup2(STDIN_FILENO, (*data)->in_tmp);
 		parent_process2(data, i, (*data)->end);
+		(*data)->redirect_state_out = -1;
+		(*data)->redirect_state_in = -1;
 		current = current->next;
 	}
 	while (i >= 0)

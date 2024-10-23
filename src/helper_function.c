@@ -106,6 +106,9 @@ void	free_tokens(t_data **data, t_token *tokens)
 	if ((*data)->my_line && *(*data)->my_line != 0)
 		free((*data)->my_line);
 	free_tokens_helper(data);
+	(*data)->my_paths = NULL;
+	(*data)->path_from_envp = NULL;
+	(*data)->my_line = NULL;
 	free((*data)->input);
 	(*data)->my_paths = NULL;
 	(*data)->path_from_envp = NULL;
