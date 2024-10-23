@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 12:24:00 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:57:07 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ int	main(int argc, char **argv, char **envp)
 	set_signal();
 	data->fd_in = -1;
 	data->fd_out = -1;
+	data->redirect_state_out = -1;
+	data->redirect_state_in = -1;
+	data->my_paths = NULL;
 	data->path_from_envp = NULL;
 	data->my_line = NULL;
-	data->my_paths = NULL;
 	while (1)
 	{
-		data->redirect_state_out = -1;
-		data->redirect_state_in = -1;
 		if (tokens)
 		{
 			free_tokens(&data, tokens);
@@ -183,5 +183,5 @@ int	main(int argc, char **argv, char **envp)
 // echo "cat lol.c | cat > lol.c"
 // echo '$USER'
 /////////////////////////////////////////////////////////
-// TODO : Norme
-// TODO : $? expansion to fix
+
+// TODO : leaks with tab second cmd

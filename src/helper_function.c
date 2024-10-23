@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 12:04:40 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:56:39 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,7 @@ void	free_tokens(t_data **data, t_token *tokens)
 	(*data)->path_from_envp = NULL;
 	(*data)->my_line = NULL;
 	free((*data)->input);
+	(*data)->my_paths = NULL;
+	(*data)->path_from_envp = NULL;
+	(*data)->my_line = NULL;
 }
