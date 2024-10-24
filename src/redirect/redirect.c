@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/24 14:51:47 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:01:38 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,12 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	{
 		if (manual_cmd(cmd_args, data, tokens))
 		{
-			ft_free_null(tmp);
+			free(tmp);
+			tmp = NULL;
+			free(tmp2);
+			tmp2 = NULL;
+			free(cmd);
+			cmd = NULL;
 			manual_helper(data, tkn, cmd_args);
 		}
 	}
@@ -204,5 +209,7 @@ int	handle_heredoc(char *delimiter, t_data **data)
 		free(line);
 	}
 	close((*data)->fd);
+	if (g_err_state == 130)
+		return (1);
 	return (0);
 }

@@ -108,7 +108,7 @@ int	token_reformatting(t_token **tokens)
 			current = token_reformatting_pipe(current);
 		if (current->type == TOKEN_DOLLAR)
 			current = current->next;
-		if (check_type(current) > 0)
+		if (check_type(current) > 0 && current->type != 2)
 			current = token_reformatting_special(current);
 		if (current && current->type == TOKEN_WORD)
 			current = token_reformatting_command(current);

@@ -21,7 +21,7 @@ static	void	cmd_in_qt(t_token *current)
 	{
 		if (current && current->next
 			&& current->type == 12 && current->next->type != 11
-			&& current->next->type != 7)
+			&& !(current->next->type <= 7 && current->next->type >= 2))
 		{
 			tmp = current->value;
 			if (current && current->next
