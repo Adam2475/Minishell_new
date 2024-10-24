@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 18:07:07 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:28:05 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,36 +56,6 @@ char	*token_to_command(t_token *head)
 	return (command);
 }
 
-int	count_pipes(t_token *head)
-{
-	int			count;
-	t_token		*current;
-
-	count = 0;
-	current = head;
-	while (current != NULL)
-	{
-		if (current->type == TOKEN_PIPE)
-		{
-			count++;
-		}
-		current = current->next;
-	}
-	return (count);
-}
-
-void	close_pipes(int *end, int pipes)
-{
-	int	i;
-
-	i = 0;
-	while (i < (2 * pipes))
-	{
-		close(end[i]);
-		i++;
-	}
-}
-
 static	void	redirection_out_case_helper(t_data **data, int *end)
 {
 	ft_printf("no such file or directory!\n");
@@ -98,7 +68,7 @@ static	void	redirection_out_case_helper(t_data **data, int *end)
 		close((*data)->fd);
 	if ((*data)->fd_out > 0)
 		close((*data)->fd_out);
-	exec_exit3(data, &(*data)->tokens_ptr, end,0);
+	exec_exit3(data, &(*data)->tokens_ptr, end, 0);
 }
 
 static	void	redirection_in_case_helper(t_data **data, int *end)

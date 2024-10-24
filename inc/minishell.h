@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 17:29:42 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:30:30 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,9 @@ int				recognizer(char *buffer, t_token **tokens,
 int				token_reformatting(t_token **tokens);
 void			token_builder(t_token **tokens, char *buffer,
 					char *end, int flag);
+int				copy_mtx2_pt2(t_data **data, int i);
 int				find_special(char c);
+void			copy_mtx2(t_data **data);
 void			parent_process2(t_data **data, int i, int *end);
 void			process_command2(t_data **data, char **command);
 void			init_extraction(t_token **result, t_token **current,
@@ -309,7 +311,7 @@ char			*command_single_finder(int *i,
 					t_data **data, char **command);
 void			pipe_helper(t_data **data, t_token_list *current, int i);
 void			pipe_opener(t_data **data, int *end);
-void			init_pipe(t_data **data, t_token **tokens, int *i);
+void			init_pipe(t_data **data, t_token **tokens, int *i, int *flag);
 int				exec_exit3(t_data **data, t_token **tokens,
 					int *end, int print);
 int				heredoc_finder(t_token *current);

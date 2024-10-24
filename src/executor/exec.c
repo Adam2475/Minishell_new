@@ -72,12 +72,12 @@ static	int	child_process(char **cmd_args, t_data **data,
 	{
 		(*data)->saved_fd = dup(STDOUT_FILENO);
 		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
-			exit(2);
+			exec_exit(data, tokens, 2);
 	}
 	if ((*data)->redirect_state_in > 0)
 	{
 		if (dup2((*data)->fd_in, STDIN_FILENO) < 0)
-			exit(2);
+			exec_exit(data, tokens, 2);
 	}
 	if ((*data)->cmd2 && cmd_args && copy_mtx1(data))
 	{
@@ -103,7 +103,6 @@ void	execute_command_single(char **command, t_data **data,
 		t_token **tokens)
 {
 	pid_t	parent;
-	//char	*holder;
 	int		i;
 
 	(*data)->saved_fd = -1;
@@ -113,8 +112,6 @@ void	execute_command_single(char **command, t_data **data,
 		return (errno = g_err_state, command_single_helper(data),
 			free((*data)->tmp9));
 	process_command2(data, command);
-	//holder = NULL;
-	//holder = command_single_finder(&i, data, command);
 	(*data)->cmd_args = ft_split((*data)->tmp9, 32);
 	free((*data)->tmp9);
 	parent = fork();

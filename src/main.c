@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 18:14:16 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:56:41 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static	int	read_input(t_data *data)
 	data->token_list = NULL;
 	data->tokens = NULL;
 	data->merdoso = 0;
-	data->input = readline("myprompt$ ");	if (!data->input)
+	data->input = readline("myprompt$ ");
+	if (!data->input)
 		return (errno = 126, 0);
 	if (data->input[0] != '\0')
 		add_history(data->input);
@@ -80,11 +81,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 	t_token		*tokens;
-	//int			flags;
 
 	if (init_data(&data, argc, argv, &tokens) > 0)
 		return (1);
-	//flags = fcntl(STDIN_FILENO, F_GETFL, 0);
 	if (!envp)
 		return (1);
 	gen_list_env(&data, envp);
@@ -103,15 +102,11 @@ int	main(int argc, char **argv, char **envp)
 			free_tokens(&data, tokens);
 			tokens = NULL;
 		}	
-		//if (!read_input(data))
 		if (!read_input(data))
 			return (ft_printf("exit\n"), free_exit(&data), 1);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		//print_tokens(tokens);
-		//exit(1);
 		env_parser(&data, envp);
-		print_tokens(tokens);
 		command_init(data, tokens, envp);
 	}
 }
