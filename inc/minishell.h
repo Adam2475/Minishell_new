@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 17:29:42 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:41:05 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ t_token			*token_reformatting_command(t_token *current);
 t_token			*copy_token_list(t_data **data, t_token *tokens);
 t_token			*token_reformatting_pipe(t_token *current);
 t_token			*token_reformatting_special(t_token *current);
+int				check_spaces(t_token *tokens);
+void			skip_tkn_space(t_token **current);
 // Parser
 int				piper(t_token **tokens);
 int				token_parser(t_token **tokens, t_data **data);
@@ -146,6 +148,10 @@ int				handle_heredoc(char *delimiter, t_data **data);
 // Executer
 void			execute_command_single(char **command, t_data **data,
 					t_token **token);
+int				copy_mtx2_pt2(t_data **data, int i);
+void			copy_mtx2(t_data **data);
+int				copy_mtx1_pt2(t_data **data, int i);
+int				copy_mtx1(t_data **data);
 // env_list
 t_env_list		*lstlast_env(t_env_list *lst);
 t_env_list		*new_node_env(char *content);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:00:29 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 18:17:51 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:42:45 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ int	parser_case_redo(t_token *current, t_data **data)
 {
 	current = current->next;
 	while (current && (current->type == 11
-		|| current->type == 10 || current->type == 9))
+			|| current->type == 10 || current->type == 9))
 		current = current->next;
 	if (current && (current->type == TOKEN_APPENDICE || current->type == 14))
 	{
 		(*data)->redirect_state_out = 1;
-		(*data)->fd_out = open(current->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		(*data)->fd_out = open(current->value,
+				O_CREAT | O_RDWR | O_TRUNC, 0644);
 	}
 	else
 		return (1);
@@ -31,12 +32,14 @@ int	parser_case_redo(t_token *current, t_data **data)
 int	parser_case_append(t_token *current, t_data **data)
 {
 	current = current->next;
-	while (current && (current->type == 11 || current->type == 10 || current->type == 9))
+	while (current && (current->type == 11
+			|| current->type == 10 || current->type == 9))
 		current = current->next;
 	if (current && (current->type == TOKEN_APPENDICE || current->type == 14))
 	{
 		(*data)->redirect_state_out = 1;
-		(*data)->fd_out = open(current->value, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		(*data)->fd_out = open(current->value,
+				O_WRONLY | O_APPEND | O_CREAT, 0644);
 	}
 	else
 		return (1);
@@ -47,7 +50,7 @@ int	exec_exit(t_data **data, t_token **tokens, int print)
 {
 	errno = print;
 	if (g_err_state == 0 && print != 0)
-		g_err_state = errno;
+		g_err_state = print;
 	if ((*data)->fd >= 0)
 		close((*data)->fd);
 	if ((*data)->saved_fd >= 0)
@@ -86,7 +89,6 @@ void	remove_whitespace_nodes(t_token **head)
 
 void	command_single_helper(t_data **data)
 {
-
 	if ((*data)->redirect_state_out > 0)
 	{
 		dup2((*data)->saved_fd_out, STDOUT_FILENO);

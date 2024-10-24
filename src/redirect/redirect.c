@@ -116,7 +116,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 				current = current->next;
 			if (current->type == TOKEN_APPENDICE)
 			{
-				while(current && current->type != TOKEN_EOF)
+				while(current && !(current->type <= TOKEN_EOF && current->type >= 2))
 				{
 					while (current->type == TOKEN_WHITESPACE)
 					{
@@ -132,7 +132,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 						x++;
 						continue;
 					}
-					if (current)
+					if (current && !(current->type <= TOKEN_EOF && current->type >= 2))
 						current = current->next;
 				}
 			}
@@ -140,7 +140,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		if (current)
 			current = current->next;
 	}
-	if (tmp)
+	if (tmp && tmp != NULL)
 	{
 		cmd_args = ft_split(tmp, 32);
 		cmd = ft_strdup(cmd_args[0]);
@@ -181,6 +181,8 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	// }
 	if (cmd && !holder)
 	{
+		if (cmd_args)
+			free_char_array(cmd_args);
 		cmd_args = ft_calloc(sizeof(char **), 1);
 		holder = ft_strndup(cmd, ft_strlen(cmd));
 	}
@@ -200,6 +202,10 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		execve(holder, cmd_args, envp);
 	if (holder)
 		free(holder);
+	if (tmp2)
+		free(tmp2);
+	if (tmp)
+		free(tmp);
 	//free_char_array(cmd_args);
 	//write(2, "ciao", 5);
 	close(STDIN_FILENO);

@@ -62,7 +62,8 @@ t_token	*token_reformatting_special(t_token *current)
 		current->type = TOKEN_APPENDICE;
 	if (!current || current->type == TOKEN_EOF)
 		return (current);
-	current = current->next;
+	if (current && current->type < 2 && current->type > 7)
+		current = current->next;
 	return (current);
 }
 

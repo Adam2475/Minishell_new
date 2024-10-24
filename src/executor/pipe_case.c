@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 13:53:39 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:20:28 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,61 +30,18 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	free_env_list((*data)->env_list);
 	free_tokens(data, *tokens);
 	free((*data)->end);
+	free((*data)->parent);
 	free((*data));
 	exit(g_err_state);
 }
 
-static	int	copy_mtx2_pt2(t_data **data, int i)
-{
-	t_env_list	*node;
-	int			j;
-
-	(*data)->env_p = ft_calloc(sizeof(char *), i + 1);
-	if (!(*data)->env_p)
-		return (1);
-	node = (*data)->env_list;
-	j = 0;
-	while (node && j < i)
-	{
-		(*data)->env_p[j] = ft_strndup(node->content, ft_strlen(node->content));
-		node = node->next;
-		j++;
-	}
-	return (0);
-}
-
-static	void	copy_mtx2(t_data **data)
-{
-	t_env_list	*node;
-	int			i;
-
-	i = 0;
-	node = (*data)->env_list;
-	while (node)
-	{
-		if (!node->next)
-		{
-			i++;
-			break ;
-		}
-		else
-		{
-			i++;
-			node = node->next;
-		}
-	}
-	if (copy_mtx2_pt2(data, i))
-		perror("");
-}
-
-static	int	child_process_pipe(char **envp, t_data **data,
-	t_token *tokens, t_token **tkn, pid_t *parent)
+static	int	child_process_pipe(t_data **data, t_token *tokens,
+	t_token **tkn, pid_t *parent)
 {
 	t_token		*new_tokens;
 
 	new_tokens = extract_command_and_appendices(data, tokens);
 	(*data)->command2 = token_to_command(new_tokens);
-	envp = NULL;
 	free_list(new_tokens);
 	copy_mtx2(data);
 	free(parent);
@@ -131,8 +88,8 @@ int	pipe_case(t_token **tokens, t_data **data,
 		//remove_whitespace_nodes(&current->head);
 		if (redirect_parser_pipe(data, current->head, tokens))
 		{
-			exec_exit3(data, tokens, (*data)->end,
-				write(2, "not a file or directory!\n", 26));
+			perror("");
+			exec_exit3(data, tokens, (*data)->end, 0);
 		}
 		if (g_err_state == 130 && (*data)->heredoc_flag == 1)
 		{
@@ -152,7 +109,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 		{
 			// free(parent);
 			pipe_helper(data, current, i);
-			child_process_pipe(envp, data, current->head, tokens, parent);
+			child_process_pipe(data, current->head, tokens, parent);
 			//exit(1);
 		}
 		dup2(STDIN_FILENO, (*data)->in_tmp);

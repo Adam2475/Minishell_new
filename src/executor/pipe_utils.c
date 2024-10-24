@@ -12,50 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-size_t	calculate_command_length(t_token *head)
-{
-	size_t	total_length;
-	t_token	*current;
-
-	total_length = 0;
-	current = head;
-	while (current)
-	{
-		total_length += ft_strlen(current->value);
-		if (current->next != NULL)
-			total_length += 1;
-		current = current->next;
-	}
-	return (total_length);
-}
-
-char	*token_to_command(t_token *head)
-{
-	size_t	command_length;
-	char	*command;
-	t_token	*current;
-
-	if (!head)
-		return (NULL);
-	command_length = calculate_command_length(head);
-	command = (char *)malloc(command_length + 1);
-	if (!command)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	command[0] = '\0';
-	current = head;
-	while (current)
-	{
-		ft_strcat(command, current->value);
-		if (current->next != NULL)
-			ft_strcat(command, " ");
-		current = current->next;
-	}
-	return (command);
-}
-
 int	count_pipes(t_token *head)
 {
 	int			count;
@@ -98,7 +54,7 @@ static	void	redirection_out_case_helper(t_data **data, int *end)
 		close((*data)->fd);
 	if ((*data)->fd_out > 0)
 		close((*data)->fd_out);
-	exec_exit3(data, &(*data)->tokens_ptr, end,0);
+	exec_exit3(data, &(*data)->tokens_ptr, end, 0);
 }
 
 static	void	redirection_in_case_helper(t_data **data, int *end)

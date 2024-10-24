@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 12:52:18 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:41:10 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,13 @@
 t_token	*token_reformatting_pipe(t_token *current)
 {
 	current = current->next;
-	while (current && current->type == TOKEN_WHITESPACE)
-		current = current->next;
+	skip_tkn_space(&current);
 	if (current && current->type == TOKEN_WORD)
 	{
 		current->type = TOKEN_COMMAND;
 		current = current->next;
 	}
-	while (current->type == TOKEN_WHITESPACE)
-		current = current->next;
+	skip_tkn_space(&current);
 	if (current && current->next && current->type != TOKEN_WORD)
 		current = current->next;
 	while ((current && current->type == TOKEN_WORD)
@@ -47,8 +45,7 @@ t_token	*token_reformatting_command(t_token *current)
 	current->type = TOKEN_COMMAND;
 	if (current->next != NULL)
 		current = current->next;
-	while (current->type == TOKEN_WHITESPACE)
-		current = current->next;
+	skip_tkn_space(&current);
 	while ((current && current->type == 0 && current->type != 7)
 		|| current->type == TOKEN_OPTION || current->type == TOKEN_WHITESPACE
 		|| current->type == TOKEN_SINGLE_QUOTES

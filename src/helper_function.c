@@ -83,6 +83,8 @@ void	free_tokens_helper(t_data **data)
 		free_char_array((*data)->cmd_args);
 		(*data)->cmd_args = NULL;
 	}
+	(*data)->redirect_state_out = -1;
+	(*data)->redirect_state_in = -1;
 	errno = 0;
 }
 

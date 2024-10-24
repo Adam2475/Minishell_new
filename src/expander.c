@@ -92,9 +92,9 @@ static	void	join_in_qt_tk(t_token *tkn, t_token_type type)
 	current = tkn;
 	tmp = NULL;
 	current = current->next;
-	// ft_printf("\n\nprint_tokens %d\n", i++);
-	// print_tokens(tkn);
-	while (current->next && current->next->type != type)
+	if (current->type == type)
+		return ;
+	while (current && current->next && current->next->type != type)
 	{
 		tmp = current->value;
 		current->value = ft_strjoin(current->value, current->next->value);
@@ -106,20 +106,22 @@ static	void	join_in_qt_tk(t_token *tkn, t_token_type type)
 
 static	int	shrink_tkn_in_qt(t_token **tokens)
 {
-	t_token	*current;
+	t_token			*current;
+	t_token_type	type;
  
 	current = (*tokens);
-	// ft_printf("\n\nPRIMO\n");
-	// print_tokens(*tokens);
+	type = 0;
 	while (current && current->type != TOKEN_EOF)
 	{
 		if (current->type == 10 || current->type == 9)
+		{
+			type = current->type;
 			join_in_qt_tk(current, current->type);
-		if (current->type == 14 || current->type == 8)
+		}
+		if (current && current->type == 14 || current->type == 8 || current->type == type)
 			current = current->next;
 		current = current->next;
 	}
-	//print_tokens(*tokens);
 	return (0);
 }
 

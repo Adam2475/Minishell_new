@@ -76,14 +76,11 @@ static	int	check_err_tkn(t_token **tkn)
 int	cd_cmd(t_data **data, t_token **tkn)
 {
 	t_token		*current;
-	//t_env_list	*node;
 
 	current = (*tkn)->next;
-	//node = (*data)->env_list;
 	if (check_err_tkn(tkn))
 		return (g_err_state = 1, errno = 1,
 			write(2, "too many arguments\n", 20), 1);
-	//node = (*data)->env_list;
 	if (current->value[0] == '\0' && cd_null(current, data))
 		return (1);
 	if (current->value[0] == '-' && cd_minus(current, data))

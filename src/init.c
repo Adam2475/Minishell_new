@@ -111,6 +111,8 @@ int	tokenizer(t_data **data, t_token **tokens)
 	end = buffer;
 	if (recognizer(buffer, tokens, end, data) || token_reformatting(tokens))
 		return (free(tmp), 1);
+	// print_tokens(*tokens);
+	// exit (0);
 	join_in_qt_tk(tokens);
 	if (check_quotes(tokens) != 0)
 		return (free(tmp), 1);

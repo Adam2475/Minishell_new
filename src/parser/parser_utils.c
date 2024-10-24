@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 18:17:16 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:50:40 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	parser_case_redi(t_token *current, t_data **data)
-{
-	current = current->next;
-	while (current && (current->type == 11 || current->type == 10 || current->type == 9))
-		current = current->next;
-	if (current && (current->type == TOKEN_APPENDICE || current->type == 14))
-	{
-		(*data)->redirect_state_in = 1;
-		(*data)->fd_in = open(current->value, O_RDONLY);
-		if ((*data)->fd_in < 0)
-			return (1);
-	}
-	else
-		return (1);
-	return (0);
-}
 
 static	int	parent_here_doc(void)
 {
@@ -84,10 +67,8 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 	else
 		return (ft_printf("syntax error after heredoc operator!\n"));
 	close((*data)->fd);
-	(*data)->fd_in = open(tmp, O_RDONLY);
-	return (0);
+	return ((*data)->fd_in = open(tmp, O_RDONLY), 0);
 }
-
 
 int	parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens)
 {

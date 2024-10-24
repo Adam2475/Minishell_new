@@ -111,7 +111,7 @@ int	main(int argc, char **argv, char **envp)
 		//print_tokens(tokens);
 		//exit(1);
 		env_parser(&data, envp);
-		print_tokens(tokens);
+		// print_tokens(tokens);
 		command_init(data, tokens, envp);
 	}
 }

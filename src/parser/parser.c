@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 11:14:23 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:49:08 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static	void	close_helper(t_data **data)
+{
+	if ((*data)->fd >= 0)
+		close((*data)->fd);
+	if ((*data)->fd_in >= 0)
+		close((*data)->fd_in);
+	if ((*data)->fd_out >= 0)
+		close((*data)->fd_out);
+}
 
 static	int	call_for_command(t_token **tokens, t_data **data,
 		t_token **origin)
@@ -37,12 +47,7 @@ static	int	call_for_command(t_token **tokens, t_data **data,
 		i++;
 	}
 	execute_command_single((*data)->command, data, tokens);
-	if ((*data)->fd >= 0)
-		close((*data)->fd);
-	if ((*data)->fd_in >= 0)
-		close((*data)->fd_in);
-	if ((*data)->fd_out >= 0)
-		close((*data)->fd_out);
+	close_helper(data);
 	return (0);
 }
 
@@ -75,48 +80,6 @@ static	int	parser_init(t_data **data)
 	return (0);
 }
 
-int	redirect_parser(t_data **data, t_token *current, t_token **tokens)
-{
-	int	i;
-
-	i = 0;
-	g_err_state = 0;
-	while (current != NULL)
-	{
-		if (current->type == TOKEN_REDIRECT_OUT)
-			i = parser_case_redo(current, data);
-		else if (current->type == TOKEN_REDIRECT_IN)
-			i = parser_case_redi(current, data);
-		else if (current->type == TOKEN_APPEND)
-			i = parser_case_append(current, data);
-		else if (current->type == TOKEN_HEREDOC)
-			i = parser_case_herdoc(current, data, tokens);
-		current = current->next;
-	}
-	return (i);
-}
-
-int	redirect_parser_pipe(t_data **data, t_token *current, t_token **tokens)
-{
-	int	i;
-
-	i = 0;
-	g_err_state = 0;
-	while (current != NULL)
-	{
-		if (current->type == TOKEN_REDIRECT_OUT)
-			i = parser_case_redo(current, data);
-		else if (current->type == TOKEN_REDIRECT_IN)
-			i = parser_case_redi(current, data);
-		else if (current->type == TOKEN_APPEND)
-			i = parser_case_append(current, data);
-		else if (current->type == TOKEN_HEREDOC)
-			i = parser_case_herdoc_pipe(current, data, tokens);
-		current = current->next;
-	}
-	return (i);
-}
-
 int	token_parser(t_token **tokens, t_data **data)
 {
 	t_token		*current;
@@ -129,10 +92,7 @@ int	token_parser(t_token **tokens, t_data **data)
 		if ((*data)->heredoc_flag == 0)
 		{
 			if (redirect_parser(data, current, tokens) > 0)
-			{
-				write(2, "error!\n", 8);
-				return (g_err_state = 2, errno = 2, strerror(errno), 1);
-			}
+				return (perror(""), 1);
 			if (g_err_state == 130)
 				return (0);
 		}
@@ -145,11 +105,5 @@ int	token_parser(t_token **tokens, t_data **data)
 		}
 		current = current->next;
 	}
-	if ((*data)->fd && (*data)->fd >= 0)
-		close((*data)->fd);
-	if ((*data)->fd_in)
-		close((*data)->fd_in);
-	if ((*data)->fd_out)
-		close((*data)->fd_out);
-	return (0);
+	return (close_helper(data), 0);
 }
