@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 18:18:17 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 17:01:38 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,13 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	char	*cmd;
 	char	**cmd_args;
 	char	*holder;
-	//int		i;
 	char	*tmp;
 	t_token	*current = *tokens;
 	t_token	*head = *tokens;
 	char	*tmp2;
 
-	//cmd_args = ft_calloc(sizeof(char **), 1);
 	tmp = NULL;
 	tmp2 = NULL;
-	//print_tokens(*tokens);
-	//ft_printf("%s\n", (*data)->command2);
-	//cmd_args = ft_split((*data)->command2, 32);
 	while (current->type != TOKEN_EOF)
 	{
 		if (current->type == TOKEN_COMMAND)
@@ -106,7 +101,6 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	}
 	current = head;
 	int x = 1;
-	//print_tokens(current);
 	while (current && current->type != TOKEN_EOF)
 	{
 		if (current->type == TOKEN_COMMAND)
@@ -153,8 +147,6 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	if (tmp && !cmd_args)
 		cmd_args[0] = ft_strdup(tmp);
 	free((*data)->command2);
-	// if (tmp2)
-	// 	free(tmp2);
 	(*data)->tmp6 = NULL;
 	if (cmd_args)
 	{
@@ -173,12 +165,6 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		holder = find_cmd(cmd, data);
 	else
 		holder = NULL;
-	//i = 1;
-	// while (cmd_args[i])
-	// {
-	// 	(*data)->tmp6 = ft_strjoin_gnl((*data)->tmp6,
-	// 			trim_whitespace(cmd_args[i++]));
-	// }
 	if (cmd && !holder)
 	{
 		if (cmd_args)
@@ -188,30 +174,21 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	}
 	if (cmd)
 		free(cmd);
-	//ft_printf("%s\n", holder);
-	//ft_printf("%s\n", cmd_args[0]);
-	//ft_printf("%s\n", cmd_args[1]);
-	//write(1, cmd_args[0], ft_strlen(cmd_args[0]));
-	//ft_printf("%s\n", cmd_args[2]);
-	//if (holder)
-		//if (execve(tmp, cmd_args, envp))
-			//exit(write(2, "fuck execve", 12));
-	//ft_printf("non dovrei esserci!\n");
-	//free_char_array(cmd_args);
 	if (cmd_args)
 		execve(holder, cmd_args, envp);
 	if (holder)
 		free(holder);
+<<<<<<< HEAD
 	if (tmp2)
 		free(tmp2);
 	if (tmp)
 		free(tmp);
 	//free_char_array(cmd_args);
 	//write(2, "ciao", 5);
+=======
+>>>>>>> 1c252a35d925e6972e81f9e762829b1851e9110c
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
-	//free(parent);
-	//free((*data)->tmp6);
 	exec_exit2(data, tkn, cmd_args, 0);
 	return (0);
 }
@@ -222,7 +199,6 @@ int	handle_heredoc(char *delimiter, t_data **data)
 
 	if ((*data)->fd < 0)
 		exit (ft_printf("Failed to open heredoc temporary file"));
-	// signal_doc();
 	while (1 && g_err_state != 130)
 	{
 		if (g_err_state == 130)

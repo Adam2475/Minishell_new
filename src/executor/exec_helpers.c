@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:03:48 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/23 13:37:12 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:30:52 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,35 @@ void	pipe_opener(t_data **data, int *end)
 	}
 }
 
-void	init_pipe(t_data **data, t_token **tokens, int *i)
+void	init_pipe(t_data **data, t_token **tokens, int *i, int *flag)
 {
+	*flag = 0;
 	(*data)->prev_fd = 0;
 	(*data)->pipes = count_pipes(*tokens);
 	*i = -1;
 	(*data)->end = ft_calloc(sizeof(int), (*data)->pipes * 2);
+}
+
+void	copy_mtx2(t_data **data)
+{
+	t_env_list	*node;
+	int			i;
+
+	i = 0;
+	node = (*data)->env_list;
+	while (node)
+	{
+		if (!node->next)
+		{
+			i++;
+			break ;
+		}
+		else
+		{
+			i++;
+			node = node->next;
+		}
+	}
+	if (copy_mtx2_pt2(data, i))
+		perror("");
 }

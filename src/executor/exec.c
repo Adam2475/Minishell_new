@@ -19,18 +19,26 @@ static	void	child_process(char **cmd_args, t_data **data,
 	{
 		(*data)->saved_fd = dup(STDOUT_FILENO);
 		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
+<<<<<<< HEAD
 		{
 			write(2, "Permission denied\n", 19);
 			exec_exit(data, tokens, 1);
 		}
+=======
+			exec_exit(data, tokens, 2);
+>>>>>>> 1c252a35d925e6972e81f9e762829b1851e9110c
 	}
 	if ((*data)->redirect_state_in > 0)
 	{
 		if (dup2((*data)->fd_in, STDIN_FILENO) < 0)
+<<<<<<< HEAD
 		{
 			write(2, "Permission denied\n", 19);
 			exec_exit(data, tokens, 1);
 		}
+=======
+			exec_exit(data, tokens, 2);
+>>>>>>> 1c252a35d925e6972e81f9e762829b1851e9110c
 	}
 	if ((*data)->cmd2 && cmd_args && copy_mtx1(data))
 	{
