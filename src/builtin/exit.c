@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/03 18:35:32 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:58:27 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,5 @@ int	cmd_exit(t_data **data, t_token **token)
 				write(2, "exit: too many arguments\n", 26));
 		free_exit_cmd(data, *token);
 	}
-	return (errno = 0, 0);
+	return (g_err_state = 0, 0);
 }

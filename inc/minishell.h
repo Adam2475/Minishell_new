@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 18:02:35 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/26 20:40:07 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_data
 	char			**my_paths;
 	char			**command;
 	char			**cmd_args;
+	char			**cmd_args_exit;
 	char			**env_p;
 	char			*cmd2;
 	char			*tmp9;
@@ -106,6 +107,7 @@ typedef struct s_data
 	int				saved_fd_in;
 	int				hd_flag;
 	pid_t			*parent;
+	int				local_err_state;
 	t_token			*tokens_ptr;
 	char			*command2;
 	t_token			*new_token;

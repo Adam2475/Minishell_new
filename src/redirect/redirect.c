@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 13:29:25 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/26 20:43:52 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,9 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	(*data)->tmp6 = NULL;
 	if (cmd_args)
 	{
+		(*data)->tmp6 = tmp;
+		(*data)->command2 = cmd;
+		(*data)->cmd_args_exit = cmd_args;
 		if (manual_cmd(cmd_args, data, tokens))
 		{
 			free(tmp);

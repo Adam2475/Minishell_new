@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/04 17:44:26 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:19:32 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ void	free_list(t_token *head)
 		tmp = head;
 		head = head->next;
 		free(tmp->value);
+		tmp->value = NULL;
 		free(tmp);
+		tmp = NULL;
 	}
 }
 

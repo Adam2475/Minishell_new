@@ -65,6 +65,7 @@ void	execute_command_single(char **command, t_data **data,
 	process_command2(data, command);
 	(*data)->cmd_args = ft_split((*data)->tmp9, 32);
 	free((*data)->tmp9);
+	(*data)->tmp9 = NULL;
 	parent = fork();
 	if (parent < 0)
 		free_exit(data);

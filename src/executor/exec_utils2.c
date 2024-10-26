@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 09:00:51 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/01 09:24:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:59:41 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	free_token(t_token *token)
 {
-	if (token)
+	if (token && token != NULL)
 	{
 		free(token->value);
+		token->value = NULL;
 		free(token);
+		token = NULL;
 	}
 }
 

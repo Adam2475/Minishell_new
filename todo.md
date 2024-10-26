@@ -54,7 +54,9 @@ TODO: impostare err_state a 1 nel caso sopracitato
     <builtin> "ciao" | ls
     ```
 
-- [ ] gestire meglio la priorita' dei dup2 per i builtin:
+--------------------------------------------------------------------------------  DONE !!
+
+<!-- - [ ] gestire meglio la priorita' dei dup2 per i builtin:
     - I redirect prevalgono sulle pipe.
         - se ho un redirect di input, ignoro la pipe[0] del commando precedente
         - se ho un redirect di output, ignoro la pipe[1] del commando corrente

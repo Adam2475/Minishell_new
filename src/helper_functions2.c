@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:29:58 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/16 12:52:49 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:47:35 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,10 @@ t_token	*create_token(t_token_type type, char *value)
 void	manual_helper(t_data **data, t_token **tkn,
 		char **cmd_args)
 {
-	if ((*data)->saved_fd >= 0)
-	{
-		if ((*data)->redirect_state == 1)
-			dup2(STDIN_FILENO, STDOUT_FILENO);
-		else if ((*data)->redirect_state == 0)
-			dup2((*data)->saved_fd, STDIN_FILENO);
-	}
+	if ((*data)->redirect_state == 1)
+		dup2((*data)->saved_fd_out, STDOUT_FILENO);
+	else if ((*data)->redirect_state == 0)
+		dup2((*data)->saved_fd_in, STDIN_FILENO);
 	exec_exit2(data, tkn, cmd_args, 0);
 }
 
