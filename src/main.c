@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 13:20:58 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/26 15:29:41 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static	int	read_input(t_data *data)
 	data->merdoso = 0;
 	data->input = readline("myprompt$ ");
 	if (!data->input)
-		return (errno = 126, 0);
+		return (0);
 	if (data->input[0] != '\0')
 		add_history(data->input);
 	return (1);
@@ -79,6 +79,18 @@ void	do_pipe(t_data *data, t_token *tokens, char **envp)
 	pipe_case(&tokens, &data, envp, &data->token_list);
 }
 
+static	void	init_flags(t_data **data)
+{
+	(*data)->local_err_state = 0;
+	(*data)->fd_in = -1;
+	(*data)->fd_out = -1;
+	(*data)->redirect_state_out = -1;
+	(*data)->redirect_state_in = -1;
+	(*data)->my_paths = NULL;
+	(*data)->path_from_envp = NULL;
+	(*data)->my_line = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
@@ -92,13 +104,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	gen_list_env(&data, envp);
 	set_signal();
-	data->fd_in = -1;
-	data->fd_out = -1;
-	data->redirect_state_out = -1;
-	data->redirect_state_in = -1;
-	data->my_paths = NULL;
-	data->path_from_envp = NULL;
-	data->my_line = NULL;
+	init_flags(&data);
 	while (1)
 	{
 		if (tokens)
@@ -108,7 +114,7 @@ int	main(int argc, char **argv, char **envp)
 		}	
 		//if (!read_input(data))
 		if (!read_input(data))
-			return (ft_printf("exit\n"), free_exit(&data), 1);
+			return (ft_printf("exit\n"), free_exit(&data), data->local_err_state);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
 		//print_tokens(tokens);

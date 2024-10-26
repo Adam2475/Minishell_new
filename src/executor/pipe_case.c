@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 13:28:00 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/26 17:30:30 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	print = 0;
 	if (errno == 0)
 		g_err_state = 1;
-	ft_printf("\n\n\n%d\n\n\n", errno);
+	//ft_printf("\n\n\n%d\n\n\n", errno);
 	if (errno != 0 && g_err_state == 0)
 		g_err_state = errno;
 	if ((*data)->env_p && print == 0)
@@ -93,7 +93,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 		//remove_whitespace_nodes(&current->head);
 		if (redirect_parser_pipe(data, current->head, tokens))
 		{
-			perror("");
+			ft_printf("%s\n", "not a file or directory!");
 			exec_exit3(data, tokens, (*data)->end, 0);
 		}
 		if (g_err_state == 130 && (*data)->heredoc_flag == 1)
@@ -117,7 +117,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 			child_process_pipe(data, current->head, tokens, parent);
 			//exit(1);
 		}
-		dup2(STDIN_FILENO, (*data)->in_tmp);
+		//dup2(STDIN_FILENO, (*data)->in_tmp);
 		parent_process2(data, i, (*data)->end);
 		(*data)->redirect_state_out = -1;
 		(*data)->redirect_state_in = -1;

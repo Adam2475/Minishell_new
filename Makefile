@@ -41,6 +41,9 @@ WHITE = \033[0;97m
 
 all: lib $(OBJ_DIR) $(NAME)
 
+val: all
+	@valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp --quiet ./$(NAME)
+
 lib:
 		make -sC libft
 
