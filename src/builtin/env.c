@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:08:15 by marco             #+#    #+#             */
-/*   Updated: 2024/10/16 12:03:39 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:03:45 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	env_cmd(t_data **data, t_token **token)
 	}
 	while (node != NULL)
 	{
-		ft_printf("%s%s\n", node->var, node->value);
+		if (node->state == 0)
+			ft_printf("%s%s\n", node->var, node->value);
 		node = node->next;
 	}
 	return (g_err_state = 0, errno = 0, 1);

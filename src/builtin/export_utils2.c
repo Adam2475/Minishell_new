@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 12:28:02 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:21:48 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	print_exp_env(t_data **data)
 	node = (*data)->env_list;
 	while (node)
 	{
-		ft_printf("declare -x %s\"%s\"\n", node->var, node->value);
+		if (node->state == 0)
+			ft_printf("declare -x %s\"%s\"\n", node->var, node->value);
+		else if (node->state == 1)
+			ft_printf("declare -x %s\n", node->var);
 		if (node->next)
 			node = node->next;
 		else

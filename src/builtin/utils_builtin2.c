@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtin2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/12 16:25:22 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:42:38 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,14 @@ char	*tmp_set(char *val)
 		tmp = ft_strndup(tmp2, i);
 	else
 		tmp = ft_strndup(tmp2, ft_strlen(tmp2));
+	if (i > 0 && tmp2[i] && tmp2[i] == '+'
+		&& tmp2[i + 1] && tmp2[i + 1] == '=')
+	{
+		if (tmp2)
+			free(tmp2);
+		tmp2 = ft_strjoin(tmp, "=");
+		return (ft_free_null(tmp), tmp2);
+	}
 	if (i > 0 && tmp2[i] && tmp2[i] != '=')
 	{
 		if (tmp)

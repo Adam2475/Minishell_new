@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/24 22:49:08 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:31:35 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	token_parser(t_token **tokens, t_data **data)
 		if ((*data)->heredoc_flag == 0)
 		{
 			if (redirect_parser(data, current, tokens) > 0)
-				return (perror(""), 1);
+				return (perror(""), ft_printf(" redir err\n"), 1);
 			if (g_err_state == 130)
 				return (0);
 		}

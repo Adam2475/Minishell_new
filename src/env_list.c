@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:18:31 by mapichec          #+#    #+#             */
-/*   Updated: 2024/09/19 17:39:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:03:04 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_env_list	*new_node_env(char *content)
 	if (!new)
 		return (NULL);
 	new->next = NULL;
+	new->state = 0;
 	new->content = ft_strndup(content, ft_strlen(content));
 	while (new->content[len] != '=')
 		len++;

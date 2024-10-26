@@ -5,16 +5,14 @@
     ```
     ^D
     ``` -->
-
------------------------------------------------------------------------------------------------ DONE | TODO: set up (*data)->local_err_state after command
-
+<!-- 
 - [ ] Unset deve verificare se il nome della variabile e' corretta o meno. Se c'e' n'e' almeno una non valida, imposta lo status_code a 1 ma prosegue comunque con gli altri argomenti
     ```
     unset PWD 1err HOME
-    ```
-- [ ] Invece di `errno`/`g_status_code` usare una variabile "locale" in `t_data` in quanto non si possa modificare le variabili globali non propri (a parte quella per gli status code).
+    ``` -->
+TODO: impostare err_state a 1 nel caso sopracitato
 
-- [ ] Export += lascia `1 byte` di leak e non funziona.
+<!-- - [ ] Export += lascia `1 byte` di leak e non funziona.
     ```
     export cia+=cia
     ^D
@@ -44,11 +42,8 @@
     unset HOME
     cd
     ```
-- [ ] ignorare l'input se e' composto da solo `whitespaces` (`man isspace`)
-- [ ] `exit` in pipeline non freea tutto prima di uscire
-    ```
-    exit | echo
-    ```
+ -->
+    <!-- ```
 - [ ] segmentation fault con `""`/`''`
     ```
     ""
@@ -67,4 +62,10 @@
     cat << eof | cat
     ciao
     eof
+    ``` -->
+----------------------------------------------------------------------------------------------- DONE | TODO: set up (*data)->local_err_state after command
+- [ ] Invece di `errno`/`g_status_code` usare una variabile "locale" in `t_data` in quanto non si possa modificare le variabili globali non propri (a parte quella per gli status code).
+- [ ] ignorare l'input se e' composto da solo `whitespaces` (`man isspace`)
+- [ ] `exit` in pipeline non freea tutto prima di uscire
     ```
+    exit | echo

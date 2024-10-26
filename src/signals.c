@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/25 19:54:07 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/26 16:29:49 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ static void	sig_int(void)
 
 static void	sig_quit(void)
 {
-	rl_on_new_line();
-	rl_redisplay();
-	ft_putstr_fd("  \b\b", STDOUT_FILENO);
+	ft_putstr_fd("", STDOUT_FILENO);
 }
 
 static void	signal_handler(int signo)
@@ -43,7 +41,7 @@ static void	signal_handler(int signo)
 void	set_signal(void)
 {
 	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	print_token_lists(t_token_list *token_lists)

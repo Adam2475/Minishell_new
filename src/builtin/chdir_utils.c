@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chdir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 17:44:08 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/26 17:41:58 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,13 @@ int	cd_null(t_token *current, t_data **data)
 	node = (*data)->env_list;
 	while (node && ft_strncmp(node->var, "HOME=", 5) != 0)
 		node = node->next;
-	ft_free_null(current->value);
 	free(current->value);
+	current->value = NULL;
 	if (node)
-	{
 		current->value = ft_strndup(node->value, ft_strlen(node->value));
-	}
+	else if (!node)
+		return (write(2, "HOME not set\n", 14), g_err_state = 1, 1);
 	else
-	{
-		if (chdir(current->value) != 0)
-			return (write(2, "HOME not set\n", 14), g_err_state = 1, 1);
-	}
+		chdir(current->value);
 	return (0);
 }

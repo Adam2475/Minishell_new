@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/24 22:41:05 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:02:35 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_env_list
 	char				*var;
 	char				*value;
 	char				*content;
+	int					state;
 	struct s_env_list	*pre;
 	struct s_env_list	*next;
 }	t_env_list;
