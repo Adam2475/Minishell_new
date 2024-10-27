@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 17:37:20 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 19:59:59 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	close(STDOUT_FILENO);
 	free_env_list((*data)->env_list);
 	free_tokens(data, *tokens);
+	(*data)->tokens_ptr = NULL;
 	free((*data)->end);
 	if ((*data)->parent != NULL)	
 		free((*data)->parent);
@@ -123,5 +124,5 @@ int	pipe_case(t_token **tokens, t_data **data,
 		}
 	}
 	free(parent);
-	return (free_char_array((*data)->env_p), free((*data)->end), 0);
+	return (free_char_array((*data)->env_p), free((*data)->end), (*data)->end = NULL, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 17:57:42 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/27 14:38:47 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static	void	redirection_out_case_helper(t_data **data, int *end)
 
 static	void	redirection_in_case_helper(t_data **data, int *end)
 {
-	free((*data)->parent);
+	//free((*data)->parent);
 	heredoc_unlink(data);
 	if ((*data)->in_tmp > 0)
 		close((*data)->in_tmp);

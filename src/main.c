@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 17:32:09 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 19:58:31 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (tokens)
 		{
+			//ft_printf("problem in main\n");
 			free_tokens(&data, tokens);
 			tokens = NULL;
 		}	
