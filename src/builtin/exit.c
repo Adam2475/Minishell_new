@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 18:58:27 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 15:53:00 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static	int	ft_is_numeric(t_token *tkn)
 	i = 0;
 	if (!tkn->value || !tkn->value[0])
 		return (0);
+	// skip_tkn_space(&tkn);
 	if (tkn->value[0] == '-' || tkn->value[0] == '+')
 	{
 		i++;
@@ -49,12 +50,16 @@ static	void	set_exit(int n, t_data **data, t_token **token)
 
 static	void	free_set_exit(t_data **data, t_token **token, t_token **tkn)
 {
-	while ((*tkn)->type == TOKEN_WHITESPACE)
+	while ((*tkn)->type == TOKEN_WHITESPACE || (*tkn)->type == 12)
 		(*tkn) = (*tkn)->next;
 	if ((int)(*tkn)->type == 7)
+	{
+		//print_tokens(*token);
 		free_exit_cmd(data, *token);
+	}
 	if (!ft_is_numeric((*tkn)))
 	{
+		print_tokens(*tkn);
 		write(2, "exit: numeric argument required\n", 33);
 		set_exit(2, data, token);
 	}

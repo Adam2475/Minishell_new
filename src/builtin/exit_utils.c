@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 20:46:28 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 16:25:08 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,19 @@ void	free_exit_cmd(t_data **data, t_token *tokens)
 		free_char_array((*data)->env_p);
 	if ((*data)->cmd_args_exit)
 		free_char_array((*data)->cmd_args_exit);
-	if ((*data)->tokens_ptr)
+	if ((*data)->tokens_ptr != NULL)
+	{
 		free_list((*data)->tokens_ptr);
+		(*data)->tokens_ptr = NULL;
+	}
 	if ((*data)->end)
 		free((*data)->end);
 	if ((*data)->command2)
 		free((*data)->command2);
-	free_tokens(data, tokens);
+	if ((*data)->pipes)
+		free_tokens(data, (*data)->tokens_ptr);
+	if (!(*data)->pipes)
+		free_tokens(data, tokens);
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
 	free(*data);

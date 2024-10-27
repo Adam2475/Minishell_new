@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 19:36:14 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 15:37:33 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	close(STDOUT_FILENO);
 	free_env_list((*data)->env_list);
 	free_tokens(data, *tokens);
+	(*data)->tokens_ptr = NULL;
 	free((*data)->end);
 	if ((*data)->parent != NULL)	
 		free((*data)->parent);
@@ -124,9 +125,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 		current = current->next;
 	}
 	while (i >= 0)
-	{
 		waitpid(parent[i--], NULL, 0);
-	}
 	free(parent);
-	return (free_char_array((*data)->env_p), free((*data)->end), 0);
+	return (free_char_array((*data)->env_p), free((*data)->end), (*data)->end = NULL, 0);
 }
