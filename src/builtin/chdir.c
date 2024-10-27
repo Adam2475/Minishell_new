@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chdir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/19 17:44:08 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/27 16:27:50 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	cd_cmd(t_data **data, t_token **tkn)
 
 	current = (*tkn)->next;
 	if (check_err_tkn(tkn))
-		return (g_err_state = 1, errno = 1,
+		return ((*data)->local_err_state = 1,
 			write(2, "too many arguments\n", 20), 1);
 	if (current->value[0] == '\0' && cd_null(current, data))
 		return (1);
@@ -88,7 +88,7 @@ int	cd_cmd(t_data **data, t_token **tkn)
 	if (current->value[0] == '~' && cd_tilde(current, data))
 		return (1);
 	if (chdir(current->value) != 0)
-		return (perror(""), g_err_state = 1, 0);
+		return (perror(""), (*data)->local_err_state = 1, 0);
 	chpwd(data);
-	return (g_err_state = 0, 1);
+	return ((*data)->local_err_state = 0, 1);
 }

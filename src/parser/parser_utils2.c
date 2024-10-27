@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:00:29 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/24 22:42:45 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:03:32 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	parser_case_redo(t_token *current, t_data **data)
 		(*data)->redirect_state_out = 1;
 		(*data)->fd_out = open(current->value,
 				O_CREAT | O_RDWR | O_TRUNC, 0644);
+		// if ((*data)->fd_out < 0)
+		// 	return (perror(""), 1);
 	}
 	else
 		return (1);
@@ -48,9 +50,6 @@ int	parser_case_append(t_token *current, t_data **data)
 
 int	exec_exit(t_data **data, t_token **tokens, int print)
 {
-	errno = print;
-	if (g_err_state == 0 && print != 0)
-		g_err_state = print;
 	if ((*data)->fd >= 0)
 		close((*data)->fd);
 	if ((*data)->saved_fd >= 0)
@@ -59,8 +58,9 @@ int	exec_exit(t_data **data, t_token **tokens, int print)
 	free_env_list((*data)->env_list);
 	free_tokens(data, (*tokens));
 	free_char_array((*data)->env_p);
+	print = (*data)->local_err_state;
 	free((*data));
-	exit(g_err_state);
+	exit((*data)->local_err_state);
 }
 
 void	remove_whitespace_nodes(t_token **head)

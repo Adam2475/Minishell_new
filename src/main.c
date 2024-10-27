@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 15:29:41 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:32:09 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), data->local_err_state);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		//print_tokens(tokens);
+		// print_tokens(tokens);
 		//exit(1);
 		env_parser(&data, envp);
 		// print_tokens(tokens);

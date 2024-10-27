@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_doc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/09/15 18:28:11 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/27 14:45:24 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static	char	*exp_word_2(char *res, t_data **data)
 		}
 	}
 	if (!node && *res == '?')
-		return (free(res), expand_err_state(res));
+		return (free(res), expand_err_state(res, data));
 	else if (!node)
 		return (free(res), ft_strndup("", 1));
 	return (free(res), ft_strndup(node->value, ft_strlen(node->value)));

@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 20:40:07 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 15:15:00 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,13 +165,13 @@ int				gen_list_env(t_data **data, char **envp);
 void			set_signal(void);
 void			signal_doc(void);
 // expander
-int				case_err(t_token **current, char *tmp);
+int				case_err(t_token **current, char *tmp, t_data **data);
 int				ft_isalpha_len2(char *str);
 int				expand_doll_2(t_env_list *node, t_token **current,
 					char **tmp, int len);
 t_token			*ft_set_zero(t_token *current, int flag);
 void			expand_doll_3(t_token **current, char **tmp, char **tmp2);
-char			*expand_err_state(char *tmp);
+char			*expand_err_state(char *tmp, t_data **data);
 char			*tmp_set(char *val);
 int				check_quotes(t_token **tokens);
 int				expand_doll(t_token **current, t_data **data);
@@ -180,7 +180,7 @@ int				expand_var(t_token **tkn_lst, t_data **data);
 char			*find_cmd(char *cmd, t_data **data);
 int				manual_cmd(char **cmd_args, t_data **data, t_token **token);
 // unset
-int				unset_env(t_token **token, t_env_list **env);
+int				unset_env(t_token **token, t_env_list **env, t_data **data);
 int				ft_strsearch(char *str, int c);
 // export
 int				util_exp(t_data **data, t_token **current, t_token **tkn);
@@ -203,9 +203,9 @@ int				cd_minus(t_token *current, t_data **data);
 int				cd_tilde(t_token *current, t_data **data);
 int				cd_null(t_token *current, t_data **data);
 // echo
-int				echo_cmd(t_token **tkn);
+int				echo_cmd(t_token **tkn, t_data **data);
 // pwd
-int				pwd_cmd(void);
+int				pwd_cmd(t_data **data);
 // env
 int				env_cmd(t_data **data, t_token **token);
 // exit
@@ -297,7 +297,7 @@ t_token			*create_token(t_token_type type, char *value);
 int				init_state(t_data **data, t_token **tokens, char *tmp);
 int				recognizer(char *buffer, t_token **tokens,
 					char *end, t_data **data);
-int				token_reformatting(t_token **tokens);
+int				token_reformatting(t_token **tokens, t_data **data);
 void			token_builder(t_token **tokens, char *buffer,
 					char *end, int flag);
 int				find_special(char c);
@@ -321,7 +321,6 @@ void			pipe_opener(t_data **data, int *end);
 void			init_pipe(t_data **data, t_token **tokens, int *i);
 int				exec_exit3(t_data **data, t_token **tokens,
 					int *end, int print);
-int				heredoc_finder(t_token *current);
 int				parser_case_herdoc_pipe(t_token *current,
 					t_data **data, t_token **tokens);
 int				redirect_parser_pipe(t_data **data, t_token *current,

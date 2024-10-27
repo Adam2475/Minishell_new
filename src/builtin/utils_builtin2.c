@@ -6,20 +6,20 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 18:42:38 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 15:08:02 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*expand_err_state(char *tmp)
+char	*expand_err_state(char *tmp, t_data **data)
 {
 	char	*err;
 	char	*tmp2;
 
-	if (g_err_state > 256 || g_err_state < 0)
-		g_err_state = g_err_state % 255;
-	err = ft_itoa(g_err_state);
+	if ((*data)->local_err_state > 256 || (*data)->local_err_state < 0)
+		(*data)->local_err_state = (*data)->local_err_state % 255;
+	err = ft_itoa((*data)->local_err_state);
 	tmp2 = ft_strtrim2(tmp, "=");
 	tmp = ft_strtrim2(tmp2, "?");
 	tmp2 = ft_strndup(tmp, ft_strlen(tmp));

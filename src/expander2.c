@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   expander2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:22:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/27 14:45:13 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	case_err(t_token **current, char *tmp)
+int	case_err(t_token **current, char *tmp, t_data **data)
 {
 	free((*current)->value);
 	if (*tmp == '?')
 	{
-		(*current)->value = expand_err_state(tmp);
+		(*current)->value = expand_err_state(tmp, data);
 		return (0);
 	}
 	(*current)->value = ft_strndup("", 1);
@@ -47,8 +47,6 @@ int	ft_isalpha_len2(char *str)
 
 int	expand_doll_2(t_env_list *node, t_token **current, char **tmp, int len)
 {
-	if (!node || **tmp == '?')
-		return (case_err(current, (*tmp)));
 	ft_free_null((*tmp));
 	(*tmp) = ft_strtrim2((*current)->value, "$");
 	(*current)->value = ft_strdup((*tmp));
@@ -115,5 +113,7 @@ int	expand_doll(t_token **current, t_data **data)
 			break ;
 		}
 	}
+	if (!node || *tmp == '?')
+		return (case_err(current, tmp, data));
 	return (expand_doll_2(node, current, &tmp, len), 0);
 }

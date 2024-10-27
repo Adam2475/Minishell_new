@@ -42,7 +42,6 @@ TODO: impostare err_state a 1 nel caso sopracitato
     unset HOME
     cd
     ```
- -->
     <!-- ```
 - [ ] segmentation fault con `""`/`''`
     ```
@@ -53,6 +52,7 @@ TODO: impostare err_state a 1 nel caso sopracitato
     <builtin> "ciao" > out
     <builtin> "ciao" | ls
     ```
+ -->
 
 --------------------------------------------------------------------------------  DONE !!
 
@@ -71,3 +71,15 @@ TODO: impostare err_state a 1 nel caso sopracitato
 - [ ] `exit` in pipeline non freea tutto prima di uscire
     ```
     exit | echo
+
+- [ ] myprompt$ echo caoisao>try/prova madonna puttan
+        Type: 12, Value: echo
+        Type: 11, Value:  
+        Type: 13, Value: caoisao
+        Type: 4, Value: >
+        Type: 13, Value: try/prova
+        Type: 11, Value:  
+        Type: 12, Value: madonna --- questa non dovrebbe essere un comando
+        Type: 11, Value:  
+        Type: 13, Value: puttan
+        Type: 7, Value: 

@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 13:37:43 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:29:01 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	heredoc_unlink(t_data **data)
 {
-	if (g_err_state)
-		g_err_state = g_err_state % 255;
+	g_err_state = 0;
 	if ((*data)->heredoc_flag > 0)
 	{
 		(*data)->heredoc_flag = 0;
@@ -75,18 +74,32 @@ static	void	skip_prob(t_token **node)
 	}
 }
 
-int	echo_cmd(t_token **tkn)
+int	echo_cmd(t_token **tkn, t_data **data)
 {
 	t_token	*node;
 	int		flag_n;
+	int		flag_2;
 
 	node = (*tkn)->next;
 	flag_n = 0;
+	flag_2 = 0;
 	skip_prob(&node);
 	inutils_num(node, &flag_n);
-	while (node && node->type != 7 && node->type != 3 && node->type != 5
-		&& node->type != 4 && node->type != 6 && node->type != 2)
+	while (node && node->type != 7 && node->type != 6 && node->type != 2)
 	{
+		if (node->type == 3 || node->type == 5
+		|| node->type == 4 )
+		{
+			flag_2 = 1;
+			node = node->next;
+		}
+		if (node && (node->type == 13 || node->type == 14) && flag_2 == 1)
+		{
+			flag_2 = 0;
+			node = node->next;
+			if (node && node->type == 11)
+				ft_printf(" ");
+		}
 		if (((int)node->type == 8 || (int)node->type == 13
 				|| (int)node->type == 14 || (int)node->type == 12)
 			&& (int)node->next->type == 11)
@@ -99,5 +112,5 @@ int	echo_cmd(t_token **tkn)
 	}
 	if (flag_n == 0)
 		ft_printf("\n");
-	return (g_err_state = 0, errno = 0, 1);
+	return ((*data)->local_err_state = 0, 1);
 }

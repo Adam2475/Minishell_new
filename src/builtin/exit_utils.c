@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 20:46:28 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 14:58:40 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	free_exit_cmd(t_data **data, t_token *tokens)
 {
+	int	tmp;
+
+	tmp = 0;
 	if ((*data)->tmp9 != NULL)
 		free((*data)->tmp9);
 	if ((*data)->tmp6)
@@ -31,8 +34,9 @@ void	free_exit_cmd(t_data **data, t_token *tokens)
 	free_tokens(data, tokens);
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
+	tmp = (*data)->local_err_state;
 	free(*data);
-	exit(g_err_state);
+	exit(tmp);
 }
 
 void	*ft_check_lon(char *s)
@@ -63,16 +67,13 @@ int	ft_too_long(char *val, t_data **data, t_token **token)
 	if (!val)
 		return (0);
 	if ((ft_strlen(val) - 1) > ft_strlen("-9223372036854775808"))
-		return (free(ptr), write(2, "exit: numeric argument required\n", 33),
-			free_exit_cmd(data, *token), 1);
+		return (free(ptr), write(2, "exit: numeric argument required\n", 33), 1);
 	if (ft_check_lon(ptr) != NULL)
-		return (free(ptr), write(2, "exit: numeric argument required\n", 33),
-			free_exit_cmd(data, *token), 1);
+		return (free(ptr), write(2, "exit: numeric argument required\n", 33), 1);
 	if (ft_atol(val) > 255 || ft_atol(val) < 0)
-		g_err_state = ft_atol(val) % 256;
+		(*data)->local_err_state = ft_atol(val) % 256;
 	else
-		g_err_state = ft_atol(val);
-	errno = g_err_state;
+		(*data)->local_err_state = ft_atol(val);
 	free(ptr);
 	return (0);
 }

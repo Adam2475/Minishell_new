@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 19:19:32 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 16:31:30 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,16 @@ void	free_list(t_token *head)
 
 void	free_exit(t_data **data)
 {
+	int	j;
+
+	j = (*data)->local_err_state;
 	clear_history();
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
 	if ((*data)->input)
 		free((*data)->input);
 	free(*data);
-	exit(errno);
+	exit(j);
 }
 
 static	void	join_in_qt_tk(t_token **tkn)
@@ -111,7 +114,7 @@ int	tokenizer(t_data **data, t_token **tokens)
 	}
 	buffer = tmp;
 	end = buffer;
-	if (recognizer(buffer, tokens, end, data) || token_reformatting(tokens))
+	if (recognizer(buffer, tokens, end, data) || token_reformatting(tokens, data))
 		return (free(tmp), 1);
 	// print_tokens(*tokens);
 	// exit (0);

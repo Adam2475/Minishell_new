@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 20:43:52 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 16:51:02 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	exec_exit2(t_data **data, t_token **tokens,
 		char **cmd_args, int print)
 {
 	print = 0;
-	g_err_state = errno;
 	if (cmd_args && print == 0)
 		free_char_array(cmd_args);
 	if ((*data)->env_p)
@@ -56,8 +55,9 @@ int	exec_exit2(t_data **data, t_token **tokens,
 	free_env_list((*data)->env_list);
 	free_tokens(data, (*tokens));
 	free((*data)->end);
+	print = (*data)->local_err_state;
 	free((*data));
-	exit(g_err_state);
+	exit(print);
 }
 
 static int	ft_count(char const *s, char c)
@@ -202,7 +202,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	//ft_printf("non dovrei esserci!\n");
 	//free_char_array(cmd_args);
 	if (cmd_args)
-		g_err_state = execve(holder, cmd_args, envp);
+		execve(holder, cmd_args, envp);
 	if (holder)
 		free(holder);
 	if (tmp2)

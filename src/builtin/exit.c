@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 18:58:27 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 16:55:09 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,26 @@ static	int	ft_is_numeric(t_token *tkn)
 	return (1);
 }
 
-static	void	set_exit(int n, t_data **data, t_token **token)
-{
-	g_err_state = n;
-	errno = n;
-	free_exit_cmd(data, *token);
-}
-
 static	void	free_set_exit(t_data **data, t_token **token, t_token **tkn)
 {
 	while ((*tkn)->type == TOKEN_WHITESPACE)
 		(*tkn) = (*tkn)->next;
 	if ((int)(*tkn)->type == 7)
+	{
+		(*data)->local_err_state = 0;
 		free_exit_cmd(data, *token);
+	}
 	if (!ft_is_numeric((*tkn)))
 	{
 		write(2, "exit: numeric argument required\n", 33);
-		set_exit(2, data, token);
+		(*data)->local_err_state = 2;
+		free_exit_cmd(data, *token);
 	}
 	if (ft_too_long((*tkn)->value, data, token))
-		set_exit(g_err_state, data, token);
+	{
+		(*data)->local_err_state = 1;
+		free_exit_cmd(data, *token);
+	}
 }
 
 int	cmd_exit(t_data **data, t_token **token)
@@ -77,9 +77,9 @@ int	cmd_exit(t_data **data, t_token **token)
 				break ;
 		}
 		if ((int)tkn->type != 7)
-			return (g_err_state = 1,
+			return ((*data)->local_err_state = 1,
 				write(2, "exit: too many arguments\n", 26));
 		free_exit_cmd(data, *token);
 	}
-	return (g_err_state = 0, 0);
+	return ((*data)->local_err_state = 0, 0);
 }

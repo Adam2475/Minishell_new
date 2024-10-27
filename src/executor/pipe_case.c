@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 19:36:14 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:37:20 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 
 	i = 0;
 	print = 0;
-	if (errno == 0)
-		g_err_state = 1;
-	//ft_printf("\n\n\n%d\n\n\n", errno);
-	if (errno != 0 && g_err_state == 0)
-		g_err_state = errno;
 	if ((*data)->env_p && print == 0)
 		free_char_array((*data)->env_p);
 	while (i < (*data)->pipes * 2)
@@ -36,8 +31,9 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	free((*data)->end);
 	if ((*data)->parent != NULL)	
 		free((*data)->parent);
+	print = (*data)->local_err_state;
 	free((*data));
-	exit(g_err_state);
+	exit(print);
 }
 
 static	int	child_process_pipe(t_data **data, t_token *tokens,
@@ -50,24 +46,10 @@ static	int	child_process_pipe(t_data **data, t_token *tokens,
 	free_list(new_tokens);
 	copy_mtx2(data);
 	free(parent);
+	signal(SIGQUIT, SIG_DFL);
 	execute_command(data, (*data)->env_p, tkn, &tokens);
 	free_char_array((*data)->env_p);
 	exit (EXIT_FAILURE);
-}
-
-int	heredoc_finder(t_token *current)
-{
-	int	i;
-
-	i = 0;
-	g_err_state = 0;
-	while (current != NULL)
-	{
-		if (current->type == TOKEN_HEREDOC)
-			i = 1;
-		current = current->next;
-	}
-	return (i);
 }
 
 int	pipe_case(t_token **tokens, t_data **data,
@@ -75,10 +57,12 @@ int	pipe_case(t_token **tokens, t_data **data,
 {
 	int				i;
 	int				flag;
+	int				status;
 	pid_t			*parent;
 	t_token_list	*current;
 
 	parent = (pid_t *)ft_calloc(sizeof(pid_t), (count_pipes(*tokens) + 2));
+	status = 0;
 	init_pipe(data, tokens, &i);
 	current = *token_list;
 	(*data)->in_tmp = 0;
@@ -93,16 +77,18 @@ int	pipe_case(t_token **tokens, t_data **data,
 		//remove_whitespace_nodes(&current->head);
 		if (redirect_parser_pipe(data, current->head, tokens))
 		{
-			ft_printf("%s\n", "not a file or directory!");
+			write(2, "No such file or directory\n", 27);
 			exec_exit3(data, tokens, (*data)->end, 0);
 		}
 		if (g_err_state == 130 && (*data)->heredoc_flag == 1)
 		{
+			(*data)->local_err_state = 0;
 			g_err_state = 0;
 			flag = 1;
 		}
 		if (flag == 1)
 		{
+			(*data)->local_err_state = 130;
 			g_err_state = 130;
 			break ;
 		}
@@ -125,7 +111,16 @@ int	pipe_case(t_token **tokens, t_data **data,
 	}
 	while (i >= 0)
 	{
-		waitpid(parent[i--], NULL, 0);
+		waitpid(parent[i--], &status, 0);
+		if (WEXITSTATUS(status))
+			(*data)->local_err_state = status;
+		else if (WIFSIGNALED(status))
+		{
+			if (status == 2)
+				(*data)->local_err_state = 130;
+			if (status == 131)
+				(*data)->local_err_state = 131;
+		}
 	}
 	free(parent);
 	return (free_char_array((*data)->env_p), free((*data)->end), 0);

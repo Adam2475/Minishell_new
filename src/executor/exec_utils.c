@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 15:34:32 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:58:29 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,6 @@ char	*trim_quotes(char *str)
 	return (trimmed);
 }
 
-static	void	helper3(char *cmd)
-{
-	if (errno == 2)
-	{
-		write(2, "command not found: ", 20);
-		write(2, cmd, ft_strlen(cmd));
-		write(2, "\n", 1);
-		g_err_state = 127;
-	}
-	else
-	{
-		perror("");
-		g_err_state = 126;
-	}
-}
 
 static	void	check_cmd_free(char *holder, char *tmp)
 {
@@ -61,6 +46,33 @@ static	void	check_cmd_free(char *holder, char *tmp)
 		ft_free_null(holder);
 	if (tmp)
 		ft_free_null(tmp);
+}
+
+static	int	is_directory(const char *path)
+{
+    struct stat path_stat;
+
+    if (stat(path, &path_stat) != 0)
+	{
+        return (0);
+    }
+    return (S_ISDIR(path_stat.st_mode));
+}
+
+static	void	helper3(char *cmd, t_data **data)
+{
+	if (errno == 2)
+	{
+		write(2, "command not found: ", 20);
+		write(2, cmd, ft_strlen(cmd));
+		write(2, "\n", 1);
+		(*data)->local_err_state = 127;
+	}
+	else
+	{
+		perror("");
+		(*data)->local_err_state = 126;
+	}
 }
 
 char	*find_cmd(char *cmd, t_data **data)
@@ -71,6 +83,9 @@ char	*find_cmd(char *cmd, t_data **data)
 	char	*tmp2;
 
 	i = 0;
+	if (is_directory(cmd))
+		return ((*data)->local_err_state = 126,
+			write(2, "Is a directory\n", 16), NULL);
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	while ((*data)->merdoso == 0 && (*data)->my_paths[i])
@@ -87,7 +102,7 @@ char	*find_cmd(char *cmd, t_data **data)
 			return (ft_free_null(tmp), holder);
 		check_cmd_free(holder, tmp);
 	}
-	helper3(cmd);
+	helper3(cmd, data);
 	return (NULL);
 }
 

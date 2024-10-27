@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:21:06 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/27 14:30:30 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,17 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	if (tmp->cmd == CH_DIR)
 		return (ft_remove_ws(token), cd_cmd(data, token), 1);
 	if (tmp->cmd == ECHO)
-		return (echo_cmd(token), 1);
+		return (echo_cmd(token, data), 1);
 	if (tmp->cmd == EXPORT)
 		return (export_cmd(data, token), 1);
 	if (tmp->cmd == UNSET)
-		return (unset_env(token, &tmp->env_list), 1);
+		return (unset_env(token, &tmp->env_list, data), 1);
 	if (tmp->cmd == ENV && !(*data)->merdoso)
 		return (env_cmd(data, token), 1);
 	if (tmp->cmd == EXIT)
 		return (cmd_exit(data, token), 1);
 	if (tmp->cmd == PWD)
-		return (pwd_cmd(), 1);
+		return (pwd_cmd(data), 1);
 	return (0);
 }
 

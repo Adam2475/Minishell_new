@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 18:28:02 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 14:45:55 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	util_exp(t_data **data, t_token **current, t_token **tkn)
 {
 	if ((*current)->value && ft_isalpha_plus((*current)->value)
 		&& (*current)->type != TOKEN_WHITESPACE)
-		return (unset_env(tkn, &(*data)->env_list), 1);
+		return (unset_env(tkn, &(*data)->env_list, data), 1);
 	if ((*current)->value && (*current)->type != 11 && ft_strsearch((*current)->value, '=') == 0)
 		return (add_for_exp(data, (*current)->value), (*current) = (*current)->next, 2);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/24 22:50:40 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 15:10:43 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static	int	parent_here_doc(void)
 
 static	void	exit_free_heredoc(t_data **data, t_token **tokens)
 {
+	int	tmp;
+
+	tmp = (*data)->local_err_state;
 	free_env_list((*data)->env_list);
 	free_list(*tokens);
 	free_char_array((*data)->env_p);
@@ -31,7 +34,7 @@ static	void	exit_free_heredoc(t_data **data, t_token **tokens)
 	free((*data)->command);
 	free((*data)->path_from_envp);
 	free((*data));
-	exit(g_err_state);
+	exit((*data)->local_err_state);
 }
 
 static	void	heredoc_case_init(char *tmp, t_data **data)

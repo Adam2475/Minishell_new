@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:08:15 by marco             #+#    #+#             */
-/*   Updated: 2024/10/26 18:03:45 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 15:07:17 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	env_cmd(t_data **data, t_token **token)
 		if (tkn->type == TOKEN_WHITESPACE || tkn->type == 12)
 			tkn = tkn->next;
 		else if (tkn->type != TOKEN_DOLLAR && tkn->type != 2)
-			return (g_err_state = 127, errno = 127,
+			return ((*data)->local_err_state = 127,
 				write(2, "Not file or directory\n", 23), 0);
 		else if (tkn->type == TOKEN_DOLLAR)
-			return (g_err_state = 126, errno = 126,
+			return ((*data)->local_err_state = 126,
 				write(2, "Permission denied\n", 19), 0);
 	}
 	while (node != NULL)
@@ -38,5 +38,5 @@ int	env_cmd(t_data **data, t_token **token)
 			ft_printf("%s%s\n", node->var, node->value);
 		node = node->next;
 	}
-	return (g_err_state = 0, errno = 0, 1);
+	return ((*data)->local_err_state = 0, 1);
 }

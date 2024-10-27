@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 20:45:18 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 16:27:32 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	init_data(t_data **data, int argc, char **argv, t_token **tokens)
 		return (1);
 	*argv = NULL;
 	g_err_state = 0;
-	errno = 0;
 	(*tokens) = NULL;
 	if (data)
 	{
@@ -83,7 +82,6 @@ void	free_tokens_helper(t_data **data)
 	}
 	(*data)->redirect_state_out = -1;
 	(*data)->redirect_state_in = -1;
-	errno = 0;
 }
 
 void	free_tokens(t_data **data, t_token *tokens)

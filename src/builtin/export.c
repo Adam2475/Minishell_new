@@ -102,9 +102,9 @@ int	export_cmd(t_data **data, t_token **tkn)
 	flag = check_for_flag(tkn);
 	if (inutil_exp(data, &current, &copy))
 		return (free_list(copy), write(2, "not a valid identifier\n", 24),
-			g_err_state = 1, errno = 1, 1);
+			(*data)->local_err_state = 1, 1);
 	if (flag == 0)
 		print_exp_env(data);
 	free_list(copy);
-	return (g_err_state = 0, 1);
+	return ((*data)->local_err_state = 0, 1);
 }

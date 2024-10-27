@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 17:41:58 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 15:06:27 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	cd_tilde(t_token *current, t_data **data)
 		ft_free_null(tmp2);
 	}
 	else
-		return (write(2, "HOME not set\n", 14), g_err_state = 1, 1);
+		return (write(2, "HOME not set\n", 14), (*data)->local_err_state = 1, 1);
 	return (0);
 }
 
@@ -71,7 +71,7 @@ int	cd_null(t_token *current, t_data **data)
 	if (node)
 		current->value = ft_strndup(node->value, ft_strlen(node->value));
 	else if (!node)
-		return (write(2, "HOME not set\n", 14), g_err_state = 1, 1);
+		return (write(2, "HOME not set\n", 14), (*data)->local_err_state = 1, 1);
 	else
 		chdir(current->value);
 	return (0);

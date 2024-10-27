@@ -35,7 +35,8 @@ static	void	child_process(char **cmd_args, t_data **data,
 	if ((*data)->cmd2 && cmd_args && copy_mtx1(data))
 	{
 		(*data)->cmd2 = trim_quotes((*data)->cmd2);
-		errno = errno % 256;
+		(*data)->local_err_state = (*data)->local_err_state % 256;
+		signal(SIGQUIT, SIG_DFL);
 		if (execve((*data)->cmd2, cmd_args, (*data)->env_p) != 0)
 			exec_exit(data, tokens, 126);
 	}
@@ -60,7 +61,7 @@ void	execute_command_single(char **command, t_data **data,
 	init_execution(data, &i);
 	(*data)->tmp9 = ft_strjoin(command[0], " ");
 	if (manual_cmd(command, data, tokens))
-		return (errno = g_err_state, command_single_helper(data),
+		return (command_single_helper(data),
 			free((*data)->tmp9));
 	process_command2(data, command);
 	(*data)->cmd_args = ft_split((*data)->tmp9, 32);
@@ -72,6 +73,6 @@ void	execute_command_single(char **command, t_data **data,
 	if (!parent)
 		child_process(command, data, tokens);
 	else
-		g_err_state = parent_process();
+		(*data)->local_err_state = parent_process();
 	return ;
 }

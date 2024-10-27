@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/25 18:28:05 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/27 15:15:13 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static	int	check_syntax_errors(t_token *tokens)
 	return (0);
 }
 
-int	token_reformatting(t_token **tokens)
+int	token_reformatting(t_token **tokens, t_data **data)
 {
 	t_token		*head;
 	t_token		*current;
@@ -90,9 +90,9 @@ int	token_reformatting(t_token **tokens)
 	head = *tokens;
 	current = *tokens;
 	if (check_syntax_errors(*tokens) > 0)
-		return (write(2, "syntax error\n", 14), g_err_state = 2, 1);
+		return (write(2, "syntax error\n", 14), (*data)->local_err_state = 2, 1);
 	if (check_spaces(*tokens))
-		return (g_err_state = 0, 1);
+		return ((*data)->local_err_state = 0, 1);
 	while (current && current->type != TOKEN_EOF)
 	{
 		while (current->type == TOKEN_WHITESPACE)
