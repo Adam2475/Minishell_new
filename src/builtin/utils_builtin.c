@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 12:32:56 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:34:16 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static	int	redirect_builtin(t_data **data)
 	{
 		(*data)->redirect_state_out = 1;
 		(*data)->saved_fd_out = dup(STDOUT_FILENO);
-		if (dup2((*data)->fd_out, (*data)->saved_fd_out) < 0)
+		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
 			return (-1);
 	}
 	if ((*data)->redirect_state_in > 0)

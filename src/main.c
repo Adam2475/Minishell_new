@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 13:32:22 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:39:23 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,19 @@ static void	split_tokens(t_data **data, t_token *src)
 	(*data)->token_list = result_head;
 }
 
+int	is_only_spaces(const char *str)
+{
+	if (str == NULL)
+		return (0);
+	while (*str)
+	{
+		if (!ft_isspace((unsigned char)*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
 static	int	read_input(t_data *data)
 {
 	data->token_list = NULL;
@@ -63,7 +76,7 @@ static	int	read_input(t_data *data)
 	data->input = readline("myprompt$ ");
 	if (!data->input)
 		return (0);
-	if (data->input[0] != '\0')
+	if (data->input[0] != '\0' && !is_only_spaces(data->input))
 		add_history(data->input);
 	return (1);
 }

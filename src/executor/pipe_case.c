@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 13:04:42 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:24:39 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 	{
 		//remove_whitespace_nodes(&current->head);
 		if (redirect_parser_pipe(data, current->head, tokens))
-		{
-			write(2, "No such file or directory\n", 27);
 			exec_exit3(data, tokens, (*data)->end, 0);
-		}
 		if (g_err_state == 130 && (*data)->heredoc_flag == 1)
 		{
 			(*data)->local_err_state = 0;
@@ -94,6 +91,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 			g_err_state = 130;
 			break ;
 		}
+		
 		//wait(NULL);
 		parent[i] = fork();
 		if (parent[i] == -1)

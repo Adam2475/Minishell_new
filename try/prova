@@ -1,2 +1,22 @@
-cazzimia
-cazzimia hhhhhh
+myprompt$ ls
+file1
+inc
+libft
+local_err_state
+Makefile
+minishell
+minishell_tester
+obj
+ou
+out
+outfile01
+readline.supp
+src
+test_file
+todo.md
+try
+myprompt$ codiomak^C
+myprompt$ ^C
+myprompt$ ^C
+myprompt$ ^C
+myprompt$ exit

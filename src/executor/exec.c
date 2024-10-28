@@ -37,7 +37,7 @@ static	void	child_process(char **cmd_args, t_data **data,
 	exec_exit(data, tokens, 127);
 }
 
-static	int	parent_process(t_data **data)
+static	void	parent_process(t_data **data)
 {
 	int	status;
 	
@@ -51,14 +51,13 @@ static	int	parent_process(t_data **data)
 	}
 	else if (WIFSIGNALED(status))
 	{
-		if (status == 2)
+		if (g_err_state == 130 || status == 2)
 			(*data)->local_err_state = 130;
-		if (status == 131)
+		if (g_err_state == 131 || status == 131)
 			(*data)->local_err_state = 131;
 	}
 	else
 		(*data)->local_err_state = status;
-	return (status);
 }
 
 void	execute_command_single(char **command, t_data **data,

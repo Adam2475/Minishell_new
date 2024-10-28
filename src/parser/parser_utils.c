@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 13:01:27 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:55:11 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,11 @@ int	parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens)
 	if (current->type == 13 || current->type == 12)
 	{
 		heredoc_case_init(tmp, data);
-		if ((*data)->fd_in < 0 && (*data)->local_err_state == 1)
+		if ((*data)->fd_in < 0 && errno != 0)
+		{
+			perror("");
 			return ((*data)->local_err_state = 1, 0);
+		}
 		handle_heredoc(current->value, data);
 	}
 	else

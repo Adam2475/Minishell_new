@@ -64,14 +64,6 @@ TODO: impostare err_state a 1 nel caso sopracitato
     cat << eof | cat
     ciao
     eof
-    ``` -->
------------------------------------------------------------------------------------------------ DONE | TODO: set up (*data)->local_err_state after command
-- [ ] Invece di `errno`/`g_status_code` usare una variabile "locale" in `t_data` in quanto non si possa modificare le variabili globali non propri (a parte quella per gli status code).
-- [ ] ignorare l'input se e' composto da solo `whitespaces` (`man isspace`)
-- [ ] `exit` in pipeline non freea tutto prima di uscire
-    ```
-    exit | echo
-
 - [ ] myprompt$ echo caoisao>try/prova madonna puttan
         Type: 12, Value: echo
         Type: 11, Value:  
@@ -83,3 +75,15 @@ TODO: impostare err_state a 1 nel caso sopracitato
         Type: 11, Value:  
         Type: 13, Value: puttan
         Type: 7, Value: 
+- [ ] `exit` in pipeline non freea tutto prima di uscire
+    ```
+    exit | echo
+- [ ] ignorare l'input se e' composto da solo `whitespaces` (`man isspace`)
+
+- [ ] 'echo by>try/prova jo' nelle builtin il prompt si ripresenta nel file e rimane la' fino a chiusura
+    ``` -->
+----------------------------------------------------------------------------------------------- DONE | TODO: set up (*data)->local_err_state after command
+- [ ] Invece di `errno`/`g_status_code` usare una variabile "locale" in `t_data` in quanto non si possa modificare le variabili globali non propri (a parte quella per gli status code).
+
+- [ ] problema redirect con errore nel file - stampa corretta ma deve interrompere l'esecuzione della pipe senza uscire
+
