@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:00:29 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 11:40:07 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:56:56 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	parser_case_redo(t_token *current, t_data **data)
 		(*data)->fd_out = open(current->value,
 				O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if ((*data)->fd_in < 0)
+		{
+			perror("");
 			return ((*data)->local_err_state = 1, 0);
+		}
 	}
 	else
 		return (1);
@@ -43,7 +46,10 @@ int	parser_case_append(t_token *current, t_data **data)
 		(*data)->fd_out = open(current->value,
 				O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if ((*data)->fd_out < 0)
+		{
+			perror("");
 			return ((*data)->local_err_state = 1, 0);
+		}
 	}
 	else
 		return (1);

@@ -19,18 +19,12 @@ static	void	child_process(char **cmd_args, t_data **data,
 	{
 		(*data)->saved_fd = dup(STDOUT_FILENO);
 		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
-		{
-			write(2, "Permission denied\n", 19);
 			exec_exit(data, tokens, 1);
-		}
 	}
 	if ((*data)->redirect_state_in > 0)
 	{
 		if (dup2((*data)->fd_in, STDIN_FILENO) < 0)
-		{
-			write(2, "Permission denied\n", 19);
 			exec_exit(data, tokens, 1);
-		}
 	}
 	if ((*data)->cmd2 && cmd_args && copy_mtx1(data))
 	{
@@ -43,11 +37,27 @@ static	void	child_process(char **cmd_args, t_data **data,
 	exec_exit(data, tokens, 127);
 }
 
-static	int	parent_process(void)
+static	int	parent_process(t_data **data)
 {
 	int	status;
-
+	
+	status = 0;
 	waitpid(-1, &status, 0);
+	if (WEXITSTATUS(status))
+	{
+		(*data)->local_err_state = status;
+		if ((*data)->local_err_state < 0 || (*data)->local_err_state >= 255)
+			(*data)->local_err_state = (*data)->local_err_state % 255;
+	}
+	else if (WIFSIGNALED(status))
+	{
+		if (status == 2)
+			(*data)->local_err_state = 130;
+		if (status == 131)
+			(*data)->local_err_state = 131;
+	}
+	else
+		(*data)->local_err_state = status;
 	return (status);
 }
 
@@ -73,11 +83,6 @@ void	execute_command_single(char **command, t_data **data,
 	if (!parent)
 		child_process(command, data, tokens);
 	else
-	{
-		(*data)->local_err_state = parent_process();
-		if ((*data)->local_err_state < 0 || (*data)->local_err_state >= 255)
-			(*data)->local_err_state = (*data)->local_err_state % 255;
-
-	}
+		parent_process(data);
 	return ;
 }
