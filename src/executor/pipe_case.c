@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 19:59:59 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:04:42 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	print = 0;
 	if ((*data)->env_p && print == 0)
 		free_char_array((*data)->env_p);
+	// perror("\n\n\nexec_exit3\n\n\n");
 	while (i < (*data)->pipes * 2)
 	{
 		close(end[i]);
@@ -96,7 +97,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 		//wait(NULL);
 		parent[i] = fork();
 		if (parent[i] == -1)
-			exit(ft_printf("fork error!\n"));
+			exit(write(2, "fork error!\n", 13));
 		if (parent[i] == 0)
 		{
 			// free(parent);
@@ -114,7 +115,11 @@ int	pipe_case(t_token **tokens, t_data **data,
 	{
 		waitpid(parent[i--], &status, 0);
 		if (WEXITSTATUS(status))
+		{
 			(*data)->local_err_state = status;
+			if ((*data)->local_err_state < 0 || (*data)->local_err_state >= 255)
+				(*data)->local_err_state = (*data)->local_err_state % 255;
+		}
 		else if (WIFSIGNALED(status))
 		{
 			if (status == 2)
@@ -122,6 +127,8 @@ int	pipe_case(t_token **tokens, t_data **data,
 			if (status == 131)
 				(*data)->local_err_state = 131;
 		}
+		else
+			(*data)->local_err_state = status;
 	}
 	free(parent);
 	return (free_char_array((*data)->env_p), free((*data)->end), (*data)->end = NULL, 0);

@@ -73,6 +73,11 @@ void	execute_command_single(char **command, t_data **data,
 	if (!parent)
 		child_process(command, data, tokens);
 	else
+	{
 		(*data)->local_err_state = parent_process();
+		if ((*data)->local_err_state < 0 || (*data)->local_err_state >= 255)
+			(*data)->local_err_state = (*data)->local_err_state % 255;
+
+	}
 	return ;
 }

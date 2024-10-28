@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 15:10:43 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:01:27 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static	void	exit_free_heredoc(t_data **data, t_token **tokens)
 static	void	heredoc_case_init(char *tmp, t_data **data)
 {
 	(*data)->fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0600);
+	if ((*data)->fd_in < 0)
+		(*data)->local_err_state = 1;
 	(*data)->redirect_state_in = 1;
 	(*data)->heredoc_flag = 1;
 }
@@ -68,7 +70,7 @@ int	parser_case_herdoc(t_token *current, t_data **data, t_token **tokens)
 		parent_here_doc();
 	}
 	else
-		return (ft_printf("syntax error after heredoc operator!\n"));
+		return (write(2, "syntax error after heredoc operator!\n", 38));
 	close((*data)->fd);
 	return ((*data)->fd_in = open(tmp, O_RDONLY), 0);
 }
@@ -86,10 +88,12 @@ int	parser_case_herdoc_pipe(t_token *current, t_data **data, t_token **tokens)
 	if (current->type == 13 || current->type == 12)
 	{
 		heredoc_case_init(tmp, data);
+		if ((*data)->fd_in < 0 && (*data)->local_err_state == 1)
+			return ((*data)->local_err_state = 1, 0);
 		handle_heredoc(current->value, data);
 	}
 	else
-		return (ft_printf("syntax error after heredoc operator!\n"));
+		return (write(2, "syntax error after heredoc operator!\n", 38));
 	close((*data)->fd);
 	(*data)->fd_in = open(tmp, O_RDONLY);
 	return (0);

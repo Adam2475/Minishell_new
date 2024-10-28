@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 14:30:30 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:32:56 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static	int	redirect_builtin(t_data **data)
 	{
 		(*data)->redirect_state_out = 1;
 		(*data)->saved_fd_out = dup(STDOUT_FILENO);
-		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
+		if (dup2((*data)->fd_out, (*data)->saved_fd_out) < 0)
 			return (-1);
 	}
 	if ((*data)->redirect_state_in > 0)
@@ -50,7 +50,7 @@ int	manual_cmd(char **cmd_args, t_data **data, t_token **token)
 	tmp->cmd = conf_man_cmd(cmd_args[0]);
 	if (!tmp->cmd)
 		return (0);
-	if (redirect_builtin(data) < 0)
+	if (redirect_builtin(data) < 0 && !(*data)->pipes)
 		return (-1);
 	(*data)->cmd_args = NULL;
 	clean_qt(token);

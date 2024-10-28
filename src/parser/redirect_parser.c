@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 22:43:36 by mapichec          #+#    #+#             */
-/*   Updated: 2024/10/24 22:50:45 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:39:58 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	parser_case_redi(t_token *current, t_data **data)
 		(*data)->redirect_state_in = 1;
 		(*data)->fd_in = open(current->value, O_RDONLY);
 		if ((*data)->fd_in < 0)
-			return (1);
+			return ((*data)->local_err_state = 1, 0);
 	}
 	else
 		return (1);

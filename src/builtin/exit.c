@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 19:59:37 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:27:17 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static	void	free_set_exit(t_data **data, t_token **token, t_token **tkn)
 	{
 		(*data)->local_err_state = 0;
 		free_exit_cmd(data, *token);
+	}
 	if (!ft_is_numeric((*tkn)))
 	{
 		print_tokens(*tkn);
@@ -78,8 +79,7 @@ int	cmd_exit(t_data **data, t_token **token)
 				break ;
 		}
 		if ((int)tkn->type != 7)
-			return ((*data)->local_err_state = 1,
-				write(2, "exit: too many arguments\n", 26));
+			return ((*data)->local_err_state = 1, write(2, "exit: too many arguments\n", 26), 1);
 		free_exit_cmd(data, *token);
 	}
 	return ((*data)->local_err_state = 0, 0);

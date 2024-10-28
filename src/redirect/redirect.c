@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 16:51:02 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:00:49 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ int	handle_heredoc(char *delimiter, t_data **data)
 	char		*line;
 
 	if ((*data)->fd < 0)
-		exit (ft_printf("Failed to open heredoc temporary file"));
+		exit (write(2, "Failed to open heredoc temporary file\n", 39));
 	// signal_doc();
 	while (1 && g_err_state != 130)
 	{
