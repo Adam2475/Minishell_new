@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 15:15:13 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:51:28 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static	int	invalid_tkn_sequence(t_token_type prev_type, t_token_type curr_type)
 	return (0);
 }
 
-static	void	check_syntax_err2(t_token **current)
+static	void	check_syntax_err2(t_token **current, t_token **previous)
 {
 	t_token_type	type;
 
@@ -49,6 +49,7 @@ static	void	check_syntax_err2(t_token **current)
 	(*current) = (*current)->next;
 	while ((*current) && (*current)->type != type && (*current)->type != 7)
 		(*current) = (*current)->next;
+	*previous = *current;
 	if ((*current) && (*current)->type == type)
 		(*current) = (*current)->next;
 }
@@ -63,7 +64,7 @@ static	int	check_syntax_errors(t_token *tokens)
 	while (current != NULL && current->type != 7)
 	{
 		if (current->type == 9 || current->type == 10)
-			check_syntax_err2(&current);
+			check_syntax_err2(&current, &previous);
 		if (previous == NULL && current->type == 2)
 			return (1);
 		if (previous != NULL
