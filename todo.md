@@ -87,3 +87,6 @@ TODO: impostare err_state a 1 nel caso sopracitato
 
 - [ ] problema redirect con errore nel file - stampa corretta ma deve interrompere l'esecuzione della pipe senza uscire
 
+- [ ] <--- echo ciao | "|" ---> la seconda pipe dovrebbe essere presa come comando ma viene all'execve gli
+    gli arriva una holder vuoto perche' nell'execute_command non trova il tkn_comand dopo la pipe ma tkn_word_in_qt
+
