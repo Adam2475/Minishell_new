@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 11:27:17 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:27:05 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static	void	free_set_exit(t_data **data, t_token **token, t_token **tkn)
 	}
 	if (!ft_is_numeric((*tkn)))
 	{
-		print_tokens(*tkn);
+		//print_tokens(*tkn);
 		write(2, "exit: numeric argument required\n", 33);
 		(*data)->local_err_state = 2;
 		free_exit_cmd(data, *token);

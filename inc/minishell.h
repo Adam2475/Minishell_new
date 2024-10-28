@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 15:15:00 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:19:57 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int				parser_case_herdoc(t_token *current, t_data **data,
 					t_token **tokens);
 int				redirect_parser(t_data **data, t_token *current,
 					t_token **tokens);
+int				command_reformatter(t_token *token_list);
 // Redireciton
 char			*expander_doc(char *line, t_data **data);
 char			*exp_word(char *line, t_data **data, int *i);

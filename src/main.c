@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 13:07:23 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:32:22 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,28 @@ static	void	init_flags(t_data **data)
 	(*data)->my_line = NULL;
 }
 
+int	command_reformatter(t_token *token_list)
+{
+	int command_found = 0;
+    while (token_list) {
+        if (token_list->type == TOKEN_PIPE) {
+            // Reset upon encountering a pipe token
+            command_found = 0;
+        } else if (token_list->type == TOKEN_COMMAND) {
+            if (command_found) {
+                // Change this command token to an appendice token
+                token_list->type = TOKEN_APPENDICE;
+            } else {
+                // Mark the first command in this segment as found
+                command_found = 1;
+            }
+        }
+        token_list = token_list->next;
+    }
+
+    return 1; // Returns 1 since the function always completes
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
@@ -118,7 +140,7 @@ int	main(int argc, char **argv, char **envp)
 			return (ft_printf("exit\n"), free_exit(&data), data->local_err_state);
 		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
 			continue ;
-		print_tokens(tokens);
+		//print_tokens(tokens);
 		//exit(1);
 		env_parser(&data, envp);
 		// print_tokens(tokens);
