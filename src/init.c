@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 13:26:00 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:52:19 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,6 @@ int	tokenizer(t_data **data, t_token **tokens)
 	if (recognizer(buffer, tokens, end, data) || token_reformatting(tokens, data))
 		return (free(tmp), 1);
 	command_reformatter(*tokens);
-	// print_tokens(*tokens);
-	// exit (0);
 	join_in_qt_tk(tokens);
 	if (check_quotes(tokens) != 0)
 		return (free(tmp), 1);

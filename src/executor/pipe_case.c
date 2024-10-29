@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 10:49:15 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:01:57 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	print = 0;
 	if ((*data)->env_p && print == 0)
 		free_char_array((*data)->env_p);
-	// perror("\n\n\nexec_exit3\n\n\n");
 	while (i < (*data)->pipes * 2)
 	{
 		close(end[i]);
@@ -31,14 +30,14 @@ int	exec_exit3(t_data **data, t_token **tokens, int *end, int print)
 	free_tokens(data, *tokens);
 	(*data)->tokens_ptr = NULL;
 	free((*data)->end);
-	if ((*data)->parent != NULL)	
+	if ((*data)->parent != NULL)
 		free((*data)->parent);
 	print = (*data)->local_err_state;
 	free((*data));
 	exit(print);
 }
 
-static	int	child_process_pipe(t_data **data, t_token *tokens,
+int	child_process_pipe(t_data **data, t_token *tokens,
 	t_token **tkn, pid_t *parent)
 {
 	t_token		*new_tokens;
@@ -54,84 +53,73 @@ static	int	child_process_pipe(t_data **data, t_token *tokens,
 	exit (EXIT_FAILURE);
 }
 
+static	int	pipe_helper2(t_data **data, int *flag)
+{
+	if (g_err_state == 130 && (*data)->heredoc_flag == 1)
+	{
+		(*data)->local_err_state = 0;
+		g_err_state = 0;
+		*flag = 1;
+	}
+	if (*flag == 1)
+	{
+		(*data)->local_err_state = 130;
+		g_err_state = 130;
+		return (1);
+	}
+	return (0);
+}
+
+static	void	wait_for_childs(t_data **data, pid_t *parent, int i)
+{
+	while (i >= 0)
+	{
+		waitpid(parent[i--], &(*data)->status, 0);
+		if (WEXITSTATUS((*data)->status))
+		{
+			(*data)->local_err_state = (*data)->status;
+			if ((*data)->local_err_state < 0 || (*data)->local_err_state >= 255)
+				(*data)->local_err_state = (*data)->local_err_state % 255;
+		}
+		else if (WIFSIGNALED((*data)->status))
+		{
+			if ((*data)->status == 2)
+				(*data)->local_err_state = 130;
+			if ((*data)->status == 131)
+				(*data)->local_err_state = 131;
+		}
+		else
+			(*data)->local_err_state = (*data)->status;
+	}
+	free(parent);
+}
+
 int	pipe_case(t_token **tokens, t_data **data,
 	char **envp, t_token_list **token_list)
 {
-	int				i;
 	int				flag;
-	int				status;
 	pid_t			*parent;
 	t_token_list	*current;
 
 	parent = (pid_t *)ft_calloc(sizeof(pid_t), (count_pipes(*tokens) + 2));
-	status = 0;
-	init_pipe(data, tokens, &i);
+	init_pipe(data, tokens, parent);
 	current = *token_list;
-	(*data)->in_tmp = 0;
-	(*data)->hd_flag = 0;
-	pipe_opener(data, (*data)->end);
-	flag = 0;
-	(*data)->in_tmp = dup(STDIN_FILENO);
-	(*data)->skip_flag = 0;
-	(*data)->tokens_ptr = (*tokens);
-	(*data)->parent = parent;
-	while (++i <= (*data)->pipes)
+	pipe_opener(data, (*data)->end, &flag);
+	while (++(*data)->counter <= (*data)->pipes)
 	{
-		//remove_whitespace_nodes(&current->head);
 		if (redirect_parser_pipe(data, current->head, tokens))
 			exec_exit3(data, tokens, (*data)->end, 0);
-		// if (errno != 0 && (*data)->local_err_state != 0)
-		// 	continue ;
-		if (g_err_state == 130 && (*data)->heredoc_flag == 1)
-		{
-			(*data)->local_err_state = 0;
-			g_err_state = 0;
-			flag = 1;
-		}
-		if (flag == 1)
-		{
-			(*data)->local_err_state = 130;
-			g_err_state = 130;
+		if (pipe_helper2(data, &flag) > 0)
 			break ;
-		}
-		//wait(NULL);
-		parent[i] = fork();
-		if (parent[i] == -1)
+		parent[(*data)->counter] = fork();
+		if (parent[(*data)->counter] == -1)
 			exit(write(2, "fork error!\n", 13));
-		if (parent[i] == 0)
-		{
-			if ((*data)->skip_flag)
-				exec_exit3(data, tokens, (*data)->end, 0);
-			// free(parent);
-			pipe_helper(data, current, i);
-			child_process_pipe(data, current->head, tokens, parent);
-			//exit(1);
-		}
-		//dup2(STDIN_FILENO, (*data)->in_tmp);
-		parent_process2(data, i, (*data)->end);
-		(*data)->redirect_state_out = -1;
-		(*data)->redirect_state_in = -1;
+		if (parent[(*data)->counter] == 0)
+			pipe_helper(data, current, parent, tokens);
+		parent_process2(data, (*data)->counter, (*data)->end);
 		current = current->next;
 	}
-	while (i >= 0)
-	{
-		waitpid(parent[i--], &status, 0);
-		if (WEXITSTATUS(status))
-		{
-			(*data)->local_err_state = status;
-			if ((*data)->local_err_state < 0 || (*data)->local_err_state >= 255)
-				(*data)->local_err_state = (*data)->local_err_state % 255;
-		}
-		else if (WIFSIGNALED(status))
-		{
-			if (status == 2)
-				(*data)->local_err_state = 130;
-			if (status == 131)
-				(*data)->local_err_state = 131;
-		}
-		else
-			(*data)->local_err_state = status;
-	}
-	free(parent);
-	return (free_char_array((*data)->env_p), free((*data)->end), (*data)->end = NULL, 0);
+	wait_for_childs(data, parent, (*data)->counter);
+	return (free_char_array((*data)->env_p),
+		free((*data)->end), (*data)->end = NULL, 0);
 }

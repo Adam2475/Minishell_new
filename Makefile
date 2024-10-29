@@ -18,7 +18,8 @@ SRCS = main init tokenizer/lexer exit_handle \
 		helper_function executor/exec_utils3 builtin/exit_utils helper_functions2 \
 		parser/parser_utils2 executor/exec_helpers \
 		expander3 expander2 executor/copy_mtx_pipe executor/pipe_utils2 \
-		tokenizer/lexer_utils2 parser/redirect_parser \
+		tokenizer/lexer_utils2 parser/redirect_parser executor/new_helpers \
+		redirect/redirect_helper redirect/redirect_helper2 \
 
 SRC = $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRCS)))
 # Object file generation

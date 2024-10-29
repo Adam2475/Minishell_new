@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:23:10 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:48:25 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,6 @@ void	parent_process2(t_data **data, int i, int *end)
 		close(end[i * 2 + 1]);
 		(*data)->prev_fd = end[i * 2];
 	}
+	(*data)->redirect_state_out = -1;
+	(*data)->redirect_state_in = -1;
 }

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:29:58 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/26 14:47:35 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:03:22 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,20 @@ int	init_state(t_data **data, t_token **tokens, char *tmp)
 	if (!tmp)
 		return (1);
 	return (0);
+}
+
+int	exec_exit4(t_data **data, t_token **tokens,
+		char **cmd_args, int print)
+{
+	print = 0;
+	if (cmd_args && print == 0)
+		free_char_array(cmd_args);
+	if ((*data)->env_p)
+		free_char_array((*data)->env_p);
+	free_env_list((*data)->env_list);
+	free_tokens(data, (*tokens));
+	free((*data)->end);
+	print = (*data)->local_err_state;
+	free((*data));
+	exit(print);
 }

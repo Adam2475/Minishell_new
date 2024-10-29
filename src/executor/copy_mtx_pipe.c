@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_mtx_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 22:19:59 by mapichec          #+#    #+#             */
-/*   Updated: 2024/10/24 22:24:33 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:15:43 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	copy_mtx1(t_data **data)
 		return (0);
 	return (1);
 }
+
 int	copy_mtx2_pt2(t_data **data, int i)
 {
 	t_env_list	*node;

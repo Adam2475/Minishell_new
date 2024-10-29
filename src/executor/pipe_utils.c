@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 09:39:44 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:14:59 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ void	close_pipes(int *end, int pipes)
 	}
 }
 
-static	void	redirection_out_case_helper(t_data **data, int *end)
+void	redirection_out_case_helper(t_data **data, int *end)
 {
-	//ft_printf("dioporco\n");
-	// write(2, "no such file or directory!\n", 28);
-	// perror("");
 	free((*data)->parent);
 	(*data)->parent = NULL;
 	if ((*data)->in_tmp > 0)
@@ -60,9 +57,8 @@ static	void	redirection_out_case_helper(t_data **data, int *end)
 	exec_exit3(data, &(*data)->tokens_ptr, end, 0);
 }
 
-static	void	redirection_in_case_helper(t_data **data, int *end)
+void	redirection_in_case_helper(t_data **data, int *end)
 {
-	//free((*data)->parent);
 	heredoc_unlink(data);
 	if ((*data)->in_tmp > 0)
 		close((*data)->in_tmp);
@@ -75,24 +71,8 @@ static	void	redirection_in_case_helper(t_data **data, int *end)
 	exec_exit3(data, &(*data)->tokens_ptr, end, 0);
 }
 
-void	setup_pipe(t_data **data, int i, int prev_fd, int *end)
+void	setup_helper(t_data **data, int i, int prev_fd, int *end)
 {
-	int	pipes;
-
-	pipes = count_pipes((*data)->tokens);
-	if (i > 0 && (*data)->hd_flag == 0  && (*data)->redirect_state_in <= 0)
-	{
-		dup2(prev_fd, STDIN_FILENO);
-		close(prev_fd);
-	}
-	if (i < pipes && (*data)->redirect_state_out <= 0)
-		dup2(end[i * 2 + 1], STDOUT_FILENO);
-	if ((*data)->redirect_state_out > 0)
-	{
-		if (dup2((*data)->fd_out, STDOUT_FILENO) < 0)
-			redirection_out_case_helper(data, end);
-		close((*data)->fd_out);
-	}
 	if ((*data)->redirect_state_in > 0 && (*data)->hd_flag > 0)
 	{
 		dup2((*data)->fd_in, STDIN_FILENO);

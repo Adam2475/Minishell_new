@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 10:46:58 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:04:15 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,15 @@ typedef struct s_data
 	int				saved_fd_out;
 	int				saved_fd_in;
 	int				hd_flag;
+	int				status;
 	int				skip_flag;
 	pid_t			*parent;
 	int				local_err_state;
 	t_token			*tokens_ptr;
 	char			*command2;
+	char			*holder;
+	int				counter;
+	char			**cmd_args2;
 	t_token			*new_token;
 	t_token			*tmp;
 	t_token			*tokens;
@@ -124,6 +128,9 @@ void			free_exit(t_data **data);
 void			free_list(t_token *head);
 int				init_data(t_data **data, int argc, char **argv,
 					t_token **tokens);
+void			cleanup_helper(t_data **data, char **tmp,
+					char **cmd_args, t_token *tkn);
+void			command_extractor(t_data **data, t_token *current, char **tmp);
 // Tokenizer
 int				tokenizer(t_data **data, t_token **tokens);
 int				whitespace_case(char *buffer, char *end, t_token **tokens);
@@ -318,14 +325,24 @@ int				exec_exit2(t_data **data, t_token **tokens,
 void			command_single_helper(t_data **data);
 char			*command_single_finder(int *i,
 					t_data **data, char **command);
-void			pipe_helper(t_data **data, t_token_list *current, int i);
-void			pipe_opener(t_data **data, int *end);
-void			init_pipe(t_data **data, t_token **tokens, int *i);
+void			pipe_helper(t_data **data, t_token_list *current,
+					pid_t *parent, t_token **tokens);
+void			pipe_opener(t_data **data, int *end, int *flag);
+void			init_pipe(t_data **data, t_token **tokens, pid_t *parent);
 int				exec_exit3(t_data **data, t_token **tokens,
 					int *end, int print);
 int				parser_case_herdoc_pipe(t_token *current,
 					t_data **data, t_token **tokens);
 int				redirect_parser_pipe(t_data **data, t_token *current,
 					t_token **tokens);
+int				child_process_pipe(t_data **data, t_token *tokens,
+					t_token **tkn, pid_t *parent);
+void			redirection_out_case_helper(t_data **data, int *end);
+void			redirection_in_case_helper(t_data **data, int *end);
+void			setup_helper(t_data **data, int i, int prev_fd, int *end);
+int				token_words(t_token *token);
+void			token_reformatting_helper(t_token **current);
+int				check_type(t_token *current);
+int				ft_count(char const *s, char c);
 
 #endif

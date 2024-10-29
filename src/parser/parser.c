@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 11:02:59 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:27:22 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,6 @@ static	int	call_for_command(t_token **tokens, t_data **data,
 	return (0);
 }
 
-static	int	token_words(t_token *token)
-{
-	int		i;
-	t_token	*tmp;
-
-	tmp = token;
-	i = 0;
-	while (tmp && tmp->type != TOKEN_EOF)
-	{
-		if (tmp->type == TOKEN_WHITESPACE)
-			;
-		else
-			i++;
-		tmp = tmp->next;
-	}
-	return (i + 1);
-}
-
 static	int	parser_init(t_data **data)
 {
 	size_t	words;
@@ -76,6 +58,16 @@ static	int	parser_init(t_data **data)
 	words = (size_t)token_words((*data)->tokens);
 	(*data)->command = (char **)ft_calloc(words + 2, sizeof(char *));
 	if (!(*data)->command)
+		return (1);
+	return (0);
+}
+
+static	int	return_checker(t_data **data, t_token *current, t_token **tokens)
+{
+	if (redirect_parser(data, current, tokens) > 0)
+		return (write(2, "syntax error\n", 14),
+			(*data)->local_err_state = 2, 1);
+	if (g_err_state == 130)
 		return (1);
 	return (0);
 }
@@ -90,12 +82,8 @@ int	token_parser(t_token **tokens, t_data **data)
 	while (current && current->type != TOKEN_EOF)
 	{
 		if ((*data)->heredoc_flag == 0)
-		{
-			if (redirect_parser(data, current, tokens) > 0)
-				return (write(2, "syntax error\n", 14), (*data)->local_err_state = 2, 1);
-			if (g_err_state == 130)
-				return (0);
-		}
+			if (return_checker(data, current, tokens) > 0)
+				return (1);
 		if ((*data)->skip_flag > 0)
 			return (0);
 		if (current->type == 12 || current->type == 14)

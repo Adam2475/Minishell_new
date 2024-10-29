@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 16:51:28 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:35:01 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static	int	check_type(t_token *current)
+int	check_type(t_token *current)
 {
 	if (current && current->type != 0 && current->type != 1
 		&& current->type != 11)
@@ -91,28 +91,11 @@ int	token_reformatting(t_token **tokens, t_data **data)
 	head = *tokens;
 	current = *tokens;
 	if (check_syntax_errors(*tokens) > 0)
-		return (write(2, "syntax error\n", 14), (*data)->local_err_state = 2, 1);
+		return (write(2, "syntax error\n", 14),
+			(*data)->local_err_state = 2, 1);
 	if (check_spaces(*tokens))
 		return ((*data)->local_err_state = 0, 1);
 	while (current && current->type != TOKEN_EOF)
-	{
-		while (current->type == TOKEN_WHITESPACE)
-			current = current->next;
-		// TODO: da vedere se servono ancora
-		// while (current->type == TOKEN_DOUBLE_QUOTES)
-		// 	current = current->next;
-		// if ((current && current->type == TOKEN_EOF) || current == NULL)
-		// 	return (1);
-		if (current && current->type == TOKEN_PIPE)
-			current = token_reformatting_pipe(current);
-		if (current->type == TOKEN_DOLLAR)
-			current = current->next;
-		if (check_type(current) > 0 && current->type != 2)
-			current = token_reformatting_special(current);
-		if (current && current->type == TOKEN_WORD)
-			current = token_reformatting_command(current);
-		else if (current && !(current->type >= 2 && current->type <= 6))
-			current = current->next;
-	}
+		token_reformatting_helper(&current);
 	return (current = head, 0);
 }
