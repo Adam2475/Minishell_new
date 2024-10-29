@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:54:55 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 16:03:44 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:13:35 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ int	handle_heredoc(char *delimiter, t_data **data)
 	return (0);
 }
 
-static	void	command_extractor_helper(t_token *current, char *tmp2, char **tmp3)
+static	void	command_extractor_helper(t_token *current, char *tmp2,
+	char *tmp)
 {
-	char *tmp = *tmp3;
-
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current->type == TOKEN_APPENDICE || current->type == 1)
@@ -93,7 +92,7 @@ void	command_extractor(t_data **data, t_token *current, char **tmp)
 		if (current->type == TOKEN_COMMAND)
 		{
 			current = current->next;
-			command_extractor_helper(current, tmp2, tmp);
+			command_extractor_helper(current, tmp2, *tmp);
 		}
 		if (current)
 			current = current->next;
