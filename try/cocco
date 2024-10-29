@@ -1,0 +1,20 @@
+total 668
+drwxr-xr-x 10 mapichec 2023_florence   4096 Oct 29 10:35 .
+drwx------ 14 mapichec 2023_florence   4096 Oct 22 17:45 ..
+-rw-r--r--  1 mapichec 2023_florence      6 Oct 28 18:35 file1
+drwxr-xr-x  8 mapichec 2023_florence   4096 Oct 29 09:37 .git
+drwxr-xr-x  2 mapichec 2023_florence   4096 Oct 28 16:40 inc
+drwxr-xr-x  3 mapichec 2023_florence   4096 Oct 29 09:38 libft
+-rw-r--r--  1 mapichec 2023_florence      0 Oct 28 16:17 local_err_state
+-rw-r--r--  1 mapichec 2023_florence   2118 Oct 26 18:50 Makefile
+-rwxr-xr-x  1 mapichec 2023_florence 207608 Oct 29 10:35 minishell
+drwxr-xr-x  6 mapichec 2023_florence   4096 Oct 28 18:37 minishell_tester
+-rwxr-xr-x  1 mapichec 2023_florence 207592 Oct 29 09:47 .nfs000000000382093d00000027
+-rwxr-xr-x  1 mapichec 2023_florence 207048 Oct 28 16:40 .nfs0000000003821d7900000016
+drwxr-xr-x  2 mapichec 2023_florence   4096 Oct 29 09:38 obj
+-rw-r--r--  1 mapichec 2023_florence    457 Oct 26 18:50 readline.supp
+drwxr-xr-x  7 mapichec 2023_florence   4096 Oct 28 16:40 src
+-rwxr-xr-x  1 mapichec 2023_florence      0 Oct 28 16:40 test_file
+-rw-r--r--  1 mapichec 2023_florence   3001 Oct 28 18:52 todo.md
+drwxr-xr-x  2 mapichec 2023_florence   4096 Oct 29 10:02 try
+drwxr-xr-x  2 mapichec 2023_florence   4096 Oct 23 11:43 .vscode

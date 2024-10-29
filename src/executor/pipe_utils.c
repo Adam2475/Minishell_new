@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 12:59:37 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:39:44 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	close_pipes(int *end, int pipes)
 static	void	redirection_out_case_helper(t_data **data, int *end)
 {
 	//ft_printf("dioporco\n");
-	write(2, "no such file or directory!\n", 28);
+	// write(2, "no such file or directory!\n", 28);
 	// perror("");
 	free((*data)->parent);
 	(*data)->parent = NULL;

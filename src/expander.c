@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 13:02:39 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:47:49 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 	t_token	*current;
 
 	current = (*tkn_lst);
-	while (current->type != TOKEN_EOF)
+	while (current && current->type != TOKEN_EOF)
 	{
 		if (current->type == 8)
 			expand_doll(&current, data);

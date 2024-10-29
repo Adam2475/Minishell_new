@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 17:59:55 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:32:23 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 			current = current->next;
 			while (current->type == TOKEN_WHITESPACE)
 				current = current->next;
-			if (current->type == TOKEN_APPENDICE)
+			if (current->type == TOKEN_APPENDICE || current->type == 1)
 			{
 				while(current && !(current->type <= TOKEN_EOF && current->type >= 2))
 				{
@@ -123,7 +123,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 						current = current->next;
 						continue;
 					}
-					if (current->type == TOKEN_APPENDICE)
+					if (current->type == TOKEN_APPENDICE || current->type == 1)
 					{
 						tmp2 = ft_strjoin(tmp, " ");
 						free(tmp);

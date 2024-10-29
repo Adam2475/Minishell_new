@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/24 22:41:10 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:23:58 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ t_token	*token_reformatting_pipe(t_token *current)
 	{
 		while (current && current->type != 7 && current->type == 11)
 			current = current->next;
-		if (current->type != 2 && current->type != 8
-			&& current->type != 9 && current->type != 10)
+		if (current->type < 2 || current->type > 10)
 			current->type = TOKEN_APPENDICE;
 		if (current && current->next && current->type != TOKEN_PIPE)
 			current = current->next;
