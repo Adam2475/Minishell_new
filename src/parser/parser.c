@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 15:11:45 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:02:59 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	token_parser(t_token **tokens, t_data **data)
 			if (g_err_state == 130)
 				return (0);
 		}
+		if ((*data)->skip_flag > 0)
+			return (0);
 		if (current->type == 12 || current->type == 14)
 		{
 			if (!call_for_command(tokens, data, &current))

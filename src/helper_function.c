@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_function.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 19:58:15 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:06:53 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	free_tokens(t_data **data, t_token *tokens)
 		tokens = NULL;
 		(*data)->tokens_ptr = NULL;
 	}
+	(*data)->skip_flag = 0;
 	heredoc_unlink(data);
 	if ((*data)->tokens)
 		free_list((*data)->tokens);

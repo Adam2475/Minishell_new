@@ -90,3 +90,8 @@ TODO: impostare err_state a 1 nel caso sopracitato
 - [ ] <--- echo ciao | "|" ---> la seconda pipe dovrebbe essere presa come comando ma viene all'execve gli
     gli arriva una holder vuoto perche' nell'execute_command non trova il tkn_comand dopo la pipe ma tkn_word_in_qt
 
+
+
+cat <"./test_files/infile" | echo hi  : LEAKS
+
+'' ctrl + D ''
