@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:03:48 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 16:02:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:15:11 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*command_single_finder(int *i,
 	return (tmp);
 }
 
-void	pipe_helper(t_data **data, t_token_list *current, 
+void	pipe_helper(t_data **data, t_token_list *current,
 	pid_t *parent, t_token **tokens)
 {
 	if ((*data)->skip_flag)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 15:22:07 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:02:39 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	shrink_tkn_in_qt(t_token **tokens)
 				current = current->next;
 		}
 		if (current && (current->type == 14
-			|| current->type == 8 || current->type == type))
+				|| current->type == 8 || current->type == type))
 			current = current->next;
 		current = current->next;
 	}

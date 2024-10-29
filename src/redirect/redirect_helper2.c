@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:54:55 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 16:13:35 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:01:14 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,28 @@ int	handle_heredoc(char *delimiter, t_data **data)
 	return (0);
 }
 
-static	void	command_extractor_helper(t_token *current, char *tmp2,
-	char *tmp)
+static	void	command_extractor_helper(t_data **data,
+	t_token *current, char *tmp2)
 {
 	while (current->type == TOKEN_WHITESPACE)
 		current = current->next;
 	if (current->type == TOKEN_APPENDICE || current->type == 1)
 	{
-		while(current && !(current->type <= TOKEN_EOF && current->type >= 2))
+		while (current && !(current->type <= 7 && current->type >= 2))
 		{
 			while (current->type == TOKEN_WHITESPACE)
 			{
 				current = current->next;
-					continue;
+				continue ;
 			}
 			if (current->type == TOKEN_APPENDICE || current->type == 1)
 			{
-				tmp2 = ft_strjoin(tmp, " ");
-				free(tmp);
-				tmp = ft_strjoin(tmp2, current->value);
+				tmp2 = ft_strjoin((*data)->tmp90, " ");
+				free((*data)->tmp90);
+				(*data)->tmp90 = ft_strjoin(tmp2, current->value);
 				free(tmp2);
 				current = current->next;
-				continue;
+				continue ;
 			}
 			if (current && !(current->type <= TOKEN_EOF && current->type >= 2))
 				current = current->next;
@@ -80,7 +80,7 @@ static	void	command_extractor_helper(t_token *current, char *tmp2,
 	}
 }
 
-void	command_extractor(t_data **data, t_token *current, char **tmp)
+void	command_extractor(t_data **data, t_token *current)
 {
 	char	*tmp2;
 	t_token	*head;
@@ -92,7 +92,7 @@ void	command_extractor(t_data **data, t_token *current, char **tmp)
 		if (current->type == TOKEN_COMMAND)
 		{
 			current = current->next;
-			command_extractor_helper(current, tmp2, *tmp);
+			command_extractor_helper(data, current, tmp2);
 		}
 		if (current)
 			current = current->next;
@@ -100,13 +100,13 @@ void	command_extractor(t_data **data, t_token *current, char **tmp)
 	current = head;
 }
 
-void	cleanup_helper(t_data **data, char **tmp,
+void	cleanup_helper(t_data **data,
 	char **cmd_args, t_token *tkn)
 {
 	if ((*data)->holder)
 		free((*data)->holder);
-	if (*tmp)
-		free(*tmp);
+	if ((*data)->tmp90)
+		free((*data)->tmp90);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	exec_exit2(data, &tkn, cmd_args, 0);

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 16:07:21 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:39:32 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ typedef struct s_data
 	t_token			*tokens_ptr;
 	char			*command2;
 	char			*holder;
+	char			*cmd42;
 	int				counter;
+	char			*tmp90;
 	char			**cmd_args2;
 	t_token			*new_token;
 	t_token			*tmp;
@@ -128,9 +130,9 @@ void			free_exit(t_data **data);
 void			free_list(t_token *head);
 int				init_data(t_data **data, int argc, char **argv,
 					t_token **tokens);
-void			cleanup_helper(t_data **data, char **tmp,
+void			command_extractor(t_data **data, t_token *current);
+void			cleanup_helper(t_data **data,
 					char **cmd_args, t_token *tkn);
-void			command_extractor(t_data **data, t_token *current, char **tmp);
 // Tokenizer
 int				tokenizer(t_data **data, t_token **tokens);
 int				whitespace_case(char *buffer, char *end, t_token **tokens);

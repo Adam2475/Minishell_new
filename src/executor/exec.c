@@ -40,7 +40,7 @@ static	void	child_process(char **cmd_args, t_data **data,
 static	void	parent_process(t_data **data)
 {
 	int	status;
-	
+
 	status = 0;
 	waitpid(-1, &status, 0);
 	if (WEXITSTATUS(status))

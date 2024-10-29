@@ -34,7 +34,8 @@ void	roll_env(t_env_list **current, char *var_name)
 {
 	while ((*current))
 	{
-		if (ft_strncmp((*current)->var, var_name, ft_strlen((*current)->var) - 1) == 0)
+		if (ft_strncmp((*current)->var, var_name,
+				ft_strlen((*current)->var) - 1) == 0)
 		{
 			free_node_env((*current));
 			break ;
