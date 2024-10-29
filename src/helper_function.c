@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_function.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 11:06:53 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:21:06 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,38 +84,17 @@ void	free_tokens_helper(t_data **data)
 	(*data)->redirect_state_in = -1;
 }
 
-void	free_tokens(t_data **data, t_token *tokens)
+char	*trim_whitespace(char *str)
 {
-	if (tokens)
-	{
-		free_list(tokens);
-		tokens = NULL;
-		(*data)->tokens_ptr = NULL;
-	}
-	(*data)->skip_flag = 0;
-	heredoc_unlink(data);
-	if ((*data)->tokens)
-		free_list((*data)->tokens);
-	if ((*data)->token_list != NULL && (*data)->token_list->head == tokens)
-		(*data)->token_list->head = NULL;
-	if ((*data)->token_list != NULL)
-		free_token_list((*data)->token_list);
-	if ((*data)->fd >= 0)
-		(*data)->fd = -1;
-	if ((*data)->path_from_envp != NULL && *(*data)->path_from_envp != 0)
-		free((*data)->path_from_envp);
-	if ((*data)->command)
-		free_char_array((*data)->command);
-	if ((*data)->my_paths && *(*data)->my_paths != NULL)
-		free_char_array((*data)->my_paths);
-	if ((*data)->my_line && *(*data)->my_line != 0)
-		free((*data)->my_line);
-	free_tokens_helper(data);
-	(*data)->my_paths = NULL;
-	(*data)->path_from_envp = NULL;
-	(*data)->my_line = NULL;
-	free((*data)->input);
-	(*data)->my_paths = NULL;
-	(*data)->path_from_envp = NULL;
-	(*data)->my_line = NULL;
+	char	*end;
+
+	while (*str == 32)
+		str++;
+	if (*str == 0)
+		return (str);
+	end = str + ft_strlen(str) - 1;
+	while (end > str && *end == 32)
+		end--;
+	*(end + 1) = '\0';
+	return (str);
 }

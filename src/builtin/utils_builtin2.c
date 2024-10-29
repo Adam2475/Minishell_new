@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 15:08:02 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:09:23 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,35 @@ static	int	ft_isalpha_len(char *str)
 	return (-1);
 }
 
+static	int	tmp_set2(char **tmp, char **tmp2, int *i, char *val)
+{
+	*tmp = ft_strndup(val, ft_strlen(val));
+	*tmp2 = ft_strtrim2(*tmp, "$");
+	if (**tmp2 && **tmp2 == '?')
+		return (1);
+	(*i) = ft_isalpha_len(*tmp2);
+	if ((*i) > 0)
+		*tmp = ft_strndup(*tmp2, (*i));
+	else
+		*tmp = ft_strndup(*tmp2, ft_strlen(*tmp2));
+	return (0);
+}
+
 char	*tmp_set(char *val)
 {
 	int		i;
 	char	*tmp;
 	char	*tmp2;
 
-	tmp = ft_strndup(val, ft_strlen(val));
-	tmp2 = ft_strtrim2(tmp, "$");
-	if (*tmp2 && *tmp2 == '?')
+	i = 0;
+	if (tmp_set2(&tmp, &tmp2, &i, val))
 		return (tmp2);
-	i = ft_isalpha_len(tmp2);
-	if (i > 0)
-		tmp = ft_strndup(tmp2, i);
-	else
-		tmp = ft_strndup(tmp2, ft_strlen(tmp2));
 	if (i > 0 && tmp2[i] && tmp2[i] == '+'
 		&& tmp2[i + 1] && tmp2[i + 1] == '=')
 	{
 		if (tmp2)
 			free(tmp2);
-		tmp2 = ft_strjoin(tmp, "=");
-		return (ft_free_null(tmp), tmp2);
+		return (tmp2 = ft_strjoin(tmp, "="), ft_free_null(tmp), tmp2);
 	}
 	if (i > 0 && tmp2[i] && tmp2[i] != '=')
 	{
@@ -82,6 +89,5 @@ char	*tmp_set(char *val)
 	}
 	else if (i > 0 && tmp2[i] && tmp2[i] == '=')
 		tmp = ft_strndup(tmp2, i + 1);
-	ft_free_null(tmp2);
-	return (tmp);
+	return (ft_free_null(tmp2), tmp);
 }

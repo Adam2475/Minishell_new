@@ -5,9 +5,11 @@ local_err_state
 Makefile
 minishell
 minishell_tester
+next
 obj
 readline.supp
 src
+test
 test_file
 todo.md
 try

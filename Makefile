@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-# CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror -g -lreadline
 CFLAGS = -g -lreadline
 # Source files
 SRC_DIR = src
@@ -12,7 +12,7 @@ SRCS = main init tokenizer/lexer exit_handle \
 		expander env_list executor/pipe_case builtin/chdir_utils \
 		builtin/chdir builtin/builtin executor/pipe_utils \
 		builtin/exit builtin/echo builtin/export builtin/unset \
-		builtin/pwd builtin/env redirect/signal_heredoc redirect/expander_doc \
+		builtin/pwd builtin/env redirect/expander_doc \
 		signals get_next_line get_next_line_utils builtin/utils_builtin2 \
 		builtin/utils_builtin builtin/export_utils2 executor/exec_utils2 builtin/export_utils \
 		helper_function executor/exec_utils3 builtin/exit_utils helper_functions2 \
@@ -20,6 +20,9 @@ SRCS = main init tokenizer/lexer exit_handle \
 		expander3 expander2 executor/copy_mtx_pipe executor/pipe_utils2 \
 		tokenizer/lexer_utils2 parser/redirect_parser executor/new_helpers \
 		redirect/redirect_helper redirect/redirect_helper2 \
+		parser/parser_utils2 executor/exec_helpers builtin/echo_util \
+		expander3 main2 free_some expander4 expander2 executor/copy_mtx_pipe executor/pipe_utils2 \
+		tokenizer/lexer_utils2 parser/redirect_parser \
 
 SRC = $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRCS)))
 # Object file generation
