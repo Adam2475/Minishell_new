@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 10:36:43 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:49:15 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 	pipe_opener(data, (*data)->end);
 	flag = 0;
 	(*data)->in_tmp = dup(STDIN_FILENO);
+	(*data)->skip_flag = 0;
 	(*data)->tokens_ptr = (*tokens);
 	(*data)->parent = parent;
 	while (++i <= (*data)->pipes)
@@ -93,13 +94,14 @@ int	pipe_case(t_token **tokens, t_data **data,
 			g_err_state = 130;
 			break ;
 		}
-		
 		//wait(NULL);
 		parent[i] = fork();
 		if (parent[i] == -1)
 			exit(write(2, "fork error!\n", 13));
 		if (parent[i] == 0)
 		{
+			if ((*data)->skip_flag)
+				exec_exit3(data, tokens, (*data)->end, 0);
 			// free(parent);
 			pipe_helper(data, current, i);
 			child_process_pipe(data, current->head, tokens, parent);
