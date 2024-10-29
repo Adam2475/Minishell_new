@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/28 17:24:16 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:12:02 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,27 +87,7 @@ int	echo_cmd(t_token **tkn, t_data **data)
 	inutils_num(node, &flag_n);
 	while (node && node->type != 7 && node->type != 6 && node->type != 2)
 	{
-		if (node->type == 3 || node->type == 5
-		|| node->type == 4 )
-		{
-			flag_2 = 1;
-			node = node->next;
-		}
-		if (node && (node->type == 13 || node->type == 14) && flag_2 == 1)
-		{
-			flag_2 = 0;
-			node = node->next;
-			if (node && node->type == 11)
-				ft_printf(" ");
-		}
-		if (((int)node->type == 8 || (int)node->type == 13
-				|| (int)node->type == 14 || (int)node->type == 12)
-			&& (int)node->next->type == 11)
-			ft_printf("%s ", node->value);
-		if (((int)node->type == 8 || (int)node->type == 13
-				|| (int)node->type == 14 || (int)node->type == 12)
-			&& (int)node->next->type != 11)
-			ft_printf("%s", node->value);
+		print_echo(&node, &flag_2);
 		node = node->next;
 	}
 	if (flag_n == 0)

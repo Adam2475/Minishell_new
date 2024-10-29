@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 10:46:58 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:23:28 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,16 @@ int				copy_mtx2_pt2(t_data **data, int i);
 void			copy_mtx2(t_data **data);
 int				copy_mtx1_pt2(t_data **data, int i);
 int				copy_mtx1(t_data **data);
+void			cmd_in_qt(t_token *current);
+int				call_doll(t_token **current, int *flag);
+void			doll_to_cmd(t_token **tkn);
+void			join_in_qt_tk(t_token *tkn, t_token_type type);
+int				shrink_tkn_in_qt(t_token **tokens);
+void			add_tokens_to_list(t_token_list *result, t_token **src);
+int				is_only_spaces(const char *str);
+void			split_tokens(t_data **data, t_token *src);
+int				read_input(t_data *data);
+
 // env_list
 t_env_list		*lstlast_env(t_env_list *lst);
 t_env_list		*new_node_env(char *content);
@@ -165,7 +175,6 @@ void			split_var_env(t_env_list **node);
 int				gen_list_env(t_data **data, char **envp);
 // signals
 void			set_signal(void);
-void			signal_doc(void);
 // expander
 int				case_err(t_token **current, char *tmp, t_data **data);
 int				ft_isalpha_len2(char *str);
@@ -192,13 +201,15 @@ int				check_for_flag(t_token **tkn);
 int				conf_man_cmd(char *str);
 void			ft_remove_ws(t_token **token);
 void			join_in_qt_exp(t_token *tkn);
-void			join_in_qt(t_token *tkn, t_token_type type, int flag);
 int				export_cmd(t_data **data, t_token **tkn);
 int				add_to_env(t_token *arg, t_data **data);
 int				join_to_env(t_token *arg, t_data **data);
 int				is_numeric(char *str);
 void			clean_qt(t_token **tkn);
 int				compare_path(char *str);
+int				ft_isalpha_plus(char *str);
+void			add_for_exp(t_data **data, char *arg);
+int				inutil_exp2(t_token **current, t_data **data);
 // chdir
 int				cd_cmd(t_data **data, t_token **tkn);
 int				cd_minus(t_token *current, t_data **data);
@@ -206,13 +217,14 @@ int				cd_tilde(t_token *current, t_data **data);
 int				cd_null(t_token *current, t_data **data);
 // echo
 int				echo_cmd(t_token **tkn, t_data **data);
+void			print_echo(t_token **node, int *flag_2);
 // pwd
 int				pwd_cmd(t_data **data);
 // env
 int				env_cmd(t_data **data, t_token **token);
 // exit
 int				cmd_exit(t_data **data, t_token **token);
-int				ft_too_long(char *val, t_data **data, t_token **token);
+int				ft_too_long(char *val, t_data **data);
 int				init_execution(t_data **data, int *i);
 void			*ft_check_lon(char *s);
 void			free_exit_cmd(t_data **data, t_token *tokens);
@@ -239,7 +251,6 @@ int				pipe_case(t_token **tokens, t_data **data, char **envp,
 void			append_token_list(t_token_list **list, t_token *head);
 char			*token_to_command(t_token *head);
 int				count_pipes(t_token *head);
-int				set_redirection(t_token *tokens, t_data **data);
 int				execute_command(t_data **data, char **envp,
 					t_token **tkn, t_token **tokens);
 void			space_helper(t_token **head, t_token **current,

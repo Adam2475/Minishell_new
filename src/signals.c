@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 16:27:36 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:22:43 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static void	sig_quit(void)
 
 static void	signal_handler(int signo)
 {
-	int	status;
-
 	if (signo == SIGINT)
 	{
 		g_err_state = 130;
