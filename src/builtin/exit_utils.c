@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 19:58:25 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:37:01 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ void	free_exit_cmd(t_data **data, t_token *tokens)
 		free((*data)->end);
 	if ((*data)->command2)
 		free((*data)->command2);
-	if ((*data)->pipes)
-		free_tokens(data, (*data)->tokens_ptr);
 	if (!(*data)->pipes)
 		free_tokens(data, tokens);
+	if ((*data)->pipes)
+	{
+		free_tokens(data, (*data)->tokens_ptr);
+		tokens = NULL;		
+	}
 	if ((*data)->env_list)
 		free_env_list((*data)->env_list);
 	tmp = (*data)->local_err_state;

@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/27 19:58:15 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:29:37 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void	free_tokens(t_data **data, t_token *tokens)
 	(*data)->my_line = NULL;
 	free((*data)->input);
 	(*data)->my_paths = NULL;
+	(*data)->pipes = 0;
 	(*data)->path_from_envp = NULL;
 	(*data)->my_line = NULL;
 }
