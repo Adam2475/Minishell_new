@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 16:01:57 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:08:00 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static	void	wait_for_childs(t_data **data, pid_t *parent, int i)
 }
 
 int	pipe_case(t_token **tokens, t_data **data,
-	char **envp, t_token_list **token_list)
+	t_token_list **token_list)
 {
 	int				flag;
 	pid_t			*parent;
@@ -107,7 +107,7 @@ int	pipe_case(t_token **tokens, t_data **data,
 	pipe_opener(data, (*data)->end, &flag);
 	while (++(*data)->counter <= (*data)->pipes)
 	{
-		if (redirect_parser_pipe(data, current->head, tokens))
+		if (redirect_parser_pipe(data, current->head))
 			exec_exit3(data, tokens, (*data)->end, 0);
 		if (pipe_helper2(data, &flag) > 0)
 			break ;

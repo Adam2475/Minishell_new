@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 22:43:36 by mapichec          #+#    #+#             */
-/*   Updated: 2024/10/29 11:05:02 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:06:16 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	redirect_parser(t_data **data, t_token *current, t_token **tokens)
 	return (i);
 }
 
-int	redirect_parser_pipe(t_data **data, t_token *current, t_token **tokens)
+int	redirect_parser_pipe(t_data **data, t_token *current)
 {
 	int	i;
 
@@ -50,7 +50,7 @@ int	redirect_parser_pipe(t_data **data, t_token *current, t_token **tokens)
 		else if (current->type == TOKEN_APPEND)
 			i = parser_case_append(current, data);
 		else if (current->type == TOKEN_HEREDOC)
-			i = parser_case_herdoc_pipe(current, data, tokens);
+			i = parser_case_herdoc_pipe(current, data);
 		current = current->next;
 	}
 	return (i);

@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 16:39:32 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:09:50 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ t_token			*extract_command_and_appendices(t_data **data,
 					t_token *tokens);
 size_t			calculate_command_length(t_token *head);
 void			append_token(t_token **list, t_token *new_token);
-int				pipe_case(t_token **tokens, t_data **data, char **envp,
+int				pipe_case(t_token **tokens, t_data **data,
 					t_token_list **token_list);
 void			append_token_list(t_token_list **list, t_token *head);
 char			*token_to_command(t_token *head);
@@ -279,7 +279,7 @@ char			*ft_line(char *buffer);
 char			*read_file(int fd, char *res);
 char			*get_next_line2(int fd);
 void			free_token(t_token *token);
-void			do_pipe(t_data *data, t_token *tokens, char **envp);
+void			do_pipe(t_data *data, t_token *tokens);
 ////////////////////////////////////////////////////////////////////
 void			print_tokens(t_token *tokens);
 int				helper_function2(t_token **current,
@@ -327,7 +327,7 @@ void			parent_process2(t_data **data, int i, int *end);
 void			process_command2(t_data **data, char **command);
 void			init_extraction(t_token **result, t_token **current,
 					t_data **data, t_token *tokens);
-void			command_init(t_data *data, t_token *tokens, char **envp);
+void			command_init(t_data *data, t_token *tokens);
 int				exec_exit(t_data **data, t_token **tokens, int print);
 int				is_whitespace(const char *str);
 int				ft_isspace(int c);
@@ -345,14 +345,13 @@ void			init_pipe(t_data **data, t_token **tokens, pid_t *parent);
 int				exec_exit3(t_data **data, t_token **tokens,
 					int *end, int print);
 int				parser_case_herdoc_pipe(t_token *current,
-					t_data **data, t_token **tokens);
-int				redirect_parser_pipe(t_data **data, t_token *current,
-					t_token **tokens);
+					t_data **data);
+int				redirect_parser_pipe(t_data **data, t_token *current);
 int				child_process_pipe(t_data **data, t_token *tokens,
 					t_token **tkn, pid_t *parent);
 void			redirection_out_case_helper(t_data **data, int *end);
 void			redirection_in_case_helper(t_data **data, int *end);
-void			setup_helper(t_data **data, int i, int prev_fd, int *end);
+void			setup_helper(t_data **data, int *end);
 int				token_words(t_token *token);
 void			token_reformatting_helper(t_token **current);
 int				check_type(t_token *current);

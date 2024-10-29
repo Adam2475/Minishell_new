@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:11:31 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 13:34:38 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:06:03 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	setup_pipe(t_data **data, int i, int prev_fd, int *end)
 			redirection_out_case_helper(data, end);
 		close((*data)->fd_out);
 	}
-	setup_helper(data, i, prev_fd, end);
+	setup_helper(data, end);
 }
 
 char	*trim_quotes(char *str)

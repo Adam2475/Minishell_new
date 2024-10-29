@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 12:53:57 by mapichec          #+#    #+#             */
-/*   Updated: 2024/10/29 13:04:08 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:08:58 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	do_pipe(t_data *data, t_token *tokens, char **envp)
+void	do_pipe(t_data *data, t_token *tokens)
 {
 	t_token	*tmp;
 
@@ -20,7 +20,7 @@ void	do_pipe(t_data *data, t_token *tokens, char **envp)
 	split_tokens(&data, tmp);
 	free_list(data->tmp);
 	free_list(tmp);
-	pipe_case(&tokens, &data, envp, &data->token_list);
+	pipe_case(&tokens, &data, &data->token_list);
 }
 
 int	read_input(t_data *data)

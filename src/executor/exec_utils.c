@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 13:22:51 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:07:50 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static	void	helper3(char *cmd, t_data **data)
 }
 
 static	void	finder_helper(char *cmd, char **holder,
-	t_data **data, char *tmp)
+	char *tmp)
 {
 	if (compare_path(cmd) > 0)
 		*holder = ft_strdup(cmd);
@@ -71,7 +71,7 @@ char	*find_cmd(char *cmd, t_data **data)
 	{
 		tmp2 = ft_strdup((*data)->my_paths[i++]);
 		tmp = ft_strjoin(tmp2, "/");
-		finder_helper(cmd, &holder, data, tmp);
+		finder_helper(cmd, &holder, tmp);
 		free(tmp2);
 		holder = trim_quotes(holder);
 		if (access(holder, X_OK) == 0)

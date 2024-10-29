@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:41:39 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 13:14:59 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:04:58 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	redirection_in_case_helper(t_data **data, int *end)
 	exec_exit3(data, &(*data)->tokens_ptr, end, 0);
 }
 
-void	setup_helper(t_data **data, int i, int prev_fd, int *end)
+void	setup_helper(t_data **data, int *end)
 {
 	if ((*data)->redirect_state_in > 0 && (*data)->hd_flag > 0)
 	{

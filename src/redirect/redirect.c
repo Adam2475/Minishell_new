@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 17:01:22 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:08:47 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ static	void	execution_init_helper(t_data **data, t_token **current,
 	command_extractor(data, *current);
 }
 
-static	char	**execution_helper3(t_data **data,
-	t_token *tokens)
+static	char	**execution_helper3(t_data **data)
 {
 	char	**cmd_args;
 
@@ -85,7 +84,7 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 	t_token	*current;
 
 	execution_init_helper(data, &current, tokens);
-	cmd_args = execution_helper3(data, *tokens);
+	cmd_args = execution_helper3(data);
 	execution_helper4(data, cmd_args, *tokens, *tkn);
 	if ((*data)->cmd42 && !(*data)->holder)
 	{
