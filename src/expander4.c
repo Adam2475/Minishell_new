@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 12:45:15 by mapichec          #+#    #+#             */
-/*   Updated: 2024/10/29 13:03:22 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:55:57 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ int	check_quotes(t_token **tokens)
 		{
 			current = current->next;
 			current = ft_set_zero(current, 0);
-			if (current->type == TOKEN_EOF)
+			if (!current || current->type == TOKEN_EOF)
 				return (write(2, "unclosed quote\n", 16));
 		}
 		if ((int)current->type == 9)
 		{
 			current = current->next;
 			current = ft_set_zero(current, 1);
-			if (current->type == TOKEN_EOF)
+			if (!current || current->type == TOKEN_EOF)
 				return (write(2, "unclosed quote\n", 16));
 		}
 		current = current->next;

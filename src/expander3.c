@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:22:09 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:54:50 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 t_token	*ft_set_zero(t_token *current, int flag)
 {
-	while ((int)current->type != 7 && flag == 0
+	while (current && (int)current->type != 7 && flag == 0
 		&& (int)current->type != 10)
 	{
 		current->type = TOKEN_WORD_QT;
 		current = current->next;
 	}
-	while ((int)current->type != 7 && (int)current->type != 9
+	while (current && (int)current->type != 7 && (int)current->type != 9
 		&& flag == 1)
 	{
 		if ((int)current->type != 8)
