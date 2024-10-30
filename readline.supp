@@ -1,0 +1,7 @@
+{
+	readline
+	Memcheck:Leak
+	...
+	obj:/usr/lib/*/libreadline.*
+	...
+}
