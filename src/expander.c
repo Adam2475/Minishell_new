@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 17:02:39 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:22:48 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	cmd_in_qt(t_token *current)
 			tkn_delone(&current, current->next);
 			continue ;
 		}
-		if (current && current->next)
+		if (current)
 			current = current->next;
 	}
 }
@@ -124,7 +124,8 @@ int	shrink_tkn_in_qt(t_token **tokens)
 		if (current && (current->type == 14
 				|| current->type == 8 || current->type == type))
 			current = current->next;
-		current = current->next;
+		if (current)
+			current = current->next;
 	}
 	return (0);
 }
