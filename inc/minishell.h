@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 17:09:50 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:49:17 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ t_token			*token_reformatting_command(t_token *current);
 t_token			*copy_token_list(t_data **data, t_token *tokens);
 t_token			*token_reformatting_pipe(t_token *current);
 t_token			*token_reformatting_special(t_token *current);
+int				check_token_type(t_token *head);
 int				check_spaces(t_token *tokens);
 void			skip_tkn_space(t_token **current);
 // Parser

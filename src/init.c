@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 11:18:52 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:48:49 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,24 @@ static	void	join_in_qt_tk2(t_token **tkn)
 		tkn_delone(&current, current->next);
 	}
 	return ;
+}
+
+int check_token_type(t_token *head)
+{
+	t_token *current;
+
+	current = head;
+	while (current)
+	{
+		if (current->type == 14 || current->type == 12
+			|| current->type == 13)
+		{
+			return 0;
+		}
+		current = current->next;
+	}
+	write(2, "Command not found\n", 19);
+	return -1;
 }
 
 int	tokenizer(t_data **data, t_token **tokens)
