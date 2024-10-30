@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_helper2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:54:55 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 17:01:14 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:55:15 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,21 @@ int	handle_heredoc(char *delimiter, t_data **data)
 static	void	command_extractor_helper(t_data **data,
 	t_token *current, char *tmp2)
 {
-	while (current->type == TOKEN_WHITESPACE)
+	while (current && (current->type == 11 || current->type == 10
+		|| current->type == 9))
 		current = current->next;
-	if (current->type == TOKEN_APPENDICE || current->type == 1)
+	if (current && (current->type == 13 || current->type == 1
+		|| current->type == 8 || current->type == 14))
 	{
 		while (current && !(current->type <= 7 && current->type >= 2))
 		{
-			while (current->type == TOKEN_WHITESPACE)
+			while (current && current->type == TOKEN_WHITESPACE)
 			{
 				current = current->next;
 				continue ;
 			}
-			if (current->type == TOKEN_APPENDICE || current->type == 1)
+			if (current && (current->type == 13 || current->type == 1
+				|| current->type == 8 || current->type == 14))
 			{
 				tmp2 = ft_strjoin((*data)->tmp90, " ");
 				free((*data)->tmp90);

@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 15:12:02 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:09:59 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ static void	inutils_num(t_token *tmp, int *flag_n)
 
 static	void	skip_prob(t_token **node)
 {
-	while ((*node)->type != 7 && ((*node)->type == 11 || (*node)->type == 12))
+	if ((*node)->type != 7 && strncmp((*node)->value, "echo", 4) == 0)
+		(*node) = (*node)->next;
+	while ((*node) && (*node)->type != 7
+		&& ((*node)->type == 11 || (*node)->type == 12))
 		(*node) = (*node)->next;
 	if ((*node)->type <= 6 && (*node)->type >= 3)
 	{

@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 15:09:23 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:19:27 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*expand_err_state(char *tmp, t_data **data)
 
 	if ((*data)->local_err_state > 256 || (*data)->local_err_state < 0)
 		(*data)->local_err_state = (*data)->local_err_state % 255;
+	if (g_err_state == 130)
+		(*data)->local_err_state = 130;
 	err = ft_itoa((*data)->local_err_state);
 	tmp2 = ft_strtrim2(tmp, "=");
 	tmp = ft_strtrim2(tmp2, "?");

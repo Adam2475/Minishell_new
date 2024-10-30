@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:44:57 by mapichec          #+#    #+#             */
-/*   Updated: 2024/10/29 13:47:37 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:24:45 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	print_echo(t_token **node, int *flag_2)
 	{
 		(*flag_2) = 0;
 		(*node) = (*node)->next;
-		if ((*node) && (*node)->type == 11)
-			ft_printf(" ");
 	}
 	if (((int)(*node)->type == 8 || (int)(*node)->type == 13
 			|| (int)(*node)->type == 14 || (int)(*node)->type == 12)

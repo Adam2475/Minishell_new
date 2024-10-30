@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 13:19:12 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:07:44 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,18 @@ static	int	invalid_tkn_sequence(t_token_type prev_type, t_token_type curr_type)
 	if (prev_type == 2 && curr_type == 2)
 		return (1);
 	if (prev_type == 4 && (curr_type == 2
-			|| curr_type == 4 || curr_type == 5))
+			|| curr_type == 4 || curr_type == 5
+			|| curr_type == 7))
 		return (1);
-	if (prev_type == 3 && curr_type == 3)
+	if (prev_type == 3 && (curr_type == 3 || curr_type == 7))
 		return (1);
 	if (prev_type == 6 && (curr_type == 3
-			|| curr_type == 4 || curr_type == 6))
+			|| curr_type == 4 || curr_type == 6
+			|| curr_type == 7))
 		return (1);
 	if (prev_type == 5 && (curr_type == 6
 			|| curr_type == 3 || curr_type == 4
-			|| curr_type == 5))
+			|| curr_type == 5 || curr_type == 7))
 		return (1);
 	return (0);
 }
@@ -61,7 +63,7 @@ static	int	check_syntax_errors(t_token *tokens)
 
 	current = tokens;
 	previous = NULL;
-	while (current != NULL && current->type != 7)
+	while (current != NULL)
 	{
 		if (current->type == 9 || current->type == 10)
 			check_syntax_err2(&current, &previous);
