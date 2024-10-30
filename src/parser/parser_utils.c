@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 17:03:59 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:58:18 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static	void	exit_free_heredoc(t_data **data, t_token **tokens)
 	free((*data)->command);
 	free((*data)->path_from_envp);
 	free((*data));
-	exit((*data)->local_err_state);
+	exit(tmp);
 }
 
 static	void	heredoc_case_init(char *tmp, t_data **data)
