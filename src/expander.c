@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 11:22:48 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:00:25 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	join_in_qt_tk(t_token *tkn, t_token_type type)
 	current = tkn;
 	tmp = NULL;
 	current = current->next;
-	if (current->type == type)
+	if (current && current->type == type)
 		return ;
 	while (current && current->next && current->next->type != type)
 	{
@@ -117,7 +117,8 @@ int	shrink_tkn_in_qt(t_token **tokens)
 		{
 			type = current->type;
 			join_in_qt_tk(current, current->type);
-			current = current->next;
+			if (current)
+				current = current->next;
 			while (current && current->type != type)
 				current = current->next;
 		}

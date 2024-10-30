@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 14:07:52 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:58:13 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	expand_doll_2(t_env_list *node, t_token **current, char **tmp, int len)
 
 void	expand_doll_3(t_token **current, char **tmp, char **tmp2)
 {
-	if ((*current)->value)
+	if ((*current) && (*current)->value)
 		(*tmp) = tmp_set((*current)->value);
 	if ((*tmp) && ft_strlen((*tmp)) == 1
 		&& (ft_isalpha((*tmp)[0]) || (*tmp)[0] == '_'))

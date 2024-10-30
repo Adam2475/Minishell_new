@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 12:45:15 by mapichec          #+#    #+#             */
-/*   Updated: 2024/10/30 11:55:57 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:59:04 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	case_err(t_token **current, char *tmp, t_data **data)
 {
 	free((*current)->value);
-	if (*tmp == '?')
+	if ((*current) && *tmp == '?')
 	{
 		(*current)->value = expand_err_state(tmp, data);
 		return (0);
@@ -52,9 +52,10 @@ int	expand_var(t_token **tkn_lst, t_data **data)
 	current = (*tkn_lst);
 	while (current && current->type != TOKEN_EOF)
 	{
-		if (current->type == 8)
+		if (current && current->type == 8)
 			expand_doll(&current, data);
-		current = current->next;
+		if (current)
+			current = current->next;
 	}
 	current = (*tkn_lst);
 	cmd_in_qt(current);
