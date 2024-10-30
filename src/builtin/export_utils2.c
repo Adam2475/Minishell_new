@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 14:22:41 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:43:18 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,18 @@ void	print_exp_env(t_data **data)
 	while (node)
 	{
 		if (node->state == 0)
-			ft_printf("declare -x %s\"%s\"\n", node->var, node->value);
+		{
+			write(1, "declare -x ", 12);
+			write(1, node->var, ft_strlen(node->var));
+			write(1, node->value, ft_strlen(node->value));
+			write(1, "\n", 1);
+		}
 		else if (node->state == 1)
-			ft_printf("declare -x %s\n", node->var);
+		{
+			write(1, "declare -x ", 12);
+			write(1, node->var, ft_strlen(node->var));
+			write(1, "\n", 1);
+		}
 		if (node->next)
 			node = node->next;
 		else

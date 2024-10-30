@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 14:09:59 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:37:44 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,6 @@ int	echo_cmd(t_token **tkn, t_data **data)
 		node = node->next;
 	}
 	if (flag_n == 0)
-		ft_printf("\n");
+		write(1, "\n", 2);
 	return ((*data)->local_err_state = 0, 1);
 }

@@ -6,11 +6,21 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 21:08:15 by marco             #+#    #+#             */
-/*   Updated: 2024/10/27 15:07:17 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:42:52 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static	void	env_help(t_env_list *node)
+{
+	if (node->state == 0 && node->value && node->value)
+	{
+		write(1, node->var, ft_strlen(node->var));
+		write(1, node->value, ft_strlen(node->value));
+		write(1, "\n", 1);
+	}
+}
 
 int	env_cmd(t_data **data, t_token **token)
 {
@@ -34,8 +44,7 @@ int	env_cmd(t_data **data, t_token **token)
 	}
 	while (node != NULL)
 	{
-		if (node->state == 0)
-			ft_printf("%s%s\n", node->var, node->value);
+		env_help(node);
 		node = node->next;
 	}
 	return ((*data)->local_err_state = 0, 1);
