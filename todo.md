@@ -13,3 +13,7 @@
 '''echo ciao | prova'''
 
 ''' " " '''
+- [ ]     
+- [ ] 
+          prompt$ export a="ui ui ui"
+          prompt$ env | grep "ui u" ---> leaks

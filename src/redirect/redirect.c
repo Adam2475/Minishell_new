@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 13:05:35 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:23:42 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static	char	**execution_helper3(t_data **data)
 
 	if ((*data)->tmp90 && (*data)->tmp90 != NULL)
 	{
-		cmd_args = ft_split((*data)->tmp90, 32);
+		cmd_args = ft_split((*data)->tmp90, '\n');
 		(*data)->cmd42 = ft_strdup(cmd_args[0]);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:54:55 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 17:55:15 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:23:37 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static	void	command_extractor_helper(t_data **data,
 			if (current && (current->type == 13 || current->type == 1
 				|| current->type == 8 || current->type == 14))
 			{
-				tmp2 = ft_strjoin((*data)->tmp90, " ");
+				tmp2 = ft_strjoin((*data)->tmp90, "\n");
 				free((*data)->tmp90);
 				(*data)->tmp90 = ft_strjoin(tmp2, current->value);
 				free(tmp2);
