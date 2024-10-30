@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:04:42 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/29 17:08:47 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:05:35 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ int	execute_command(t_data **data, char **envp, t_token **tkn, t_token **tokens)
 		free((*data)->cmd42);
 	if (cmd_args)
 		execve((*data)->holder, cmd_args, envp);
+	usleep(30000);
+	if (check_token_type(*tokens) < 0)
+		(*data)->local_err_state = 127;
 	cleanup_helper(data, cmd_args, *tkn);
 	return (0);
 }

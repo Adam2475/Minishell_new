@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 11:47:42 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:19:12 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	token_reformatting(t_token **tokens, t_data **data)
 		return ((*data)->local_err_state = 0, 1);
 	while (current && current->type != TOKEN_EOF)
 		token_reformatting_helper(&current);
-	if (check_token_type(*tokens) > 0)
-		return (1);
+	if (check_token_type(*tokens) < 0)
+		return ((*data)->local_err_state = 127, 1);
 	return (current = head, 0);
 }
