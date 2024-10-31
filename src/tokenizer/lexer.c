@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 16:07:44 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:38:16 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static	int	invalid_tkn_sequence(t_token_type prev_type, t_token_type curr_type)
 			|| curr_type == 4 || curr_type == 5
 			|| curr_type == 7))
 		return (1);
-	if (prev_type == 3 && (curr_type == 3 || curr_type == 7))
+	if (prev_type == 3 && (curr_type == 3 || curr_type == 7
+			|| curr_type == 4))
 		return (1);
 	if (prev_type == 6 && (curr_type == 3
 			|| curr_type == 4 || curr_type == 6
