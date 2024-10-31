@@ -6,7 +6,7 @@
 /*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 12:53:57 by mapichec          #+#    #+#             */
-/*   Updated: 2024/10/29 17:08:58 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:26:03 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,25 @@ void	do_pipe(t_data *data, t_token *tokens)
 
 int	read_input(t_data *data)
 {
+	char	*tmp;
+
+	tmp = NULL;
 	data->token_list = NULL;
 	data->tokens = NULL;
 	data->merdoso = 0;
 	data->input = readline("myprompt$ ");
+	if (data->input && g_err_state == 130)
+	{
+		tmp = data->input;
+		data->input = ft_strndup(" ", 1);
+		free(tmp);
+		tmp = data->input;
+		data->input = ft_strjoin(data->input, " ");
+		free(data->input);
+		free(tmp);
+		data->input = NULL;
+		return (1);
+	}
 	if (!data->input)
 		return (0);
 	if (data->input[0] != '\0' && !is_only_spaces(data->input))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/31 15:00:01 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:27:55 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,9 @@ int	main(int argc, char **argv, char **envp)
 		if (!read_input(data))
 			return (ft_printf("exit\n"),
 				free_exit(&data), data->local_err_state);
-		if (data->input[0] == '\0' || tokenizer(&data, &tokens))
+		if (!data->input)
+			continue ;
+		if ((data->input[0] == '\0' || tokenizer(&data, &tokens)))
 			continue ;
 		env_parser(&data, envp);
 		command_init(data, tokens);
