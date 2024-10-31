@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 19:37:44 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:28:25 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void	inutils_num(t_token *tmp, int *flag_n)
 	if (!tmp)
 		return ;
 	n_s = tmp->value;
+	if (tmp->value && tmp->type == 14 && !tmp->value[0])
+		return ;
 	if (tmp->type == 9 || tmp->type == 10 || tmp->type == 8)
 		return ;
 	while (tmp && tmp->type != 7)
