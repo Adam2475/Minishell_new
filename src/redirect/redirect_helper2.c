@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:54:55 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 18:23:37 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:03:34 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ int	handle_heredoc(char *delimiter, t_data **data)
 static	void	command_extractor_helper(t_data **data,
 	t_token *current, char *tmp2)
 {
-	while (current && (current->type == 11 || current->type == 10
-		|| current->type == 9))
-		current = current->next;
+	skip_space_qt(current);
 	if (current && (current->type == 13 || current->type == 1
-		|| current->type == 8 || current->type == 14))
+			|| current->type == 8 || current->type == 14))
 	{
 		while (current && !(current->type <= 7 && current->type >= 2))
 		{
@@ -68,7 +66,7 @@ static	void	command_extractor_helper(t_data **data,
 				continue ;
 			}
 			if (current && (current->type == 13 || current->type == 1
-				|| current->type == 8 || current->type == 14))
+					|| current->type == 8 || current->type == 14))
 			{
 				tmp2 = ft_strjoin((*data)->tmp90, "\n");
 				free((*data)->tmp90);

@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 13:21:34 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:08:06 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static	void	join_in_qt_tk2(t_token **tkn)
 
 int	check_token_type(t_token *head)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = head;
 	while (current)
@@ -51,16 +51,6 @@ int	check_token_type(t_token *head)
 			return (0);
 		current = current->next;
 	}
-	// current = head;
-	// while (current)
-	// {
-	// 	if (current->type != 11)
-	// 	{
-	// 		current->type = 12;
-	// 		return (0);
-	// 	}
-	// 	current = current->next;
-	// }
 	write(2, "command not found:\n", 19);
 	return (-1);
 }
