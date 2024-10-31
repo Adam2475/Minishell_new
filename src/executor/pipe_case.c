@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:12:13 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 15:15:39 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:58:48 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,11 @@ static	int	pipe_helper2(t_data **data, int *flag)
 	if (g_err_state == 130 && (*data)->heredoc_flag == 1)
 	{
 		(*data)->local_err_state = 0;
-		g_err_state = 0;
 		*flag = 1;
 	}
 	if (*flag == 1)
 	{
 		(*data)->local_err_state = 130;
-		g_err_state = 130;
 		return (1);
 	}
 	return (0);
