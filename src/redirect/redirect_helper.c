@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:37:00 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/31 11:03:57 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:44:07 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ int	ft_count(char const *s, char c)
 	return (sn);
 }
 
-void	skip_space_qt(t_token *current)
+void	skip_space_qt(t_token **current)
 {
-	while (current && (current->type == 11 || current->type == 10
-			|| current->type == 9))
-		current = current->next;
+	while ((*current) && ((*current)->type == 11 || (*current)->type == 10
+			|| (*current)->type == 9))
+		(*current) = (*current)->next;
 }

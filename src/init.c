@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:39:05 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/31 11:08:06 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:37:07 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static	void	join_in_qt_tk2(t_token **tkn)
 		return ;
 	type = current->type;
 	current = current->next;
-	while (current->next && current->next->type != type)
+	while (current && current->next && current->next->type != type)
 	{
 		tmp = current->value;
 		current->value = ft_strjoin(current->value, current->next->value);

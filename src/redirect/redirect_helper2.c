@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:54:55 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/31 11:03:34 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:43:55 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	handle_heredoc(char *delimiter, t_data **data)
 static	void	command_extractor_helper(t_data **data,
 	t_token *current, char *tmp2)
 {
-	skip_space_qt(current);
+	skip_space_qt(&current);
 	if (current && (current->type == 13 || current->type == 1
 			|| current->type == 8 || current->type == 14))
 	{
