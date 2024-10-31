@@ -6,7 +6,7 @@
 /*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/30 15:19:27 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:31:21 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static	int	ft_isalpha_len(char *str)
 		return (-1);
 	while (str[i])
 	{
-		if ((str[i] <= 122 && str[i] >= 97) || (str[i] <= 90 && str[i] >= 65))
+		if ((str[i] <= 122 && str[i] >= 97) || (str[i] <= 90 && str[i] >= 65)
+			|| (str[i] >= '0' && str[i] <= '9'))
 			i++;
 		else if (str[i] == '_')
 			i++;

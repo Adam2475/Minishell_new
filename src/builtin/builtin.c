@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/07 12:27:37 by adapassa         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:17:54 by mapichec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,41 @@ int	ft_strsearch(char *str, int c)
 	return (0);
 }
 
+static	void	clean_qt_helper(t_token **node)
+{
+	t_token	*new;
+
+	new = NULL;
+	tkn_delone(&(*node), (*node)->next);
+	tkn_delone(&(*node), (*node)->next);
+	new = (t_token *)ft_calloc(sizeof(t_token), 1);
+	new->value = ft_strndup("", 2);
+	new->type = 14;
+	if (!(*node)->next)
+		new->next = NULL;
+	if ((*node)->next)
+		new->next = (*node)->next;
+	(*node)->next = new;
+}
+
 void	clean_qt(t_token **tkn)
 {
 	t_token	*node;
-
 	node = *tkn;
 	while (node && node->type != TOKEN_EOF)
 	{
+		if (node->next && node->next->next
+			&& (node->next->type == 9 || node->next->type == 10)
+			&& node->next->type == node->next->next->type)
+		{
+			clean_qt_helper(&node);
+			continue ;
+		}
 		if (node->next->type == 9 || node->next->type == 10)
+		{
 			tkn_delone(&node, node->next);
+			continue ;
+		}
 		if (node && node->type != TOKEN_EOF)
 			node = node->next;
 	}
