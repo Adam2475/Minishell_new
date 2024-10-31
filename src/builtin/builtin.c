@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mapichec <mapichec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adapassa <adapassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:01:08 by adapassa          #+#    #+#             */
-/*   Updated: 2024/10/31 16:17:54 by mapichec         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:21:37 by adapassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static	void	clean_qt_helper(t_token **node)
 void	clean_qt(t_token **tkn)
 {
 	t_token	*node;
+
 	node = *tkn;
 	while (node && node->type != TOKEN_EOF)
 	{
