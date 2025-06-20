@@ -26,7 +26,7 @@ input utente.
   - Comprensione del comportamento reale di una shell
 
 ## 👨‍💻 Come provarlo dalla tua shell
-  $ `make`
-  $ `./minishell` entri nella shell
-  $ `Ctrl+D` per uscire
-  $ `make fclean`
+  - $ `make`
+  - $ `./minishell` entri nella shell
+  - $ `Ctrl+D` per uscire
+  - $ `make fclean`
