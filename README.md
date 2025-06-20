@@ -9,7 +9,7 @@ input utente.
 ## 🎯 Obiettivi principali
   - Creare un prompt interattivo che riceve comandi da tastiera.
   - Eseguire comandi semplici e concatenati (es: ls -l | grep txt).
-## Gestire:
+## 📌 Gestire:
   - Quote singole e doppie
   - Redirezioni e .heredoc (>, <, >>, <<)
   - Pipe
