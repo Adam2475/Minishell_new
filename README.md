@@ -28,5 +28,5 @@ input utente.
 ## 👨‍💻 Come provarlo dalla tua shell
   - $ `make`
   - $ `./minishell` entri nella shell
-  - $ `Ctrl+D` per uscire
+  - $ Ctrl+D o `exit` per uscire
   - $ `make fclean`
